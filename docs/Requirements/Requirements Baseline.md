@@ -224,3 +224,80 @@ This requirement should be covered by positive and negative
 registration scenarios. The test data should include both a known
 existing customer email and a unique email address. The behavior
 depends on the application's configured email uniqueness rules
+
+### AUTH-004 — Customer Login
+
+Requirement ID: AUTH-004
+
+Title: Customer Login
+
+Description / Requirement Statement:
+The system shall allow a registered customer to authenticate using
+valid account credentials and establish an authenticated customer
+session.
+
+Business Domain / Module:
+Customer Account & Authentication
+
+Actor:
+Registered Customer
+
+Preconditions:
+- A customer account exists.
+- The customer is not authenticated.
+- The login functionality is available.
+
+Trigger:
+The customer submits the login form with account credentials.
+
+Expected Business Behavior:
+- The system validates the submitted credentials.
+- Valid credentials authenticate the customer successfully.
+- An authenticated customer session is established.
+- The customer is redirected to the appropriate authenticated area.
+- The authenticated state is maintained according to the configured
+  session behavior.
+
+Business Rules:
+- Valid customer credentials are required for successful authentication.
+- Invalid credentials must not authenticate the customer.
+- Authentication must only succeed for an eligible customer account.
+- The system must not expose sensitive authentication information
+  through validation or error messages.
+
+Priority:
+Critical
+
+Risk:
+High
+
+Acceptance Criteria:
+- A registered customer can access the login page.
+- Valid credentials result in successful authentication.
+- The customer is recognized as authenticated after successful login.
+- The appropriate authenticated destination is displayed.
+- Invalid credentials do not authenticate the customer.
+- Authentication failure provides appropriate feedback.
+- Empty required login fields are validated.
+- The authenticated session remains valid according to the configured
+  session rules.
+
+Dependencies:
+- Customer account
+- Authentication service
+- Customer session management
+- Login configuration
+
+Source / Reference:
+- nopCommerce customer login flow
+- Existing manual login test coverage
+- Test Scope
+- Customer Account & Authentication requirements
+- Critical E2E business workflows
+
+Automation Candidate:
+Yes
+
+Notes:
+Critical authentication requirement. Should be covered by positive,
+negative, validation, session-state, and regression scenarios.
