@@ -213,7 +213,7 @@ Dependencies:
 Source / Reference:
 - nopCommerce customer registration flow
 - Existing manual registration coverage
-- Test Scope
+- Test Scop
 - Customer Account & Authentication requirements
 
 Automation Candidate:
