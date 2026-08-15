@@ -1877,3 +1877,182 @@ Authenticated customer adds, updates, removes, or accesses cart items.
 
 **Notes:**  
 Important integration requirement between customer authentication, session management, and shopping cart functionality.
+
+## 5. Product to Wishlist
+
+### WISH-001 — Add Product to Wishlist
+
+**ID:** WISH-001  
+**Title:** Add Product to Wishlist  
+**Domain:** Wishlist  
+**Actor:** Authenticated Customer  
+
+**Requirement:**  
+The system shall allow authenticated customers to add eligible products to their wishlist.
+
+**Preconditions:**
+- Customer is authenticated.
+- Product exists and is customer-visible.
+- Wishlist functionality is available.
+
+**Trigger:**  
+Customer selects the option to add a product to the wishlist.
+
+**Expected Behavior:**
+- The selected product is added to the customer's wishlist.
+- The wishlist reflects the added product.
+- The product remains associated with the correct customer.
+
+**Business Rules:**
+- Only eligible products can be added to the wishlist.
+- Wishlist data must be associated with the authenticated customer.
+- Adding a product must not expose or modify another customer's wishlist.
+
+**Priority:** Medium  
+**Risk:** Medium  
+
+**Acceptance Criteria:**
+- Authenticated customer can add an eligible product to the wishlist.
+- The added product appears in the wishlist.
+- The correct product is added.
+- Wishlist data remains associated with the authenticated customer.
+- Adding a product does not affect another customer's wishlist.
+
+**Dependencies:** Customer authentication, product catalog, wishlist, customer account  
+**Source:** Test Scope, Wishlist requirements  
+**Automation Candidate:** Yes  
+
+**Notes:**  
+Core wishlist functionality and authentication-dependent workflow.
+
+### WISH-002 — Remove Product from Wishlist
+
+**ID:** WISH-002  
+**Title:** Remove Product from Wishlist  
+**Domain:** Wishlist  
+**Actor:** Authenticated Customer  
+
+**Requirement:**  
+The system shall allow authenticated customers to remove products from their wishlist.
+
+**Preconditions:**
+- Customer is authenticated.
+- Wishlist contains at least one product.
+
+**Trigger:**  
+Customer selects the remove action for a wishlist item.
+
+**Expected Behavior:**
+- The selected product is removed from the wishlist.
+- Remaining wishlist items are preserved.
+- The wishlist reflects the updated state.
+
+**Business Rules:**
+- Only products currently present in the customer's wishlist can be removed.
+- Removing a product must not affect another customer's wishlist.
+
+**Priority:** Medium  
+**Risk:** Medium  
+
+**Acceptance Criteria:**
+- Customer can remove a product from the wishlist.
+- Removed product no longer appears in the wishlist.
+- Remaining products remain unchanged.
+- Wishlist state is updated correctly after removal.
+- Removal does not affect another customer's wishlist.
+
+**Dependencies:** Customer authentication, wishlist, customer account  
+**Source:** Test Scope, Wishlist requirements  
+**Automation Candidate:** Yes  
+
+**Notes:**  
+Core wishlist management operation and regression candidate.
+
+### WISH-003 — Wishlist Persistence
+
+**ID:** WISH-003  
+**Title:** Wishlist Persistence  
+**Domain:** Wishlist  
+**Actor:** Authenticated Customer  
+
+**Requirement:**  
+The system shall preserve an authenticated customer's wishlist contents according to the configured persistence behavior.
+
+**Preconditions:**
+- Customer is authenticated.
+- Wishlist contains at least one product.
+
+**Trigger:**  
+Customer navigates away from the wishlist, refreshes the page, or returns to the wishlist.
+
+**Expected Behavior:**
+- Previously added wishlist products remain available according to the configured persistence behavior.
+- Wishlist contents remain associated with the correct customer.
+- Wishlist state is restored consistently after supported navigation.
+
+**Business Rules:**
+- Wishlist data must remain associated with the correct customer account.
+- Persisted wishlist items must reflect the current product state.
+- Wishlist persistence must follow the application's configured behavior.
+
+**Priority:** Medium  
+**Risk:** Medium  
+
+**Acceptance Criteria:**
+- Wishlist items remain available after supported navigation or refresh.
+- Persisted products are displayed correctly.
+- Wishlist contents remain associated with the correct customer.
+- Removing a wishlist item updates the persisted state.
+- Wishlist state remains consistent across supported customer sessions.
+
+**Dependencies:** Customer authentication, customer account, wishlist persistence, product catalog  
+**Source:** Test Scope, Wishlist requirements  
+**Automation Candidate:** Yes  
+
+**Notes:**  
+State-persistence requirement for authenticated customer workflows.
+
+### WISH-004 — Authenticated Customer Wishlist Behavior
+
+**ID:** WISH-004  
+**Title:** Authenticated Customer Wishlist Behavior  
+**Domain:** Wishlist  
+**Actor:** Authenticated Customer  
+
+**Requirement:**  
+The system shall maintain wishlist operations and data consistently for the authenticated customer.
+
+**Preconditions:**
+- Customer account exists.
+- Customer is authenticated.
+- Wishlist functionality is available.
+
+**Trigger:**  
+Customer accesses or modifies the wishlist.
+
+**Expected Behavior:**
+- Wishlist operations apply only to the authenticated customer's wishlist.
+- Wishlist contents are displayed correctly.
+- Changes to the wishlist are persisted according to the configured behavior.
+
+**Business Rules:**
+- Wishlist data must be isolated between customer accounts.
+- Unauthorized customers must not access another customer's wishlist.
+- Wishlist operations must respect the current product state.
+
+**Priority:** Medium  
+**Risk:** High  
+
+**Acceptance Criteria:**
+- Authenticated customer can access their wishlist.
+- Customer can add and remove eligible products.
+- Wishlist contents belong to the correct customer.
+- Wishlist changes persist according to the configured behavior.
+- Customer cannot access another customer's wishlist data.
+
+**Dependencies:** Customer authentication, customer account, wishlist, session management, product catalog  
+**Source:** Test Scope, Wishlist requirements  
+**Automation Candidate:** Yes  
+
+**Notes:**  
+Validates the integration between authentication, customer data isolation, and wishlist functionality.
