@@ -1165,3 +1165,177 @@ Customer views a product or product listing.
 **Source:** Test Scope, Product Catalog requirements  
 **Automation Candidate:** Yes  
 **Notes:** Pricing is business-critical because it directly affects cart, checkout, and order totals.
+## 3. Product Search
+### SEARCH-001 — Product Search
+
+**ID:** SEARCH-001  
+**Title:** Product Search  
+**Domain:** Search & Product Discovery  
+**Actor:** Customer  
+
+**Requirement:**  
+The system shall allow customers to search for products using supported search terms.
+
+**Preconditions:**
+- Product search functionality is available.
+- Searchable products exist in the catalog.
+
+**Trigger:**  
+Customer submits a product search query.
+
+**Expected Behavior:**
+- The system processes the submitted search term.
+- Relevant products matching the search criteria are displayed.
+- The customer can access product details from the search results.
+
+**Business Rules:**
+- Search results must correspond to the submitted search criteria.
+- Only customer-visible products should be returned.
+- Unsupported or empty search input must be handled according to the configured search behavior.
+
+**Priority:** High  
+**Risk:** High  
+
+**Acceptance Criteria:**
+- Customer can enter and submit a search term.
+- Relevant products are returned for a valid search.
+- Search results display appropriate product information.
+- Customer can navigate from a search result to product details.
+- Invalid or unsupported search terms are handled appropriately.
+
+**Dependencies:** Product catalog, search functionality, product visibility  
+**Source:** Test Scope, existing manual Search & Filter coverage  
+**Automation Candidate:** Yes  
+**Notes:** Core product-discovery functionality and a key regression candidate.
+
+### SEARCH-002 — Search Results
+
+**ID:** SEARCH-002  
+**Title:** Search Results  
+**Domain:** Search & Product Discovery  
+**Actor:** Customer  
+
+**Requirement:**  
+The system shall display search results that correspond to the customer's submitted search criteria.
+
+**Preconditions:**
+- Product search functionality is available.
+- Searchable products exist in the catalog.
+
+**Trigger:**  
+Customer submits a valid product search query.
+
+**Expected Behavior:**
+- Matching products are displayed in the search results.
+- Relevant product information is presented.
+- Customer can navigate from a result to its product details.
+- The result set reflects the submitted search criteria.
+
+**Business Rules:**
+- Only customer-visible products should be displayed.
+- Results must correspond to the search criteria.
+- Search result behavior must remain consistent with the configured catalog.
+
+**Priority:** High  
+**Risk:** High  
+
+**Acceptance Criteria:**
+- Matching products are displayed for a valid query.
+- Relevant product information is displayed.
+- Non-matching products are not incorrectly presented as matching results.
+- Customer can open a product from the results.
+- Search results remain consistent after supported navigation.
+
+**Dependencies:** Product catalog, search engine, product visibility  
+**Source:** Test Scope, existing manual Search & Filter coverage  
+**Automation Candidate:** Yes  
+**Notes:** Core search validation and regression requirement.
+
+### SEARCH-003 — Search Suggestions
+
+**ID:** SEARCH-003  
+**Title:** Search Suggestions  
+**Domain:** Search & Product Discovery  
+**Actor:** Customer  
+
+**Requirement:**  
+The system shall provide search suggestions while the customer enters a product search query, where this functionality is enabled.
+
+**Preconditions:**
+- Search functionality is available.
+- Search suggestions are enabled and configured.
+
+**Trigger:**  
+Customer enters characters into the product search field.
+
+**Expected Behavior:**
+- Relevant suggestions are displayed based on the entered search terms.
+- Suggestions update as the search input changes.
+- Customer can select a suggestion where supported.
+- Selecting a suggestion leads to the corresponding search or product result.
+
+**Business Rules:**
+- Suggestions must be based on the configured searchable catalog data.
+- Only customer-visible products or supported search terms should be suggested.
+- If no suitable suggestion exists, the system should handle the input according to the configured behavior.
+
+**Priority:** Medium  
+**Risk:** Medium  
+
+**Acceptance Criteria:**
+- Suggestions are displayed when applicable.
+- Suggestions correspond to the entered search terms.
+- Suggestions update when the search query changes.
+- Customer can select a supported suggestion.
+- No suggestion is displayed when no suitable result exists, according to the configured behavior.
+
+**Dependencies:** Search functionality, product catalog, search configuration  
+**Source:** Test Scope, Search & Product Discovery requirements  
+**Automation Candidate:** Yes  
+
+**Notes:**  
+Optional capability; automation should validate it only when search suggestions are enabled in the test environment.
+
+### SEARCH-004 — Search Input Validation & Query Handling
+
+**ID:** SEARCH-004  
+**Title:** Search Input Validation & Query Handling  
+**Domain:** Search & Product Discovery  
+**Actor:** Customer  
+
+**Requirement:**  
+The system shall handle valid, invalid, empty, and unsupported search input according to the configured search behavior.
+
+**Preconditions:**
+- Product search functionality is available.
+
+**Trigger:**  
+Customer submits a search query.
+
+**Expected Behavior:**
+- Valid search input is processed.
+- Empty or unsupported input is handled appropriately.
+- The system does not produce incorrect search results because of invalid input.
+- Appropriate feedback or result behavior is displayed.
+
+**Business Rules:**
+- Search input must be processed according to the configured search rules.
+- Invalid input must not cause unexpected application behavior.
+- Search results must correspond to the processed query.
+
+**Priority:** High  
+**Risk:** Medium  
+
+**Acceptance Criteria:**
+- Valid search terms return the expected results.
+- Empty search input is handled correctly.
+- Unsupported or non-matching terms are handled correctly.
+- Search does not produce unexpected errors.
+- Results remain consistent with the submitted query.
+
+**Dependencies:** Search functionality, search configuration, product catalog  
+**Source:** Test Scope, existing manual Search & Filter coverage  
+**Automation Candidate:** Yes  
+
+**Notes:**  
+Covers negative and boundary search scenarios and supports regression validation.
