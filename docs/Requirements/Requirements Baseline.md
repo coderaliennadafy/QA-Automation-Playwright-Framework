@@ -1339,3 +1339,182 @@ Customer submits a search query.
 
 **Notes:**  
 Covers negative and boundary search scenarios and supports regression validation.
+
+### SEARCH-005 — Search Filtering
+
+**ID:** SEARCH-005  
+**Title:** Search Filtering  
+**Domain:** Search & Product Discovery  
+**Actor:** Customer  
+
+**Requirement:**  
+The system shall allow customers to filter product search results using the supported filtering criteria.
+
+**Preconditions:**
+- Product search is available.
+- Search results contain filterable products.
+- Supported filters are configured.
+
+**Trigger:**  
+Customer selects or changes a search filter.
+
+**Expected Behavior:**
+- The selected filter is applied to the current result set.
+- Products that do not satisfy the selected criteria are excluded.
+- Products matching the selected criteria remain visible.
+- The result set updates without losing the current search context.
+
+**Business Rules:**
+- Only supported filters should be available.
+- Filtered results must satisfy the selected criteria.
+- Multiple filters must be applied according to the configured filtering behavior.
+
+**Priority:** High  
+**Risk:** High  
+
+**Acceptance Criteria:**
+- Customer can access available filters.
+- Applying a filter updates the search results.
+- Products that do not match the selected criteria are excluded.
+- Matching products remain visible.
+- Multiple supported filters work according to the configured behavior.
+- Removing a filter restores the corresponding results.
+
+**Dependencies:** Search functionality, product catalog, filter configuration  
+**Source:** Test Scope, existing manual Search & Filter coverage  
+**Automation Candidate:** Yes  
+
+**Notes:**  
+Core product-discovery requirement and high-value regression candidate.
+
+### SEARCH-006 — Search Sorting
+
+**ID:** SEARCH-006  
+**Title:** Search Sorting  
+**Domain:** Search & Product Discovery  
+**Actor:** Customer  
+
+**Requirement:**  
+The system shall allow customers to sort search results using the supported sorting options.
+
+**Preconditions:**
+- A product search has been performed.
+- Search results are available.
+- Supported sorting options are configured.
+
+**Trigger:**  
+Customer selects a sorting option.
+
+**Expected Behavior:**
+- Search results are reordered according to the selected sorting criterion.
+- The current search context is preserved.
+- The displayed products remain consistent with the search query and applied filters.
+
+**Business Rules:**
+- Only supported sorting options should be available.
+- Results must be ordered according to the selected sorting criterion.
+- Sorting must not incorrectly add or remove products from the result set.
+
+**Priority:** Medium  
+**Risk:** Medium  
+
+**Acceptance Criteria:**
+- Customer can access the available sorting options.
+- Selecting a sorting option reorders the results correctly.
+- Sorting preserves the current search criteria.
+- Sorting works correctly together with supported filters.
+- Removing or changing sorting returns results according to the newly selected behavior.
+
+**Dependencies:** Search functionality, product catalog, filtering, sorting configuration  
+**Source:** Test Scope, existing manual Search & Filter coverage  
+**Automation Candidate:** Yes  
+
+**Notes:**  
+Should be validated independently and in combination with filtering to cover common product-discovery workflows.
+
+### SEARCH-007 — No-Result Search Handling
+
+**ID:** SEARCH-007  
+**Title:** No-Result Search Handling  
+**Domain:** Search & Product Discovery  
+**Actor:** Customer  
+
+**Requirement:**  
+The system shall provide an appropriate response when a customer submits a search query for which no matching products are available.
+
+**Preconditions:**
+- Product search functionality is available.
+- The submitted query does not match any customer-visible product.
+
+**Trigger:**  
+Customer submits a search query with no matching results.
+
+**Expected Behavior:**
+- The system displays an appropriate no-results state.
+- The submitted search query is preserved where supported.
+- The customer can modify or submit another search query.
+- No unrelated products are presented as matching results.
+
+**Business Rules:**
+- A query with no matching products must not return unrelated products as valid matches.
+- The no-results state must be handled without application errors.
+
+**Priority:** Medium  
+**Risk:** Medium  
+
+**Acceptance Criteria:**
+- A non-matching query displays the appropriate no-results behavior.
+- No unrelated products are incorrectly displayed as search matches.
+- Customer can perform another search after receiving no results.
+- The application remains functional after a no-results search.
+
+**Dependencies:** Search functionality, product catalog, product visibility  
+**Source:** Test Scope, existing manual Search & Filter coverage  
+**Automation Candidate:** Yes  
+
+**Notes:**  
+Important negative-search scenario for regression coverage.
+
+### SEARCH-008 — Search Result to Product Details Navigation
+
+**ID:** SEARCH-008  
+**Title:** Search Result to Product Details Navigation  
+**Domain:** Search & Product Discovery  
+**Actor:** Customer  
+
+**Requirement:**  
+The system shall allow customers to navigate from a search result to the corresponding product details page.
+
+**Preconditions:**
+- A valid product search has been performed.
+- Search results are displayed.
+- At least one result is available.
+
+**Trigger:**  
+Customer selects a product from the search results.
+
+**Expected Behavior:**
+- The corresponding product details page is opened.
+- The displayed product corresponds to the selected search result.
+- Relevant product information is available on the details page.
+- The customer can continue with supported product actions.
+
+**Business Rules:**
+- The selected search result must open the corresponding product.
+- Product information must remain consistent between search results and product details.
+
+**Priority:** High  
+**Risk:** High  
+
+**Acceptance Criteria:**
+- Customer can select a product from search results.
+- The correct product details page is displayed.
+- Product identity remains consistent with the selected result.
+- Customer can perform supported product actions from the details page.
+
+**Dependencies:** Search functionality, product catalog, product details  
+**Source:** Test Scope, existing manual Search & Filter and Product Details coverage  
+**Automation Candidate:** Yes  
+
+**Notes:**  
+Important end-to-end product-discovery transition and regression candidate.
