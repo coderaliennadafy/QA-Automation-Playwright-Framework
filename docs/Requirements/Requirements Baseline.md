@@ -1841,48 +1841,39 @@ Important boundary between product availability and the purchase workflow.
 **Actor:** Authenticated Customer  
 
 **Requirement:**  
-The system shall allow an authenticated customer to access and manage their shopping cart according to the permissions and business rules associated with their account.
+The system shall maintain shopping cart behavior consistently for authenticated customers according to the configured customer and session behavior.
 
 **Preconditions:**
 - Customer account exists.
 - Customer is authenticated.
 - Shopping cart functionality is available.
-- Product(s) eligible for cart operations exist.
 
 **Trigger:**  
-Authenticated customer accesses the shopping cart or performs an operation on a cart.
+Authenticated customer adds, updates, removes, or accesses cart items.
 
 **Expected Behavior:**
-- The authenticated customer can access their own shopping cart.
-- The customer can add eligible products to the cart.
-- The customer can view and manage products already in the cart.
 - Cart operations are associated with the authenticated customer.
-- Cart state remains consistent during the customer session.
+- Cart contents remain consistent with the customer's active session and configured persistence behavior.
+- Cart changes are reflected correctly across supported customer interactions.
 
 **Business Rules:**
-- Only authenticated customers can perform operations requiring authentication.
-- A customer's cart must not expose another customer's cart data.
-- Cart operations must be performed within the authenticated customer's context.
-- Cart state must remain associated with the correct customer account.
-- Authentication state must be respected throughout the cart workflow.
+- Customer cart data must be associated with the correct authenticated customer.
+- One customer's cart data must not be exposed to another customer.
+- Cart operations must respect product availability and pricing rules.
 
-**Priority:** Critical  
+**Priority:** High  
 **Risk:** High  
 
 **Acceptance Criteria:**
-- An authenticated customer can access their cart successfully.
-- The customer can add eligible products to their cart.
-- The customer can view products associated with their cart.
-- The customer cannot access another customer's cart data.
-- Cart operations remain associated with the authenticated customer.
-- Cart state remains consistent during navigation and refresh where persistence is supported.
-- Authentication requirements are enforced for protected cart operations.
+- Authenticated customer can add products to their cart.
+- Cart contents remain associated with the correct customer.
+- Cart changes are reflected correctly after supported navigation.
+- Customer cannot access another customer's cart data.
+- Cart behavior remains consistent with authentication and session state.
 
-**Dependencies:** Authentication, customer account, shopping cart, product catalog, session management  
-
-**Source:** Test Scope, Authentication requirements, Shopping Cart requirements, Customer Account requirements  
-
+**Dependencies:** Customer authentication, session management, shopping cart, customer account, product data  
+**Source:** Test Scope, existing manual Shopping Cart coverage  
 **Automation Candidate:** Yes  
 
 **Notes:**  
-Important boundary between authentication/session management and shopping cart ownership. This requirement ensures that cart data and operations are correctly isolated to the authenticated customer.
+Important integration requirement between customer authentication, session management, and shopping cart functionality.
