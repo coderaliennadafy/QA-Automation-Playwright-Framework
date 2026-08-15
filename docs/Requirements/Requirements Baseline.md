@@ -1518,3 +1518,371 @@ Customer selects a product from the search results.
 
 **Notes:**  
 Important end-to-end product-discovery transition and regression candidate.
+
+## 4. Shopping Cart
+### CART-001 — Add Product to Cart
+
+**ID:** CART-001  
+**Title:** Add Product to Cart  
+**Domain:** Shopping Cart  
+**Actor:** Customer  
+
+**Requirement:**  
+The system shall allow customers to add eligible products to the shopping cart.
+
+**Preconditions:**
+- Product exists and is customer-visible.
+- Product is available for purchase.
+- Required product options are selected where applicable.
+
+**Trigger:**  
+Customer selects the option to add a product to the cart.
+
+**Expected Behavior:**
+- The selected product is added to the shopping cart.
+- The cart reflects the selected product and quantity.
+- Applicable product configuration and price are preserved in the cart.
+
+**Business Rules:**
+- Only eligible products can be added to the cart.
+- Required product options must be selected before adding the product.
+- The cart must contain the correct product and selected configuration.
+
+**Priority:** Critical  
+**Risk:** High  
+
+**Acceptance Criteria:**
+- Customer can add an eligible product to the cart.
+- The correct product is displayed in the cart.
+- The selected quantity is reflected correctly.
+- Required product options are validated.
+- The applicable product price is displayed correctly in the cart.
+- The cart count/state is updated after adding the product.
+
+**Dependencies:** Product catalog, product availability, product configuration, pricing  
+**Source:** Test Scope, existing manual Shopping Cart coverage  
+**Automation Candidate:** Yes  
+
+**Notes:**  
+Critical transition between product discovery and checkout. High-priority end-to-end and regression candidate.
+
+### CART-002 — Remove Product from Cart
+
+**ID:** CART-002  
+**Title:** Remove Product from Cart  
+**Domain:** Shopping Cart  
+**Actor:** Customer  
+
+**Requirement:**  
+The system shall allow customers to remove products from the shopping cart.
+
+**Preconditions:**
+- Shopping cart contains at least one product.
+
+**Trigger:**  
+Customer selects the remove action for a cart item.
+
+**Expected Behavior:**
+- The selected product is removed from the cart.
+- Cart contents are updated accordingly.
+- Cart totals are recalculated.
+- The removed product no longer appears in the cart.
+
+**Business Rules:**
+- Only products currently present in the cart can be removed.
+- Removing a product must update the cart state consistently.
+
+**Priority:** High  
+**Risk:** Medium  
+
+**Acceptance Criteria:**
+- Customer can remove a product from the cart.
+- The removed product is no longer displayed.
+- Remaining cart items are preserved.
+- Cart totals are recalculated after removal.
+- The cart state reflects the removal after navigation or refresh.
+
+**Dependencies:** Shopping cart, product data, cart totals  
+**Source:** Test Scope, existing manual Shopping Cart coverage  
+**Automation Candidate:** Yes  
+
+**Notes:**  
+Core cart operation and regression candidate.
+
+### CART-003 — Update Cart Quantity
+
+**ID:** CART-003  
+**Title:** Update Cart Quantity  
+**Domain:** Shopping Cart  
+**Actor:** Customer  
+
+**Requirement:**  
+The system shall allow customers to update the quantity of eligible products in the shopping cart.
+
+**Preconditions:**
+- Shopping cart contains at least one product.
+- Product is eligible for the requested quantity.
+
+**Trigger:**  
+Customer changes the quantity of a cart item.
+
+**Expected Behavior:**
+- The cart quantity is updated.
+- The applicable item subtotal is recalculated.
+- Cart totals are recalculated.
+- The updated quantity is reflected in the cart.
+
+**Business Rules:**
+- Quantity must comply with the configured product purchase rules.
+- Invalid or unsupported quantities must not be accepted.
+- Cart calculations must reflect the updated quantity.
+
+**Priority:** High  
+**Risk:** High  
+
+**Acceptance Criteria:**
+- Customer can increase a product quantity.
+- Customer can decrease a product quantity where permitted.
+- Updated quantity is displayed correctly.
+- Item subtotal is recalculated correctly.
+- Cart totals are recalculated correctly.
+- Invalid quantities are handled according to the configured rules.
+
+**Dependencies:** Shopping cart, product availability, pricing, quantity rules  
+**Source:** Test Scope, existing manual Shopping Cart coverage  
+**Automation Candidate:** Yes  
+
+**Notes:**  
+Important cart-calculation requirement with direct impact on checkout totals.
+
+### CART-004 — Cart Totals Calculation
+
+**ID:** CART-004  
+**Title:** Cart Totals Calculation  
+**Domain:** Shopping Cart  
+**Actor:** Customer  
+
+**Requirement:**  
+The system shall calculate and display the shopping cart totals based on the products, quantities, and applicable pricing rules.
+
+**Preconditions:**
+- Shopping cart contains at least one eligible product.
+- Product pricing is configured.
+
+**Trigger:**  
+Customer adds, removes, or changes the quantity of a cart item.
+
+**Expected Behavior:**
+- Item subtotals are recalculated.
+- Cart totals are updated according to the applicable pricing rules.
+- Displayed totals reflect the current cart contents.
+
+**Business Rules:**
+- Cart calculations must reflect the current product quantities.
+- Applicable pricing rules must be applied consistently.
+- Cart totals must not include removed products.
+
+**Priority:** Critical  
+**Risk:** High  
+
+**Acceptance Criteria:**
+- Cart subtotal reflects the current products and quantities.
+- Changing quantity updates the corresponding subtotal.
+- Removing an item updates the cart total.
+- Displayed totals remain consistent with the current cart state.
+- Cart calculations are preserved when proceeding to checkout.
+
+**Dependencies:** Shopping cart, product pricing, quantity management, promotions/pricing rules  
+**Source:** Test Scope, existing manual Shopping Cart coverage  
+**Automation Candidate:** Yes  
+
+**Notes:**  
+Business-critical calculation requirement because cart totals directly feed the checkout and order-creation flows.
+
+### CART-005 — Cart Product Price Calculation
+
+**ID:** CART-005  
+**Title:** Cart Product Price Calculation  
+**Domain:** Shopping Cart  
+**Actor:** Customer  
+
+**Requirement:**  
+The system shall calculate and display the applicable price for each product in the shopping cart based on the selected product configuration, quantity, and applicable pricing rules.
+
+**Preconditions:**
+- Shopping cart contains an eligible product.
+- Product pricing is configured.
+- Required product options are selected where applicable.
+
+**Trigger:**  
+Customer adds a product to the cart or changes its quantity or configuration.
+
+**Expected Behavior:**
+- The applicable product price is displayed in the cart.
+- The price reflects the selected product configuration and quantity.
+- Applicable pricing rules are reflected in the calculated cart price.
+
+**Business Rules:**
+- Cart pricing must correspond to the applicable configured product price.
+- Variant-specific pricing must be applied where configured.
+- Quantity changes must update the applicable calculated price.
+- Pricing must remain consistent with the product configuration.
+
+**Priority:** Critical  
+**Risk:** High  
+
+**Acceptance Criteria:**
+- Correct product price is displayed in the cart.
+- Variant-specific pricing is reflected where applicable.
+- Changing quantity updates the calculated price correctly.
+- Selected product configuration is reflected in the price.
+- Cart pricing remains consistent with the applicable product pricing.
+
+**Dependencies:** Product catalog, pricing configuration, product variants, quantity management  
+**Source:** Test Scope, existing manual Shopping Cart and Product Details coverage  
+**Automation Candidate:** Yes  
+
+**Notes:**  
+Business-critical pricing requirement because cart pricing feeds directly into checkout and order totals.
+
+### CART-006 — Cart Persistence
+
+**ID:** CART-006  
+**Title:** Cart Persistence  
+**Domain:** Shopping Cart  
+**Actor:** Customer  
+
+**Requirement:**  
+The system shall preserve the customer's shopping cart contents according to the configured cart persistence behavior.
+
+**Preconditions:**
+- Customer has at least one product in the cart.
+- Cart persistence is supported by the application.
+
+**Trigger:**  
+Customer navigates away from the cart, refreshes the page, or returns to the shopping cart.
+
+**Expected Behavior:**
+- Previously added eligible products remain in the cart according to the configured persistence behavior.
+- Product quantities and selected configurations are preserved.
+- Cart totals reflect the persisted cart contents.
+
+**Business Rules:**
+- Cart persistence must follow the application's configured session and customer-cart behavior.
+- Persisted cart data must remain associated with the correct customer/session.
+- Invalid or no-longer-available products must be handled according to the configured behavior.
+
+**Priority:** High  
+**Risk:** High  
+
+**Acceptance Criteria:**
+- Cart contents remain available after page refresh where persistence is supported.
+- Product quantities remain correct.
+- Selected product configurations remain correct.
+- Cart totals remain consistent with persisted contents.
+- Cart data is associated with the correct customer/session.
+
+**Dependencies:** Shopping cart, session management, customer account, cart persistence  
+**Source:** Test Scope, Shopping Cart requirements  
+**Automation Candidate:** Yes  
+
+**Notes:**  
+Important state-management requirement, particularly for authenticated customer workflows.
+
+### CART-007 — Cart Product Availability Validation
+
+**ID:** CART-007  
+**Title:** Cart Product Availability Validation  
+**Domain:** Shopping Cart  
+**Actor:** Customer  
+
+**Requirement:**  
+The system shall validate product availability when products are added to or processed within the shopping cart.
+
+**Preconditions:**
+- Shopping cart contains or is being populated with a product.
+- Product availability is configured.
+
+**Trigger:**  
+Customer adds a product to the cart or proceeds with an existing cart.
+
+**Expected Behavior:**
+- Available products can remain in the cart.
+- Products that are no longer available are handled according to the configured business behavior.
+- The customer receives appropriate feedback when a cart item cannot be purchased.
+
+**Business Rules:**
+- Unavailable products must not be incorrectly processed as purchasable.
+- Availability validation must reflect the current product state.
+- The customer must be informed when an item requires action before continuing.
+
+**Priority:** Critical  
+**Risk:** High  
+
+**Acceptance Criteria:**
+- Available products can be added to and retained in the cart.
+- Unavailable products are prevented from being purchased where required.
+- Changes in product availability are handled correctly.
+- Appropriate feedback is displayed when a cart item becomes unavailable.
+- Cart behavior remains consistent before checkout.
+
+**Dependencies:** Product availability, shopping cart, inventory configuration, checkout  
+**Source:** Test Scope, Product Catalog requirements, Shopping Cart requirements  
+**Automation Candidate:** Yes  
+
+**Notes:**  
+Important boundary between product availability and the purchase workflow.
+
+### CART-008 — Authenticated Customer Cart Behavior
+
+**ID:** CART-008  
+**Title:** Authenticated Customer Cart Behavior  
+**Domain:** Shopping Cart  
+**Actor:** Authenticated Customer  
+
+**Requirement:**  
+The system shall allow an authenticated customer to access and manage their shopping cart according to the permissions and business rules associated with their account.
+
+**Preconditions:**
+- Customer account exists.
+- Customer is authenticated.
+- Shopping cart functionality is available.
+- Product(s) eligible for cart operations exist.
+
+**Trigger:**  
+Authenticated customer accesses the shopping cart or performs an operation on a cart.
+
+**Expected Behavior:**
+- The authenticated customer can access their own shopping cart.
+- The customer can add eligible products to the cart.
+- The customer can view and manage products already in the cart.
+- Cart operations are associated with the authenticated customer.
+- Cart state remains consistent during the customer session.
+
+**Business Rules:**
+- Only authenticated customers can perform operations requiring authentication.
+- A customer's cart must not expose another customer's cart data.
+- Cart operations must be performed within the authenticated customer's context.
+- Cart state must remain associated with the correct customer account.
+- Authentication state must be respected throughout the cart workflow.
+
+**Priority:** Critical  
+**Risk:** High  
+
+**Acceptance Criteria:**
+- An authenticated customer can access their cart successfully.
+- The customer can add eligible products to their cart.
+- The customer can view products associated with their cart.
+- The customer cannot access another customer's cart data.
+- Cart operations remain associated with the authenticated customer.
+- Cart state remains consistent during navigation and refresh where persistence is supported.
+- Authentication requirements are enforced for protected cart operations.
+
+**Dependencies:** Authentication, customer account, shopping cart, product catalog, session management  
+
+**Source:** Test Scope, Authentication requirements, Shopping Cart requirements, Customer Account requirements  
+
+**Automation Candidate:** Yes  
+
+**Notes:**  
+Important boundary between authentication/session management and shopping cart ownership. This requirement ensures that cart data and operations are correctly isolated to the authenticated customer.
