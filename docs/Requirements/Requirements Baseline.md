@@ -715,3 +715,453 @@ Customer submits updated account information.
 
 **Notes:**  
 Should be covered by positive, negative, validation, persistence, and regression scenarios.
+
+### AUTH-013 — Customer Profile Management
+
+**Requirement ID:** AUTH-013  
+**Title:** Customer Profile Management
+
+**Description:**  
+The system shall allow an authenticated customer to view and manage the customer profile information supported by the application.
+
+**Business Domain:** Customer Account & Authentication  
+**Actor:** Authenticated Customer
+
+**Preconditions:**
+- Customer account exists.
+- Customer is authenticated.
+- Profile management functionality is available.
+
+**Trigger:**  
+Customer updates and submits profile information.
+
+**Expected Behavior:**
+- The system displays the customer's current profile information.
+- The system validates submitted profile changes.
+- Valid changes are saved successfully.
+- Invalid changes are rejected with appropriate feedback.
+- Saved information remains available when the customer revisits the profile.
+
+**Business Rules:**
+- Profile information must comply with the configured validation rules.
+- Required profile information must be provided.
+- Invalid profile data must not overwrite valid existing information.
+
+**Priority:** High  
+**Risk:** Medium
+
+**Acceptance Criteria:**
+- An authenticated customer can access their profile.
+- Existing profile information is displayed correctly.
+- Valid profile changes can be saved.
+- Invalid profile information is rejected.
+- Appropriate validation feedback is displayed.
+- Saved changes persist after navigation or page refresh.
+
+**Dependencies:**
+- Customer account
+- Profile management
+- Account data persistence
+- Input validation
+
+**Source:** Test Scope, existing manual User Profile coverage, Customer Account & Authentication requirements
+
+**Automation Candidate:** Yes
+
+**Notes:**  
+Should be covered through positive, negative, validation, persistence, and regression scenarios.
+
+### AUTH-014 — Customer Address Management
+
+**Requirement ID:** AUTH-014  
+**Title:** Customer Address Management
+
+**Description:**  
+The system shall allow an authenticated customer to view, add, edit, and remove supported customer address information.
+
+**Business Domain:** Customer Account & Authentication  
+**Actor:** Authenticated Customer
+
+**Preconditions:**
+- Customer account exists.
+- Customer is authenticated.
+- Address management functionality is available.
+
+**Trigger:**  
+Customer performs an address management action.
+
+**Expected Behavior:**
+- The system displays the customer's existing addresses.
+- The customer can add a valid address.
+- The customer can update an existing address.
+- The customer can remove an address where permitted.
+- Invalid address information is rejected with appropriate feedback.
+- Valid changes are persisted to the customer account.
+
+**Business Rules:**
+- Required address information must be provided.
+- Address information must satisfy the configured validation rules.
+- Invalid address data must not be persisted.
+- Address changes must remain associated with the correct customer account.
+
+**Priority:** High  
+**Risk:** High
+
+**Acceptance Criteria:**
+- An authenticated customer can access address management.
+- Existing addresses are displayed correctly.
+- A valid address can be added successfully.
+- An existing address can be updated successfully.
+- An address can be removed where the application permits removal.
+- Invalid or incomplete address information is rejected.
+- Saved address changes persist after navigation or page refresh.
+- Address information belongs only to the authenticated customer's account.
+
+**Dependencies:**
+- Customer account
+- Address management
+- Customer data persistence
+- Address validation
+- Checkout/shipping functionality
+
+**Source:** Test Scope, existing manual User Profile coverage, Customer Account & Authentication requirements
+
+**Automation Candidate:** Yes
+
+**Notes:**  
+Important customer-account requirement with downstream impact on checkout and shipping workflows. Should include positive, negative, persistence, authorization, and regression coverage.
+
+## 2. Product Catalog
+### CAT-001 — Product Listing
+
+**ID:** CAT-001  
+**Title:** Product Listing  
+**Domain:** Product Catalog  
+**Actor:** Customer  
+
+**Requirement:**  
+The system shall allow customers to view available products in a product listing.
+
+**Preconditions:**
+- The product catalog is accessible.
+- Products are available in the configured catalog.
+
+**Trigger:**  
+Customer navigates to a product listing or category page.
+
+**Expected Behavior:**
+- Products matching the selected catalog/category are displayed.
+- Product information is presented consistently.
+- Customers can navigate from the listing to available product details.
+
+**Business Rules:**
+- Only products configured for customer visibility should be displayed.
+- Displayed product information must correspond to the underlying product data.
+
+**Priority:** High  
+**Risk:** High  
+
+**Acceptance Criteria:**
+- Customer can access a product listing.
+- Products are displayed correctly.
+- Product information is displayed for each listed product.
+- Customer can open a product from the listing.
+
+**Dependencies:** Product catalog, product visibility, product data  
+**Source:** Test Scope, existing manual Product Listing coverage  
+**Automation Candidate:** Yes  
+**Notes:** Core product-discovery functionality.
+
+### CAT-002 — Category Navigation
+
+**ID:** CAT-002  
+**Title:** Category Navigation  
+**Domain:** Product Catalog  
+**Actor:** Customer  
+
+**Requirement:**  
+The system shall allow customers to navigate through available product categories and access the products associated with each category.
+
+**Preconditions:**
+- Product categories are configured and visible.
+- Products are associated with the relevant categories.
+
+**Trigger:**  
+Customer selects a product category.
+
+**Expected Behavior:**
+- The selected category is opened.
+- Products associated with the category are displayed.
+- Customer can navigate between available categories and products.
+
+**Business Rules:**
+- Only customer-visible categories should be accessible.
+- Category results must correspond to the selected category.
+
+**Priority:** High  
+**Risk:** High  
+
+**Acceptance Criteria:**
+- Customer can access available categories.
+- Selecting a category displays its associated products.
+- Category navigation works across supported category levels.
+- Customer can navigate from a category to product details.
+
+**Dependencies:** Product catalog, category configuration, product-category association  
+**Source:** Test Scope, Product Catalog requirements  
+**Automation Candidate:** Yes  
+**Notes:** Core product-discovery navigation flow.
+
+### CAT-003 — Product Details
+
+**ID:** CAT-003  
+**Title:** Product Details  
+**Domain:** Product Catalog  
+**Actor:** Customer  
+
+**Requirement:**  
+The system shall allow customers to view detailed information for a selected product.
+
+**Preconditions:**
+- Product exists in the catalog.
+- Product is configured for customer visibility.
+
+**Trigger:**  
+Customer selects a product from a listing, category, or search result.
+
+**Expected Behavior:**
+- The product details page is displayed.
+- Relevant product information is presented.
+- Available product options and purchasing information are displayed where applicable.
+- Customer can proceed with supported product actions.
+
+**Business Rules:**
+- Displayed information must correspond to the selected product.
+- Only customer-visible product information should be presented.
+- Configured product options must be reflected accurately.
+
+**Priority:** High  
+**Risk:** High  
+
+**Acceptance Criteria:**
+- Customer can open a product details page.
+- Product name and relevant information are displayed correctly.
+- Product price is displayed where applicable.
+- Product availability is displayed where applicable.
+- Configured attributes or variants are available for selection where applicable.
+- Customer can add an eligible product to the cart.
+
+**Dependencies:** Product catalog, product data, pricing, availability, product configuration  
+**Source:** Test Scope, existing manual Product Details coverage  
+**Automation Candidate:** Yes  
+**Notes:** Core product evaluation and purchase-entry point.
+
+### CAT-004 — Product Attributes & Variants
+
+**ID:** CAT-004  
+**Title:** Product Attributes & Variants  
+**Domain:** Product Catalog  
+**Actor:** Customer  
+
+**Requirement:**  
+The system shall allow customers to view and select configured product attributes and variants where applicable.
+
+**Preconditions:**
+- Product exists and is visible.
+- Product attributes or variants are configured where applicable.
+
+**Trigger:**  
+Customer selects or changes a product attribute or variant.
+
+**Expected Behavior:**
+- Available attributes and variants are displayed.
+- Customer can select valid configured options.
+- Product information updates according to the selected option where applicable.
+- Unsupported or unavailable combinations cannot be selected.
+
+**Business Rules:**
+- Only configured product options should be available.
+- Selected options must correspond to a valid product configuration.
+- Availability and pricing must reflect the selected variant where applicable.
+
+**Priority:** High  
+**Risk:** High  
+
+**Acceptance Criteria:**
+- Configured product attributes are displayed.
+- Customer can select valid options.
+- Invalid or unavailable combinations are prevented.
+- Relevant product information updates after selection.
+- Variant-specific price or availability is displayed correctly where applicable.
+
+**Dependencies:** Product configuration, attributes, variants, pricing, availability  
+**Source:** Test Scope, Product Catalog requirements  
+**Automation Candidate:** Yes  
+**Notes:** Important for products with configurable options and variant-specific behavior.
+
+### CAT-005 — Product Availability
+
+**ID:** CAT-005  
+**Title:** Product Availability  
+**Domain:** Product Catalog  
+**Actor:** Customer  
+
+**Requirement:**  
+The system shall display and enforce the configured availability status of products to customers.
+
+**Preconditions:**
+- Product exists in the catalog.
+- Product availability is configured.
+
+**Trigger:**  
+Customer views or attempts to purchase a product.
+
+**Expected Behavior:**
+- The product availability status is displayed where applicable.
+- Available products can proceed through supported purchase actions.
+- Unavailable products cannot be purchased when configured as unavailable.
+- Availability changes are reflected in the customer-facing catalog.
+
+**Business Rules:**
+- Product availability must reflect the configured catalog state.
+- Unavailable products must not be purchasable.
+- Availability must be consistent between product details and purchase-related flows.
+
+**Priority:** High  
+**Risk:** High  
+
+**Acceptance Criteria:**
+- Available products can be selected and purchased.
+- Unavailable products display the appropriate availability state.
+- Unavailable products cannot be added to the cart when purchase is not permitted.
+- Availability information is consistent across supported customer flows.
+
+**Dependencies:** Product catalog, inventory/availability configuration, shopping cart  
+**Source:** Test Scope, Product Catalog requirements, existing manual Product Listing/ProductDetails coverage
+**Automation Candidate:** Yes  
+**Notes:** Important because product availability directly affects cart and checkout behavior.
+
+### CAT-006 — Product Sorting
+
+**ID:** CAT-006  
+**Title:** Product Sorting  
+**Domain:** Product Catalog  
+**Actor:** Customer  
+
+**Requirement:**  
+The system shall allow customers to sort products using the sorting options supported by the catalog.
+
+**Preconditions:**
+- Product listing contains products.
+- At least one supported sorting option is available.
+
+**Trigger:**  
+Customer selects a sorting option.
+
+**Expected Behavior:**
+- The product listing is reordered according to the selected sorting option.
+- The displayed products remain consistent with the selected category or catalog context.
+- The selected sorting behavior is applied without losing the current product context.
+
+**Business Rules:**
+- Only supported sorting options should be available.
+- Products must be ordered according to the selected sorting criterion.
+
+**Priority:** Medium  
+**Risk:** Medium  
+
+**Acceptance Criteria:**
+- Customer can access the available sorting options.
+- Selecting a sorting option reorders the product listing correctly.
+- Sorting does not remove valid products from the current result set.
+- The selected sorting behavior is applied consistently.
+
+**Dependencies:** Product catalog, product data, sorting configuration  
+**Source:** Test Scope, Product Catalog requirements  
+**Automation Candidate:** Yes  
+**Notes:** Supports product discovery and regression coverage.
+
+### CAT-007 — Product Comparison
+
+**ID:** CAT-007  
+**Title:** Product Comparison  
+**Domain:** Product Catalog  
+**Actor:** Customer  
+
+**Requirement:**  
+The system shall allow customers to compare supported products and view their relevant product information side by side.
+
+**Preconditions:**
+- Products are available in the catalog.
+- Product comparison functionality is enabled.
+
+**Trigger:**  
+Customer selects products for comparison.
+
+**Expected Behavior:**
+- Selected products are added to the comparison context.
+- The comparison page displays the selected products.
+- Relevant product attributes are presented for comparison.
+- Customer can remove products from the comparison.
+
+**Business Rules:**
+- Only eligible products can be added to comparison.
+- Comparison information must correspond to the selected products.
+- Removing a product must update the comparison results.
+
+**Priority:** Medium  
+**Risk:** Medium  
+
+**Acceptance Criteria:**
+- Customer can add an eligible product to comparison.
+- Multiple supported products can be compared.
+- Product information is displayed correctly.
+- Customer can remove a product from comparison.
+- The comparison view updates after product removal.
+
+**Dependencies:** Product catalog, product data, product comparison functionality  
+**Source:** Test Scope, Product Catalog requirements  
+**Automation Candidate:** Yes  
+**Notes:** Secondary catalog capability; lower priority than core browsing and purchasing flows.
+
+### CAT-008 — Customer-Facing Product Pricing
+
+**ID:** CAT-008  
+**Title:** Customer-Facing Product Pricing  
+**Domain:** Product Catalog  
+**Actor:** Customer  
+
+**Requirement:**  
+The system shall display the applicable product price to customers consistently across supported catalog and product views.
+
+**Preconditions:**
+- Product exists and is visible.
+- Product pricing is configured.
+
+**Trigger:**  
+Customer views a product or product listing.
+
+**Expected Behavior:**
+- The applicable product price is displayed.
+- The displayed price corresponds to the configured product pricing.
+- Pricing remains consistent between supported product views.
+- Applicable pricing changes are reflected in the customer-facing interface.
+
+**Business Rules:**
+- Customer-facing prices must reflect the applicable configured price.
+- Prices must be displayed consistently across catalog and product details.
+- Applicable promotional or variant pricing must be reflected where configured.
+
+**Priority:** High  
+**Risk:** High  
+
+**Acceptance Criteria:**
+- Product prices are displayed correctly in product listings.
+- Product prices are displayed correctly on product details.
+- Applicable variant pricing is reflected where configured.
+- Customer-facing pricing remains consistent across supported views.
+
+**Dependencies:** Product catalog, pricing configuration, product variants, promotions  
+**Source:** Test Scope, Product Catalog requirements  
+**Automation Candidate:** Yes  
+**Notes:** Pricing is business-critical because it directly affects cart, checkout, and order totals.
