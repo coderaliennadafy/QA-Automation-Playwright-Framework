@@ -2056,3 +2056,420 @@ Customer accesses or modifies the wishlist.
 
 **Notes:**  
 Validates the integration between authentication, customer data isolation, and wishlist functionality.
+
+## 6. Checkout 
+### CHECK-001 — Checkout Initiation
+
+**ID:** CHECK-001  
+**Title:** Checkout Initiation  
+**Domain:** Checkout  
+**Actor:** Customer  
+
+**Requirement:**  
+The system shall allow an eligible customer to initiate the checkout process from a valid shopping cart.
+
+**Preconditions:**
+- Shopping cart contains at least one eligible product.
+- Customer can access the checkout functionality.
+- Required cart conditions are satisfied.
+
+**Trigger:**  
+Customer selects the option to proceed to checkout.
+
+**Expected Behavior:**
+- The checkout process is initiated.
+- The customer is directed to the appropriate checkout step.
+- Current cart contents are retained.
+- Checkout reflects the applicable cart information.
+
+**Business Rules:**
+- Checkout must not proceed when the cart contains items that cannot be purchased.
+- Checkout must use the current cart state.
+- Required checkout conditions must be satisfied before proceeding.
+
+**Priority:** Critical  
+**Risk:** High  
+
+**Acceptance Criteria:**
+- Customer can initiate checkout from a valid cart.
+- Customer is directed to the checkout process.
+- Current cart items are retained.
+- Checkout reflects the correct cart information.
+- Invalid cart conditions prevent checkout initiation with appropriate feedback.
+
+**Dependencies:** Shopping cart, product availability, pricing, customer authentication/session  
+**Source:** Test Scope, existing manual Checkout coverage  
+**Automation Candidate:** Yes  
+
+**Notes:**  
+Critical entry point to the purchase workflow and a high-priority end-to-end regression candidate.
+
+### CHECK-002 — Customer Information
+
+**ID:** CHECK-002  
+**Title:** Customer Information  
+**Domain:** Checkout  
+**Actor:** Customer  
+
+**Requirement:**  
+The system shall allow the customer to provide and validate the information required to continue the checkout process.
+
+**Preconditions:**
+- Checkout has been initiated.
+- Required customer information fields are available.
+
+**Trigger:**  
+Customer enters or updates the required checkout information.
+
+**Expected Behavior:**
+- Customer information is accepted when valid.
+- Required fields are validated.
+- Invalid or incomplete information prevents progression where required.
+- Entered information is retained during the checkout flow.
+
+**Business Rules:**
+- Required checkout information must be provided.
+- Input must satisfy the applicable validation rules.
+- Invalid information must not allow the customer to proceed when the information is required.
+
+**Priority:** Critical  
+**Risk:** High  
+
+**Acceptance Criteria:**
+- Customer can enter the required checkout information.
+- Required fields are validated.
+- Valid information is accepted.
+- Invalid or incomplete information is rejected appropriately.
+- Entered information is retained when moving through supported checkout steps.
+
+**Dependencies:** Checkout, customer account, address/customer data, validation rules  
+**Source:** Test Scope, existing manual Checkout coverage  
+**Automation Candidate:** Yes  
+
+**Notes:**  
+Core checkout validation requirement with direct impact on order completion.
+
+### CHECK-003 — Billing Address
+
+**ID:** CHECK-003  
+**Title:** Billing Address  
+**Domain:** Checkout  
+**Actor:** Customer  
+
+**Requirement:**  
+The system shall allow the customer to provide or select a valid billing address during checkout.
+
+**Preconditions:**
+- Checkout has been initiated.
+- Billing address information is required or enabled.
+- Customer has access to the available billing address options.
+
+**Trigger:**  
+Customer enters, selects, or updates the billing address.
+
+**Expected Behavior:**
+- A valid billing address is accepted.
+- Required billing address fields are validated.
+- Invalid or incomplete billing information prevents progression where required.
+- The selected billing address is retained for the checkout process.
+
+**Business Rules:**
+- Required billing address fields must be provided.
+- Billing address information must satisfy the configured validation rules.
+- The selected billing address must be associated with the current checkout.
+
+**Priority:** Critical  
+**Risk:** High  
+
+**Acceptance Criteria:**
+- Customer can enter or select a billing address.
+- Required billing address fields are validated.
+- Valid billing information is accepted.
+- Invalid or incomplete billing information is rejected appropriately.
+- The selected billing address is retained in the checkout flow.
+
+**Dependencies:** Checkout, customer account, address management, validation rules  
+**Source:** Test Scope, existing manual Checkout coverage  
+**Automation Candidate:** Yes  
+
+**Notes:**  
+Critical checkout data requirement because billing information is part of the order creation process.
+
+### CHECK-004 — Shipping Address
+
+**ID:** CHECK-004  
+**Title:** Shipping Address  
+**Domain:** Checkout  
+**Actor:** Customer  
+
+**Requirement:**  
+The system shall allow the customer to provide or select a valid shipping address during checkout.
+
+**Preconditions:**
+- Checkout has been initiated.
+- Shipping is applicable to the order.
+- Customer has access to the available shipping address options.
+
+**Trigger:**  
+Customer enters, selects, or updates the shipping address.
+
+**Expected Behavior:**
+- A valid shipping address is accepted.
+- Required shipping address fields are validated.
+- Invalid or incomplete information prevents progression where required.
+- The selected shipping address is retained for the checkout process.
+
+**Business Rules:**
+- Required shipping address fields must be provided.
+- Shipping address information must satisfy the configured validation rules.
+- The selected address must be associated with the current checkout.
+
+**Priority:** Critical  
+**Risk:** High  
+
+**Acceptance Criteria:**
+- Customer can enter or select a shipping address.
+- Required shipping address fields are validated.
+- Valid shipping information is accepted.
+- Invalid or incomplete shipping information is rejected appropriately.
+- The selected shipping address is retained during checkout.
+
+**Dependencies:** Checkout, customer account, address management, shipping configuration  
+**Source:** Test Scope, existing manual Checkout coverage  
+**Automation Candidate:** Yes  
+
+**Notes:**  
+Critical checkout requirement because shipping information directly affects shipping options and order completion.
+
+### CHECK-005 — Shipping Method Selection
+
+**ID:** CHECK-005  
+**Title:** Shipping Method Selection  
+**Domain:** Checkout  
+**Actor:** Customer  
+
+**Requirement:**  
+The system shall allow the customer to select an available shipping method that is applicable to the current order during checkout.
+
+**Preconditions:**
+- Checkout has been initiated.
+- A valid shipping address has been provided.
+- At least one applicable shipping method is available.
+
+**Trigger:**  
+Customer selects a shipping method.
+
+**Expected Behavior:**
+- Available shipping methods are displayed.
+- Customer can select an applicable shipping method.
+- The selected shipping method is retained in the checkout.
+- Applicable shipping charges are reflected in the order calculation.
+
+**Business Rules:**
+- Only shipping methods available for the current order and destination may be selected.
+- The selected shipping method must be associated with the current checkout.
+- Applicable shipping costs must be reflected in the order totals.
+
+**Priority:** High  
+**Risk:** High  
+
+**Acceptance Criteria:**
+- Available shipping methods are displayed correctly.
+- Customer can select an applicable shipping method.
+- The selected method remains selected during the checkout flow.
+- Applicable shipping charges are reflected correctly.
+- An unavailable shipping method cannot be selected.
+
+**Dependencies:** Checkout, shipping address, shipping configuration, order totals  
+**Source:** Test Scope, existing manual Checkout coverage  
+**Automation Candidate:** Yes  
+
+**Notes:**  
+Important checkout integration point because shipping selection can affect the final order total and order completion.
+
+### CHECK-006 — Payment Method Selection
+
+**ID:** CHECK-006  
+**Title:** Payment Method Selection  
+**Domain:** Checkout  
+**Actor:** Customer  
+
+**Requirement:**  
+The system shall allow the customer to select an available payment method applicable to the current order during checkout.
+
+**Preconditions:**
+- Checkout has been initiated.
+- Required customer and billing information has been provided.
+- At least one payment method is available.
+
+**Trigger:**  
+Customer selects a payment method.
+
+**Expected Behavior:**
+- Available payment methods are displayed.
+- Customer can select an applicable payment method.
+- The selected payment method is retained for the checkout.
+- Any applicable payment-related information or validation is presented.
+
+**Business Rules:**
+- Only enabled payment methods applicable to the current order may be selected.
+- The selected payment method must be associated with the current checkout.
+- Required payment information must be validated before proceeding.
+
+**Priority:** Critical  
+**Risk:** High  
+
+**Acceptance Criteria:**
+- Available payment methods are displayed correctly.
+- Customer can select an applicable payment method.
+- The selected method remains associated with the checkout.
+- Required payment information is validated.
+- Unavailable or disabled payment methods cannot be selected.
+
+**Dependencies:** Checkout, billing information, payment configuration, payment integration boundary  
+**Source:** Test Scope, existing manual Checkout coverage  
+**Automation Candidate:** Yes  
+
+**Notes:**  
+Critical checkout requirement. The framework validates payment behavior from the nopCommerce application perspective; real financial transactions remain out of scope.
+
+### CHECK-007 — Order Review
+
+**ID:** CHECK-007  
+**Title:** Order Review  
+**Domain:** Checkout  
+**Actor:** Customer  
+
+**Requirement:**  
+The system shall allow the customer to review the order information and applicable charges before completing the checkout process.
+
+**Preconditions:**
+- Checkout has been initiated.
+- Customer information is valid.
+- Billing and shipping information is available.
+- Shipping and payment methods have been selected.
+
+**Trigger:**  
+Customer reaches the order review step.
+
+**Expected Behavior:**
+- The system displays the products included in the order.
+- Quantities and product prices are displayed.
+- Billing and shipping information is displayed.
+- Selected shipping and payment methods are displayed.
+- Applicable charges and the final order total are displayed.
+- Customer can verify the order before completion.
+
+**Business Rules:**
+- Review information must reflect the current checkout state.
+- Order totals must include applicable product, shipping, discount, and other configured charges.
+- The customer must not be able to complete an order with inconsistent checkout information.
+
+**Priority:** Critical  
+**Risk:** High  
+
+**Acceptance Criteria:**
+- Order products and quantities are displayed correctly.
+- Product prices are displayed correctly.
+- Billing and shipping information are correct.
+- Selected shipping and payment methods are displayed.
+- Applicable charges are calculated correctly.
+- Final order total is consistent with the checkout data.
+- Customer can proceed to checkout completion after reviewing the order.
+
+**Dependencies:** Cart, customer information, billing address, shipping address, shipping method, payment method, pricing and promotions  
+**Source:** Test Scope, existing manual Checkout coverage  
+**Automation Candidate:** Yes  
+
+**Notes:**  
+Critical validation point immediately before order creation. This requirement connects the major checkout components into a single business transaction.
+
+### CHECK-008 — Required-Field Validation
+
+**ID:** CHECK-008  
+**Title:** Required-Field Validation  
+**Domain:** Checkout  
+**Actor:** Customer  
+
+**Requirement:**  
+The system shall validate required checkout fields and prevent the customer from proceeding when mandatory information is missing or invalid.
+
+**Preconditions:**
+- Checkout has been initiated.
+- One or more required checkout fields are available.
+
+**Trigger:**  
+Customer attempts to continue checkout with one or more required fields empty or invalid.
+
+**Expected Behavior:**
+- The system validates the required fields.
+- Missing or invalid information is rejected.
+- Appropriate validation feedback is displayed.
+- Customer is prevented from proceeding until required information is corrected.
+
+**Business Rules:**
+- Mandatory fields must be completed before checkout progression.
+- Invalid values must not be accepted as valid checkout information.
+- Validation must occur at the appropriate checkout step.
+
+**Priority:** High  
+**Risk:** High  
+
+**Acceptance Criteria:**
+- Empty required fields are detected.
+- Invalid required-field values are rejected.
+- Appropriate validation messages are displayed.
+- Customer cannot proceed while required information is invalid or missing.
+- Customer can continue after correcting the validation errors.
+
+**Dependencies:** Customer information, billing address, shipping address, checkout validation  
+**Source:** Test Scope, existing manual Checkout coverage  
+**Automation Candidate:** Yes  
+
+**Notes:**  
+Important negative-testing requirement covering checkout validation and preventing incomplete orders.
+
+### CHECK-009 — Checkout Navigation
+
+**ID:** CHECK-009  
+**Title:** Checkout Navigation  
+**Domain:** Checkout  
+**Actor:** Customer  
+
+**Requirement:**  
+The system shall allow the customer to navigate through the checkout steps in the expected sequence while maintaining valid checkout information.
+
+**Preconditions:**
+- Checkout has been initiated.
+- Required information for the current checkout step is valid.
+
+**Trigger:**  
+Customer continues to the next checkout step or navigates to a supported previous step.
+
+**Expected Behavior:**
+- Customer can progress to the next applicable checkout step when current requirements are satisfied.
+- Checkout information is retained when navigating between supported steps.
+- Customer cannot bypass mandatory validation or required checkout steps.
+- Returning to a previous step does not unexpectedly invalidate valid checkout information.
+
+**Business Rules:**
+- Checkout steps must follow the configured checkout workflow.
+- Mandatory information must be validated before progression.
+- Checkout state must remain consistent throughout navigation.
+
+**Priority:** High  
+**Risk:** High  
+
+**Acceptance Criteria:**
+- Customer can progress through the configured checkout steps.
+- Customer cannot proceed when the current step contains invalid required information.
+- Previously entered valid information is retained during supported navigation.
+- Mandatory checkout steps cannot be incorrectly bypassed.
+- Checkout state remains consistent when navigating between steps.
+
+**Dependencies:** Checkout workflow, customer information, billing address, shipping address, shipping method, payment method  
+**Source:** Test Scope, existing manual Checkout coverage  
+**Automation Candidate:** Yes  
+
+**Notes:**  
+Important end-to-end navigation requirement for validating checkout state transitions and preventing incomplete or inconsistent orders.
