@@ -2990,4 +2990,483 @@ Customer refreshes the order history page or navigates away and returns to the o
 **Notes:**  
 Regression-focused requirement validating order persistence, session state, and customer-specific order visibility after navigation or refresh.
 
-## 8.Admin
+## 8. Admin
+### ADMIN-001 — Administrator Login
+
+**ID:** ADMIN-001  
+**Title:** Administrator Login  
+**Domain:** Administration — Authentication & Access  
+**Actor:** Administrator  
+
+**Requirement:**  
+The system shall allow an authorized administrator to authenticate and access the administration area using valid administrator credentials.
+
+**Preconditions:**
+- Administrator account exists.
+- Administrator account is active.
+- Administrator has valid authentication credentials.
+- Administration area is accessible.
+
+**Trigger:**  
+Administrator submits the login form with credentials.
+
+**Expected Behavior:**
+- The system validates the submitted administrator credentials.
+- Valid credentials authenticate the administrator successfully.
+- Authenticated administrator is granted access to the administration area according to assigned permissions.
+- Invalid credentials prevent authentication and appropriate feedback is displayed.
+
+**Business Rules:**
+- Only valid administrator credentials can establish an authenticated administration session.
+- Inactive or unauthorized accounts must not gain access to protected administration functionality.
+- Administrator access must respect the permissions associated with the administrator's role.
+
+**Priority:** Critical  
+**Risk:** High  
+
+**Acceptance Criteria:**
+- Administrator can access the administration login page.
+- Valid administrator credentials result in successful authentication.
+- Successful authentication grants access to the administration area.
+- Invalid credentials prevent administrator authentication.
+- Appropriate authentication feedback is displayed for invalid credentials.
+- Authenticated administrator can access only the administration functionality permitted by the assigned role.
+
+**Dependencies:** Administrator account, authentication service, role and permission configuration, administration area  
+**Source:** nopCommerce Admin Area, Test Scope  
+**Automation Candidate:** Yes  
+
+**Notes:**  
+Critical security and access-control requirement. Should receive positive, negative, and authorization-focused regression coverage.
+
+### ADMIN-002 — Administrator Logout
+
+**ID:** ADMIN-002  
+**Title:** Administrator Logout  
+**Domain:** Administration — Authentication & Access  
+**Actor:** Authenticated Administrator  
+
+**Requirement:**  
+The system shall allow an authenticated administrator to securely terminate the administration session by logging out.
+
+**Preconditions:**
+- Administrator is authenticated.
+- Administrator has access to the administration area.
+
+**Trigger:**  
+Administrator selects the logout action.
+
+**Expected Behavior:**
+- The administrator session is terminated.
+- The administrator is redirected to the appropriate unauthenticated state or login page.
+- Protected administration pages are no longer accessible through the terminated session.
+
+**Business Rules:**
+- Logout must invalidate the active administrator authentication state.
+- A logged-out administrator must not retain access to protected administration functionality.
+- Re-authentication must be required to access protected administration areas again.
+
+**Priority:** Critical  
+**Risk:** High  
+
+**Acceptance Criteria:**
+- Authenticated administrator can log out successfully.
+- Administrator is returned to the expected unauthenticated state.
+- Previously accessible protected administration pages cannot be accessed after logout without re-authentication.
+- Administrator cannot continue performing protected actions using the terminated session.
+- Administrator can access the administration area again after successful re-authentication.
+
+**Dependencies:** Administrator authentication, session management, protected administration areas  
+**Source:** nopCommerce Admin Area, Test Scope  
+**Automation Candidate:** Yes  
+
+**Notes:**  
+Critical authentication-state requirement. Should be covered by functional, negative, and regression automation.
+
+### ADMIN-003 — Administrator Authentication State
+
+**ID:** ADMIN-003  
+**Title:** Administrator Authentication State  
+**Domain:** Administration — Authentication & Access  
+**Actor:** Authenticated Administrator  
+
+**Requirement:**  
+The system shall maintain the administrator's authentication state while the administrator interacts with protected administration functionality.
+
+**Preconditions:**
+- Administrator account exists and is active.
+- Administrator has successfully authenticated.
+- Administrator has access to the administration area.
+
+**Trigger:**  
+Administrator navigates between protected administration pages or performs an administration action.
+
+**Expected Behavior:**
+- The authenticated administrator remains recognized while the valid session is active.
+- Protected administration pages are accessible according to the administrator's permissions.
+- Authentication state is invalidated after logout or session expiration.
+
+**Business Rules:**
+- Protected administration functionality requires a valid authenticated session.
+- Authentication state must remain associated with the correct administrator.
+- An expired or terminated session must not provide access to protected administration functionality.
+
+**Priority:** Critical  
+**Risk:** High  
+
+**Acceptance Criteria:**
+- Authenticated administrator can navigate between permitted protected pages.
+- Administrator remains authenticated during a valid session.
+- Protected pages require authentication.
+- Logout invalidates the authentication state.
+- An expired or invalid session cannot access protected administration functionality.
+- Administrator can regain access after successful re-authentication.
+
+**Dependencies:** Administrator authentication, session management, role and permission configuration, protected administration areas  
+**Source:** nopCommerce Admin Area, Test Scope  
+**Automation Candidate:** Yes  
+
+**Notes:**  
+Critical authentication-state requirement supporting reliable access-control and session-management validation.
+
+### ADMIN-004 — Role-Based Access
+
+**ID:** ADMIN-004  
+**Title:** Role-Based Access  
+**Domain:** Administration — Authentication & Access  
+**Actor:** Administrator  
+
+**Requirement:**  
+The system shall restrict access to administration functionality according to the permissions assigned to the administrator's role.
+
+**Preconditions:**
+- Administrator accounts and roles are configured.
+- At least two roles with different permissions are available.
+- Administrator is authenticated.
+
+**Trigger:**  
+Administrator attempts to access an administration area or perform an administrative action.
+
+**Expected Behavior:**
+- The system evaluates the administrator's assigned permissions.
+- Authorized functionality is accessible.
+- Unauthorized functionality is restricted.
+- Appropriate access-denied behavior is presented when the administrator lacks the required permission.
+
+**Business Rules:**
+- Access to protected administration functionality must be controlled by assigned permissions.
+- Administrators must not gain access to functionality outside their authorized role.
+- Permission changes must be respected when the administrator's access is evaluated.
+
+**Priority:** Critical  
+**Risk:** High  
+
+**Acceptance Criteria:**
+- Administrator with the required permission can access the corresponding functionality.
+- Administrator without the required permission cannot access that functionality.
+- Unauthorized direct access to protected administration pages is prevented.
+- Access restrictions are consistent with the administrator's assigned role.
+- Appropriate access-denied behavior is displayed for unauthorized actions.
+
+**Dependencies:** Administrator authentication, roles, permissions, protected administration areas  
+**Source:** nopCommerce Admin Area, Access Control List (ACL), Test Scope  
+**Automation Candidate:** Yes  
+
+**Notes:**  
+Critical authorization requirement. Requires both positive and negative coverage because incorrect permissions can expose protected administrative functionality.
+
+### ADMIN-005 — Customer Role Permissions
+
+**ID:** ADMIN-005  
+**Title:** Customer Role Permissions  
+**Domain:** Administration — Authentication & Access  
+**Actor:** Administrator  
+
+**Requirement:**  
+The system shall enforce the permissions assigned to customer roles when accessing protected administration functionality.
+
+**Preconditions:**
+- Customer roles are configured.
+- Permissions are assigned to the applicable roles.
+- Administrator is authenticated.
+- Protected administration functionality exists.
+
+**Trigger:**  
+Administrator attempts to access or perform an action associated with a customer role permission.
+
+**Expected Behavior:**
+- The system evaluates the permissions associated with the relevant customer role.
+- Authorized functionality is accessible.
+- Unauthorized functionality is restricted.
+- Access behavior reflects the current role configuration.
+
+**Business Rules:**
+- Customer roles must only grant the permissions explicitly assigned to them.
+- Removing a permission must prevent access to the corresponding protected functionality.
+- Adding a permission must allow access to the corresponding functionality where applicable.
+- Unauthorized role-based access must not expose protected administration functionality.
+
+**Priority:** High  
+**Risk:** High  
+
+**Acceptance Criteria:**
+- Customer role with the required permission can access the corresponding functionality.
+- Customer role without the required permission cannot access it.
+- Removing a role permission removes the corresponding access.
+- Adding a role permission grants the corresponding access where applicable.
+- Direct access to unauthorized protected areas is prevented.
+- Role permissions are enforced consistently across the administration area.
+
+**Dependencies:** Administrator authentication, customer roles, ACL/permissions, protected administration areas  
+**Source:** nopCommerce Admin Area, Access Control List (ACL), Test Scope  
+**Automation Candidate:** Yes  
+
+**Notes:**  
+Authorization-focused requirement validating that role configuration is correctly enforced by the administration area.
+
+### ADMIN-006 — Protected Administration Area Access
+
+**ID:** ADMIN-006  
+**Title:** Protected Administration Area Access  
+**Domain:** Administration — Authentication & Access  
+**Actor:** Administrator  
+
+**Requirement:**  
+The system shall restrict access to protected administration areas to authenticated users with the required permissions.
+
+**Preconditions:**
+- Protected administration areas exist.
+- Administrator authentication and permissions are configured.
+- User may be authenticated or unauthenticated.
+
+**Trigger:**  
+User attempts to access a protected administration area.
+
+**Expected Behavior:**
+- Authenticated users with the required permission can access the protected area.
+- Unauthenticated users are prevented from accessing protected administration functionality.
+- Authenticated users without the required permission are denied access.
+- Appropriate authentication or authorization behavior is presented.
+
+**Business Rules:**
+- Protected administration areas must require authentication.
+- Access must be evaluated against the user's assigned permissions.
+- Direct URL access must not bypass authentication or authorization controls.
+- Unauthorized users must not access protected administration data or actions.
+
+**Priority:** Critical  
+**Risk:** High  
+
+**Acceptance Criteria:**
+- Authorized administrator can access protected administration areas.
+- Unauthenticated users cannot access protected administration areas.
+- Authenticated users without the required permission cannot access restricted areas.
+- Direct navigation to a protected URL does not bypass access control.
+- Appropriate authentication or access-denied behavior is displayed.
+- Protected administration functionality becomes available again after valid authentication and authorization.
+
+**Dependencies:** Administrator authentication, session management, roles, ACL/permissions, administration routing  
+**Source:** nopCommerce Admin Area, Access Control List (ACL), Test Scope  
+**Automation Candidate:** Yes  
+
+**Notes:**  
+Critical security requirement covering the administration access boundary. Should include both UI navigation and direct protected-URL access scenarios.
+
+### ADMIN-007 — Product Creation
+
+**ID:** ADMIN-007  
+**Title:** Product Creation  
+**Domain:** Administration — Product & Catalog Management  
+**Actor:** Administrator  
+
+**Requirement:**  
+The system shall allow an authorized administrator to create a new product by providing the required product information.
+
+**Preconditions:**
+- Administrator is authenticated.
+- Administrator has permission to manage products.
+- Product creation functionality is available.
+
+**Trigger:**  
+Administrator submits the product creation form.
+
+**Expected Behavior:**
+- The system validates the submitted product information.
+- A valid product is created successfully.
+- The created product is stored with the configured information.
+- The product becomes available according to its configured publication and availability settings.
+
+**Business Rules:**
+- Required product information must be provided.
+- Product information must satisfy the applicable validation rules.
+- Product creation must respect the administrator's permissions.
+- Product publication and availability must follow the configured product settings.
+
+**Priority:** Critical  
+**Risk:** High  
+
+**Acceptance Criteria:**
+- Authorized administrator can access product creation.
+- Required product fields are validated.
+- Valid product information creates a product successfully.
+- Invalid or incomplete information prevents product creation.
+- Created product contains the submitted information.
+- Product publication/availability reflects the configured settings.
+- Unauthorized users cannot create products.
+
+**Dependencies:** Administrator authentication, product permissions, product catalog, product validation, category configuration  
+**Source:** nopCommerce Admin Area — Product Management, Test Scope  
+**Automation Candidate:** Yes  
+
+**Notes:**  
+Critical catalog-management requirement. Suitable for UI automation and API-level validation where the relevant administration API is available.
+
+### ADMIN-008 — Product Editing
+
+**ID:** ADMIN-008  
+**Title:** Product Editing  
+**Domain:** Administration — Product & Catalog Management  
+**Actor:** Administrator  
+
+**Requirement:**  
+The system shall allow an authorized administrator to edit an existing product and update its supported product information.
+
+**Preconditions:**
+- Administrator is authenticated.
+- Administrator has permission to manage products.
+- The product exists.
+- The product is accessible from the administration area.
+
+**Trigger:**  
+Administrator updates the product information and saves the changes.
+
+**Expected Behavior:**
+- The system validates the updated product information.
+- Valid changes are saved successfully.
+- The updated product information is persisted.
+- Changes are reflected wherever the product information is displayed.
+
+**Business Rules:**
+- Only authorized administrators can modify products.
+- Updated information must satisfy the applicable validation rules.
+- Changes must be applied to the correct product.
+- Product availability and publication settings must follow the updated configuration.
+
+**Priority:** Critical  
+**Risk:** High  
+
+**Acceptance Criteria:**
+- Authorized administrator can open an existing product for editing.
+- Product information is displayed correctly before editing.
+- Valid changes are saved successfully.
+- Invalid or incomplete changes are rejected appropriately.
+- Updated information is persisted after saving.
+- Updated product information is reflected in the relevant catalog views.
+- Unauthorized users cannot modify products.
+
+**Dependencies:** Administrator authentication, product permissions, product catalog, product validation, product persistence  
+**Source:** nopCommerce Admin Area — Product Management, Test Scope  
+**Automation Candidate:** Yes  
+
+**Notes:**  
+Critical catalog-management requirement. Should cover both successful updates and negative validation scenarios, with regression coverage for changes to business-critical product data.
+
+### ADMIN-009 — Product Activation/Deactivation
+
+**ID:** ADMIN-009  
+**Title:** Product Activation/Deactivation  
+**Domain:** Administration — Product & Catalog Management  
+**Actor:** Administrator  
+
+**Requirement:**  
+The system shall allow an authorized administrator to activate or deactivate a product according to the configured product publication and availability settings.
+
+**Preconditions:**
+- Administrator is authenticated.
+- Administrator has permission to manage products.
+- The product exists.
+- The product is accessible from the administration area.
+
+**Trigger:**  
+Administrator changes the product's activation, publication, or availability state and saves the change.
+
+**Expected Behavior:**
+- The system saves the updated product state successfully.
+- An activated product becomes available according to the configured publication rules.
+- A deactivated product is no longer available through the applicable customer-facing catalog.
+- The updated state is persisted.
+
+**Business Rules:**
+- Only authorized administrators can change product activation state.
+- Deactivated products must not be presented as normally purchasable through applicable storefront functionality.
+- Product state must remain consistent between administration and customer-facing views.
+- Activation and deactivation must respect any configured availability restrictions.
+
+**Priority:** High  
+**Risk:** High  
+
+**Acceptance Criteria:**
+- Authorized administrator can activate an eligible product.
+- Authorized administrator can deactivate an active product.
+- Activated product is displayed according to its configured publication settings.
+- Deactivated product is no longer normally available to customers.
+- Product state persists after saving and refreshing.
+- Unauthorized users cannot change the product activation state.
+
+**Dependencies:** Administrator authentication, product permissions, product catalog, product publication, product availability  
+**Source:** nopCommerce Admin Area — Product Management, Test Scope  
+**Automation Candidate:** Yes  
+
+**Notes:**  
+High-risk catalog requirement because product activation directly controls customer-facing product availability. Should include both administration-side and storefront-side validation.
+
+### ADMIN-010 — Category Management
+
+**ID:** ADMIN-010  
+**Title:** Category Management  
+**Domain:** Administration — Product & Catalog Management  
+**Actor:** Administrator  
+
+**Requirement:**  
+The system shall allow an authorized administrator to create, edit, publish, and manage product categories used to organize the product catalog.
+
+**Preconditions:**
+- Administrator is authenticated.
+- Administrator has permission to manage categories.
+- Category management functionality is available.
+
+**Trigger:**  
+Administrator creates, updates, publishes, or changes the configuration of a product category.
+
+**Expected Behavior:**
+- The system validates the submitted category information.
+- Valid category changes are saved successfully.
+- Category configuration is persisted.
+- Products associated with the category are organized according to the updated configuration.
+- Applicable category changes are reflected in the customer-facing catalog.
+
+**Business Rules:**
+- Only authorized administrators can manage categories.
+- Required category information must be valid before saving.
+- Category hierarchy and parent-child relationships must remain valid.
+- Category publication state must determine whether the category is available to customers.
+
+**Priority:** High  
+**Risk:** High  
+
+**Acceptance Criteria:**
+- Authorized administrator can access category management.
+- Administrator can create a valid category.
+- Administrator can edit an existing category.
+- Invalid or incomplete category information is rejected appropriately.
+- Category changes are persisted after saving.
+- Category publication state is respected by the storefront.
+- Products assigned to the category are associated with the correct category.
+- Unauthorized users cannot modify categories.
+
+**Dependencies:** Administrator authentication, category permissions, product catalog, category hierarchy, product-category relationships  
+**Source:** nopCommerce Admin Area — Category Management, Test Scope  
+**Automation Candidate:** Yes  
+
+**Notes:**  
+Important catalog-management requirement because category configuration directly affects product organization and customer product discovery.
