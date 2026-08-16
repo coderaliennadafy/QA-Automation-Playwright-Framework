@@ -2473,3 +2473,54 @@ Customer continues to the next checkout step or navigates to a supported previou
 
 **Notes:**  
 Important end-to-end navigation requirement for validating checkout state transitions and preventing incomplete or inconsistent orders.
+
+### CHECK-010 — Checkout Completion
+
+**ID:** CHECK-010  
+**Title:** Checkout Completion  
+**Domain:** Checkout  
+**Actor:** Customer  
+
+**Requirement:**  
+The system shall allow the customer to complete the checkout process and create an order when all required checkout conditions are satisfied.
+
+**Preconditions:**
+- Checkout has been initiated.
+- Cart contains eligible products.
+- Required customer information is valid.
+- Billing and shipping information is valid.
+- Required shipping and payment methods have been selected.
+- Order review information is valid.
+
+**Trigger:**  
+Customer confirms the order and completes the checkout process.
+
+**Expected Behavior:**
+- The system validates the final checkout information.
+- The order is created successfully when all required conditions are satisfied.
+- The customer receives appropriate confirmation.
+- The created order contains the expected cart, customer, shipping, payment, and pricing information.
+
+**Business Rules:**
+- An order must not be created when required checkout conditions are not satisfied.
+- The created order must reflect the final validated checkout state.
+- Cart and order information must remain consistent after successful completion.
+
+**Priority:** Critical  
+**Risk:** High  
+
+**Acceptance Criteria:**
+- Customer can complete checkout with valid information.
+- A new order is created successfully.
+- The order contains the expected products and quantities.
+- The order total matches the validated checkout total.
+- Customer receives an appropriate order confirmation.
+- Invalid checkout conditions prevent order creation.
+- The resulting order is available through the customer's order history.
+
+**Dependencies:** Shopping cart, customer account, billing address, shipping address, shipping method, payment method, pricing, order management  
+**Source:** Test Scope, existing manual Checkout coverage  
+**Automation Candidate:** Yes  
+
+**Notes:**  
+Critical business transaction and primary end-to-end checkout automation candidate. Real financial transactions remain outside the automation scope.
