@@ -2760,3 +2760,234 @@ Customer accesses the order history or order details of an existing order.
 
 **Notes:**  
 Important post-purchase requirement for validating order lifecycle visibility from the customer's perspective.
+
+### ORDER-006 — Order History to Order Details Navigation
+
+**ID:** ORDER-006  
+**Title:** Order History to Order Details Navigation  
+**Domain:** Order Management — Customer Side  
+**Actor:** Authenticated Customer  
+
+**Requirement:**  
+The system shall allow an authenticated customer to navigate from their order history to the details of a selected order.
+
+**Preconditions:**
+- Customer is authenticated.
+- Customer has at least one existing order.
+- Order history is accessible.
+
+**Trigger:**  
+Customer selects an order from the order history.
+
+**Expected Behavior:**
+- The system opens the details of the selected order.
+- The displayed order corresponds to the order selected by the customer.
+- Order information is retained and displayed correctly.
+
+**Business Rules:**
+- Customer must only be able to navigate to orders belonging to their own account.
+- The selected order identifier must correspond to the displayed order details.
+- Unauthorized order access must be prevented.
+
+**Priority:** High  
+**Risk:** Medium  
+
+**Acceptance Criteria:**
+- Customer can select an order from order history.
+- The corresponding order details are displayed.
+- The correct order is opened.
+- Order information remains consistent between history and details.
+- Customer cannot navigate to another customer's order details.
+
+**Dependencies:** Customer authentication, order history, order details, order persistence  
+**Source:** Test Scope, existing manual Order History coverage  
+**Automation Candidate:** Yes  
+
+**Notes:**  
+Useful end-to-end navigation requirement validating the relationship between order listing and individual order details.
+
+### ORDER-007 — Customer Order Data Isolation
+
+**ID:** ORDER-007  
+**Title:** Customer Order Data Isolation  
+**Domain:** Order Management — Customer Side  
+**Actor:** Authenticated Customer  
+
+**Requirement:**  
+The system shall ensure that an authenticated customer can access only the orders associated with their own customer account.
+
+**Preconditions:**
+- At least two customer accounts exist.
+- Each customer has at least one order.
+- Customer is authenticated.
+
+**Trigger:**  
+Customer accesses order history, order details, or another order-related customer function.
+
+**Expected Behavior:**
+- The system displays only orders belonging to the authenticated customer.
+- Orders belonging to other customers are not exposed.
+- Unauthorized direct access to another customer's order is prevented.
+
+**Business Rules:**
+- Order data must be isolated between customer accounts.
+- Customer identity must be validated before accessing order information.
+- An order must be associated with exactly the appropriate customer account.
+
+**Priority:** Critical  
+**Risk:** High  
+
+**Acceptance Criteria:**
+- Customer can view their own orders.
+- Customer cannot view another customer's orders.
+- Another customer's order does not appear in the customer's order history.
+- Unauthorized access to another customer's order is prevented.
+- Order information remains associated with the correct customer account.
+
+**Dependencies:** Customer authentication, authorization, order history, order details, order persistence  
+**Source:** Test Scope, existing manual Order History coverage  
+**Automation Candidate:** Yes  
+
+**Notes:**  
+High-risk authorization and data-isolation requirement. This should receive both positive and negative regression coverage.
+
+### ORDER-008 — Order Information Consistency
+
+**ID:** ORDER-008  
+**Title:** Order Information Consistency  
+**Domain:** Order Management — Customer Side  
+**Actor:** Authenticated Customer  
+
+**Requirement:**  
+The system shall ensure that order information displayed to the customer remains consistent with the information captured and validated during checkout and order creation.
+
+**Preconditions:**
+- Customer is authenticated.
+- Customer has successfully completed checkout.
+- An order has been created successfully.
+
+**Trigger:**  
+Customer views the order through order history or order details.
+
+**Expected Behavior:**
+- Order information reflects the final checkout state.
+- Products and quantities match the submitted order.
+- Applicable prices, charges, and totals remain consistent.
+- Customer and delivery information corresponds to the created order.
+
+**Business Rules:**
+- Persisted order data must reflect the final validated checkout information.
+- Order totals must remain consistent with the order data.
+- Order information must not unexpectedly change after successful order creation.
+
+**Priority:** Critical  
+**Risk:** High  
+
+**Acceptance Criteria:**
+- Products displayed in the order match the products submitted during checkout.
+- Quantities remain correct.
+- Product prices and applicable charges are consistent with the completed order.
+- Final order total matches the confirmed checkout total.
+- Customer and shipping information correspond to the created order.
+- Order history and order details display consistent information.
+
+**Dependencies:** Checkout, shopping cart, pricing, shipping, customer account, order persistence, order history, order details  
+**Source:** Test Scope, existing manual Order Confirmation and Order History coverage  
+**Automation Candidate:** Yes  
+
+**Notes:**  
+Critical data-consistency requirement connecting checkout, order creation, persistence, and post-purchase order visibility.
+
+### ORDER-009 — Order Persistence
+
+**ID:** ORDER-009  
+**Title:** Order Persistence  
+**Domain:** Order Management — Customer Side  
+**Actor:** Customer  
+
+**Requirement:**  
+The system shall persist successfully created orders so that the order remains available after the customer completes checkout and accesses the order history.
+
+**Preconditions:**
+- Customer has completed checkout successfully.
+- An order has been created successfully.
+- Order persistence is available.
+
+**Trigger:**  
+Customer completes order placement and subsequently accesses the order history.
+
+**Expected Behavior:**
+- Successfully created order is persisted.
+- Persisted order remains associated with the correct customer.
+- Order can be retrieved from order history after supported navigation or session changes.
+- Persisted order information remains consistent with the created order.
+
+**Business Rules:**
+- Successfully created orders must not be lost after checkout completion.
+- Persisted orders must remain associated with the correct customer account.
+- Persisted order data must remain consistent with the original order.
+
+**Priority:** Critical  
+**Risk:** High  
+
+**Acceptance Criteria:**
+- Successfully placed order appears in order history.
+- Order remains available after page refresh or supported navigation.
+- Order remains associated with the correct customer.
+- Persisted order details match the original order.
+- Order is not duplicated unexpectedly as a result of supported navigation or refresh.
+
+**Dependencies:** Order creation, checkout, customer account, order history, order persistence  
+**Source:** Test Scope, existing manual Order History coverage  
+**Automation Candidate:** Yes  
+
+**Notes:**  
+Critical persistence requirement validating that a successful purchase results in durable and retrievable order data.
+
+### ORDER-010 — Order History Refresh Consistency
+
+**ID:** ORDER-010  
+**Title:** Order History Refresh Consistency  
+**Domain:** Order Management — Customer Side  
+**Actor:** Authenticated Customer  
+
+**Requirement:**  
+The system shall maintain consistent order history information when an authenticated customer refreshes the order history page or revisits the order history after a supported navigation.
+
+**Preconditions:**
+- Customer is authenticated.
+- Customer has at least one persisted order.
+- Order history is accessible.
+
+**Trigger:**  
+Customer refreshes the order history page or navigates away and returns to the order history.
+
+**Expected Behavior:**
+- Persisted orders remain available in the order history.
+- Order information remains consistent after refresh or supported navigation.
+- No valid order is unexpectedly removed or duplicated.
+- Order status and summary information remain consistent with the persisted order data.
+
+**Business Rules:**
+- Refreshing or revisiting order history must not create duplicate orders.
+- Persisted orders must remain associated with the correct customer.
+- Displayed order information must reflect the current persisted order state.
+
+**Priority:** High  
+**Risk:** High  
+
+**Acceptance Criteria:**
+- Existing orders remain visible after page refresh.
+- Order information remains consistent after supported navigation.
+- No unexpected duplicate orders are displayed.
+- Order status remains consistent with the persisted order state.
+- Orders belonging to other customers remain inaccessible.
+
+**Dependencies:** Order persistence, order history, customer authentication, customer account, order status  
+**Source:** Test Scope, existing manual Order History coverage  
+**Automation Candidate:** Yes  
+
+**Notes:**  
+Regression-focused requirement validating order persistence, session state, and customer-specific order visibility after navigation or refresh.
+
+## 8.Admin
