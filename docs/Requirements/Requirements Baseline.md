@@ -2524,3 +2524,239 @@ Customer confirms the order and completes the checkout process.
 
 **Notes:**  
 Critical business transaction and primary end-to-end checkout automation candidate. Real financial transactions remain outside the automation scope.
+
+## 7. Order
+### ORDER-001 — Order Placement
+
+**ID:** ORDER-001  
+**Title:** Order Placement  
+**Domain:** Order Management — Customer Side  
+**Actor:** Customer  
+
+**Requirement:**  
+The system shall create an order when an eligible customer successfully completes the checkout process with valid order information.
+
+**Preconditions:**
+- Customer has a valid cart.
+- Cart contains eligible products.
+- Required checkout information is valid.
+- Required shipping and payment methods are selected.
+- Checkout can be completed successfully.
+
+**Trigger:**  
+Customer confirms the order during checkout.
+
+**Expected Behavior:**
+- The system creates a new order.
+- The created order contains the expected products, quantities, customer information, shipping information, and applicable pricing.
+- The customer receives confirmation that the order has been placed.
+- The created order becomes available in the customer's order history.
+
+**Business Rules:**
+- An order must not be created when checkout validation fails.
+- Each successful checkout must create the appropriate order record.
+- Order information must reflect the final validated checkout state.
+- The created order must be associated with the correct customer.
+
+**Priority:** Critical  
+**Risk:** High  
+
+**Acceptance Criteria:**
+- Customer can place an order with valid checkout information.
+- A new order is created after successful checkout.
+- The order contains the correct products and quantities.
+- The order total matches the validated checkout total.
+- The order is associated with the correct customer.
+- Customer receives an order confirmation.
+- The order is visible in the customer's order history.
+
+**Dependencies:** Checkout, Shopping Cart, Customer Account, Product Catalog, Pricing, Shipping, Payment Integration Boundary, Order Management  
+**Source:** Test Scope, existing manual Order Confirmation and Order History coverage  
+**Automation Candidate:** Yes  
+
+**Notes:**  
+Critical business transaction connecting checkout completion with order creation and customer order history.
+
+### ORDER-002 — Order Confirmation
+
+**ID:** ORDER-002  
+**Title:** Order Confirmation  
+**Domain:** Order Management — Customer Side  
+**Actor:** Customer  
+
+**Requirement:**  
+The system shall provide the customer with confirmation after a valid order has been successfully placed.
+
+**Preconditions:**
+- Customer has completed checkout successfully.
+- An order has been created successfully.
+
+**Trigger:**  
+Order creation is completed successfully.
+
+**Expected Behavior:**
+- The customer is presented with an order confirmation.
+- The confirmation indicates that the order was successfully placed.
+- The confirmation provides the relevant order information.
+- The created order can be accessed through the customer's order history.
+
+**Business Rules:**
+- Confirmation must only be displayed after successful order creation.
+- Confirmation information must correspond to the created order.
+- A failed order creation must not be presented as a successful order.
+
+**Priority:** Critical  
+**Risk:** High  
+
+**Acceptance Criteria:**
+- Successful order placement results in an order confirmation.
+- Confirmation indicates successful order creation.
+- The displayed order information corresponds to the created order.
+- The order can subsequently be found in the customer's order history.
+- Failed order creation does not produce a false success confirmation.
+
+**Dependencies:** Order placement, checkout, order history, customer account  
+**Source:** Test Scope, existing manual Order Confirmation coverage  
+**Automation Candidate:** Yes  
+
+**Notes:**  
+Critical post-purchase validation point confirming the transition from checkout to a successfully created order.
+
+### ORDER-003 — Order History
+
+**ID:** ORDER-003  
+**Title:** Order History  
+**Domain:** Order Management — Customer Side  
+**Actor:** Authenticated Customer  
+
+**Requirement:**  
+The system shall allow authenticated customers to view the orders associated with their customer account.
+
+**Preconditions:**
+- Customer account exists.
+- Customer is authenticated.
+- Customer has at least one existing order.
+
+**Trigger:**  
+Customer accesses the order history section of the account.
+
+**Expected Behavior:**
+- The system displays the customer's previous orders.
+- Each order displays the applicable summary information.
+- Orders are associated with the correct customer account.
+- Customer can access an order from the order history.
+
+**Business Rules:**
+- Customers must only be able to view orders associated with their own account.
+- Order history must reflect the current persisted order data.
+- Orders must not be exposed between different customer accounts.
+
+**Priority:** High  
+**Risk:** High  
+
+**Acceptance Criteria:**
+- Authenticated customer can access order history.
+- Existing customer orders are displayed.
+- Order summary information is displayed correctly.
+- Orders belong to the authenticated customer.
+- Customer can select an order from the history.
+- Another customer's orders are not accessible.
+
+**Dependencies:** Customer authentication, customer account, order placement, order persistence, order details  
+**Source:** Test Scope, existing manual Order History coverage  
+**Automation Candidate:** Yes  
+
+**Notes:**  
+Important customer-account requirement validating post-purchase visibility and customer order-data isolation.
+
+### ORDER-004 — Order Details
+
+**ID:** ORDER-004  
+**Title:** Order Details  
+**Domain:** Order Management — Customer Side  
+**Actor:** Authenticated Customer  
+
+**Requirement:**  
+The system shall allow authenticated customers to view the details of an order associated with their customer account.
+
+**Preconditions:**
+- Customer account exists.
+- Customer is authenticated.
+- Customer has at least one existing order.
+
+**Trigger:**  
+Customer selects an order from the order history.
+
+**Expected Behavior:**
+- The system displays the selected order details.
+- Order information corresponds to the selected order.
+- Products, quantities, pricing, and applicable order information are displayed correctly.
+- The order remains associated with the authenticated customer.
+
+**Business Rules:**
+- Customers must only access their own order details.
+- Displayed information must reflect the persisted order data.
+- Order details must correspond to the selected order from the customer's history.
+
+**Priority:** High  
+**Risk:** High  
+
+**Acceptance Criteria:**
+- Customer can open an order from order history.
+- Correct order details are displayed.
+- Products and quantities are displayed correctly.
+- Order pricing and totals are displayed correctly.
+- The displayed order belongs to the authenticated customer.
+- Customer cannot access another customer's order details.
+
+**Dependencies:** Customer authentication, order history, order persistence, order placement, customer account  
+**Source:** Test Scope, existing manual Order History coverage  
+**Automation Candidate:** Yes  
+
+**Notes:**  
+Validates the transition from order history to detailed post-purchase information and customer data isolation.
+
+### ORDER-005 — Order Status Visibility
+
+**ID:** ORDER-005  
+**Title:** Order Status Visibility  
+**Domain:** Order Management — Customer Side  
+**Actor:** Authenticated Customer  
+
+**Requirement:**  
+The system shall allow authenticated customers to view the current status of orders associated with their customer account.
+
+**Preconditions:**
+- Customer account exists.
+- Customer is authenticated.
+- Customer has at least one existing order.
+
+**Trigger:**  
+Customer accesses the order history or order details of an existing order.
+
+**Expected Behavior:**
+- The current order status is displayed.
+- The displayed status corresponds to the persisted status of the order.
+- The customer can identify the status of their order from the available order information.
+
+**Business Rules:**
+- Customers must only be able to view the status of their own orders.
+- Displayed status must reflect the current order state.
+- Order status must use the statuses configured by the application.
+
+**Priority:** High  
+**Risk:** High  
+
+**Acceptance Criteria:**
+- Customer can view the status of an existing order.
+- The displayed status is correct.
+- Order status is consistent between order history and order details where applicable.
+- Status changes are reflected according to the application's behavior.
+- Customer cannot view the status of another customer's order.
+
+**Dependencies:** Customer authentication, order history, order details, order management, order persistence  
+**Source:** Test Scope, existing manual Order Status coverage  
+**Automation Candidate:** Yes  
+
+**Notes:**  
+Important post-purchase requirement for validating order lifecycle visibility from the customer's perspective.
