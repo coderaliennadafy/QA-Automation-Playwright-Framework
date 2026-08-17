@@ -4025,3 +4025,51 @@ Administrator performs a supported management action on an order.
 
 **Notes:**  
 Critical workflow requirement covering the administrative lifecycle of orders. Specific workflow actions should be mapped to the exact capabilities enabled in the target nopCommerce environment rather than assuming every possible administrative action is enabled.
+
+### ADMIN-022 — Customer/Order Relationship Validation
+
+**ID:** ADMIN-022  
+**Title:** Customer/Order Relationship Validation  
+**Domain:** Administration — Order Management  
+**Actor:** Administrator  
+
+**Requirement:**  
+The system shall maintain a correct relationship between customers and their associated orders and shall display the correct customer information for each order.
+
+**Preconditions:**
+- Administrator is authenticated.
+- Administrator has permission to manage orders and customers.
+- At least one customer has an existing order.
+
+**Trigger:**  
+Administrator opens an order or accesses customer-related order information.
+
+**Expected Behavior:**
+- The system identifies the customer associated with the selected order.
+- Customer information displayed for the order corresponds to the correct customer account.
+- The order is associated with the correct customer in the administration interface.
+- Inconsistent or invalid customer/order relationships are not presented as valid.
+
+**Business Rules:**
+- Each customer order must remain associated with the correct customer account.
+- An administrator must be able to identify the customer associated with an order.
+- Order information must not incorrectly reference another customer.
+- Customer/order relationships must remain consistent after supported order-management operations.
+
+**Priority:** Critical  
+**Risk:** High  
+
+**Acceptance Criteria:**
+- Administrator can identify the customer associated with an order.
+- Displayed customer information matches the order's persisted customer relationship.
+- Orders belonging to different customers are not incorrectly associated.
+- Customer/order relationship remains consistent after supported order updates.
+- Order history and customer-related order information remain consistent where applicable.
+- Invalid customer/order relationships are not exposed as valid data.
+
+**Dependencies:** Customer management, order management, order persistence, customer accounts, administrator authentication  
+**Source:** nopCommerce Admin Area — Customer & Order Management, Test Scope  
+**Automation Candidate:** Yes  
+
+**Notes:**  
+Critical data-integrity requirement connecting Customer Management and Order Management. This should include cross-entity validation and negative scenarios because incorrect relationships can expose customer data or produce incorrect operational records.
