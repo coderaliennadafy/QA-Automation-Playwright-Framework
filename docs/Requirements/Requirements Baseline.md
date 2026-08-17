@@ -4073,3 +4073,308 @@ Administrator opens an order or accesses customer-related order information.
 
 **Notes:**  
 Critical data-integrity requirement connecting Customer Management and Order Management. This should include cross-entity validation and negative scenarios because incorrect relationships can expose customer data or produce incorrect operational records.
+
+## 9. Promotions & Pricing
+
+### PROMO-001 — Product Pricing
+
+**ID:** PROMO-001  
+**Title:** Product Pricing  
+**Domain:** Promotions & Pricing  
+**Actor:** Customer  
+
+**Requirement:**  
+The system shall display the applicable product price to customers based on the configured pricing rules.
+
+**Preconditions:**
+- Product exists and is visible to customers.
+- Product pricing is configured.
+- Customer can access the product.
+
+**Trigger:**  
+Customer views a product or adds the product to the shopping journey.
+
+**Expected Behavior:**
+- The applicable product price is displayed correctly.
+- The displayed price reflects the configured product pricing.
+- The applicable price remains consistent across supported product views.
+- The configured price is used in subsequent pricing calculations.
+
+**Business Rules:**
+- Customer-facing product prices must reflect the applicable configured price.
+- The correct price must be associated with the selected product.
+- Where applicable, configured variant or customer-specific pricing rules must be respected.
+- Displayed pricing must remain consistent with the price used in the shopping journey.
+
+**Priority:** High  
+**Risk:** High  
+
+**Acceptance Criteria:**
+- Customer can view the configured price for a product.
+- The displayed price matches the applicable configured product price.
+- Product listing and product details display the applicable price consistently.
+- Applicable variant pricing is reflected where configured.
+- The applicable product price is correctly carried into subsequent cart and checkout calculations.
+
+**Dependencies:** Product catalog, product configuration, product variants, cart, checkout, pricing configuration  
+**Source:** Test Scope — Promotions & Pricing  
+**Automation Candidate:** Yes  
+
+**Notes:**  
+Pricing is business-critical because the product price is used downstream by cart, checkout, and order calculations. This requirement focuses on the correctness and consistency of the applicable product price; discount and coupon behavior are covered separately.
+
+### PROMO-002 — Discount Application
+
+**ID:** PROMO-002  
+**Title:** Discount Application  
+**Domain:** Promotions & Pricing  
+**Actor:** Customer  
+
+**Requirement:**  
+The system shall apply applicable product or order discounts according to the configured promotion rules.
+
+**Preconditions:**
+- Product or order is eligible for a configured discount.
+- Discount rules are configured and active.
+- Customer can access the applicable product or shopping journey.
+
+**Trigger:**  
+Customer views, adds, or purchases an item that qualifies for a configured discount.
+
+**Expected Behavior:**
+- The system identifies applicable discounts.
+- The eligible discount is applied correctly.
+- The discounted price or total is displayed to the customer.
+- The discount is reflected in subsequent cart and checkout calculations.
+
+**Business Rules:**
+- Discounts must only be applied when their configured eligibility conditions are satisfied.
+- Ineligible products or orders must not receive the discount.
+- Discount calculations must follow the configured promotion rules.
+- The same discount must not be incorrectly applied multiple times.
+
+**Priority:** High  
+**Risk:** High  
+
+**Acceptance Criteria:**
+- Eligible products or orders receive the configured discount.
+- Ineligible products or orders do not receive the discount.
+- The calculated discount amount is correct.
+- The discounted price or total is displayed correctly.
+- The discount is reflected correctly in the shopping cart.
+- The discount is reflected correctly during checkout.
+- Discount behavior remains consistent through the order journey.
+
+**Dependencies:** Product catalog, pricing configuration, shopping cart, checkout, promotion configuration  
+**Source:** Test Scope — Promotions & Pricing  
+**Automation Candidate:** Yes  
+
+**Notes:**  
+High-value pricing requirement because incorrect discount application can directly affect customer-facing prices and order totals. Positive, negative, boundary, and regression scenarios should be covered.
+
+### PROMO-003 — Coupon Application
+
+**ID:** PROMO-003  
+**Title:** Coupon Application  
+**Domain:** Promotions & Pricing  
+**Actor:** Customer  
+
+**Requirement:**  
+The system shall allow customers to apply an eligible coupon code and shall apply the corresponding configured discount according to the coupon rules.
+
+**Preconditions:**
+- A coupon code is configured and active.
+- The coupon is applicable to the customer's cart or order.
+- Customer has access to the shopping cart or checkout.
+
+**Trigger:**  
+Customer enters and submits a coupon code.
+
+**Expected Behavior:**
+- The system validates the submitted coupon code.
+- A valid and eligible coupon is applied successfully.
+- The corresponding discount is reflected in the cart or order total.
+- An invalid or ineligible coupon is rejected with appropriate feedback.
+- The customer can continue the shopping or checkout process according to the configured rules.
+
+**Business Rules:**
+- Only valid and active coupon codes can be applied.
+- Coupon eligibility rules must be respected.
+- Expired, invalid, or ineligible coupons must not provide a discount.
+- The coupon discount must be calculated according to its configured rules.
+- A coupon must not be incorrectly applied more than once when the configured rules prohibit multiple applications.
+
+**Priority:** High  
+**Risk:** High  
+
+**Acceptance Criteria:**
+- Customer can enter a coupon code.
+- A valid eligible coupon is accepted.
+- The correct discount is applied.
+- The updated cart/order total reflects the coupon discount.
+- Invalid coupon codes are rejected.
+- Expired or ineligible coupons are rejected.
+- Appropriate feedback is displayed when a coupon cannot be applied.
+- Coupon behavior remains consistent through checkout.
+
+**Dependencies:** Shopping cart, checkout, pricing configuration, promotion configuration, coupon configuration  
+**Source:** Test Scope — Promotions & Pricing  
+**Automation Candidate:** Yes  
+
+**Notes:**  
+High-value pricing requirement because coupon behavior directly affects the amount paid by the customer. Positive, negative, expired-coupon, eligibility, and calculation scenarios should be covered.
+
+### PROMO-004 — Tier Pricing
+
+**ID:** PROMO-004  
+**Title:** Tier Pricing  
+**Domain:** Promotions & Pricing  
+**Actor:** Customer  
+
+**Requirement:**  
+The system shall apply configured tier pricing when a customer purchases a quantity that meets the defined tier-pricing conditions.
+
+**Preconditions:**
+- Tier pricing is configured for the product.
+- The product is available for purchase.
+- Customer can add the product to the shopping cart.
+- The configured quantity thresholds are available.
+
+**Trigger:**  
+Customer adds a quantity of the product that meets or exceeds a configured tier-pricing threshold.
+
+**Expected Behavior:**
+- The system determines the applicable pricing tier.
+- The corresponding tier price is applied.
+- The applicable unit price and cart total are updated correctly.
+- The tier price is reflected in subsequent checkout calculations.
+
+**Business Rules:**
+- Tier pricing is applied only when the configured quantity conditions are satisfied.
+- Quantities below a tier threshold must use the applicable lower-tier or standard price.
+- The correct tier must be selected when multiple quantity thresholds exist.
+- Tier pricing must follow the configured pricing rules.
+
+**Priority:** Medium  
+**Risk:** Medium  
+
+**Acceptance Criteria:**
+- Customer receives the configured tier price when the required quantity is reached.
+- Quantity below the threshold does not incorrectly receive the tier price.
+- The correct price is applied when multiple tiers are configured.
+- The updated unit price is displayed correctly.
+- Cart totals reflect the applicable tier price.
+- Checkout totals remain consistent with the tier pricing.
+- Tier pricing is not applied to products where it is not configured.
+
+**Dependencies:** Product catalog, product pricing, shopping cart, checkout, tier-pricing configuration  
+**Source:** Test Scope — Promotions & Pricing  
+**Automation Candidate:** Yes  
+
+**Notes:**  
+Tier pricing is conditional functionality and should be tested primarily where it is configured. Boundary tests around each quantity threshold are particularly important.
+
+### PROMO-005 — Promotional Pricing Validation
+
+**ID:** PROMO-005  
+**Title:** Promotional Pricing Validation  
+**Domain:** Promotions & Pricing  
+**Actor:** Customer  
+
+**Requirement:**  
+The system shall validate and display promotional pricing according to the configured promotion rules and eligibility conditions.
+
+**Preconditions:**
+- A promotional price is configured for an eligible product.
+- The promotion is active.
+- Customer can access the applicable product.
+
+**Trigger:**  
+Customer views or purchases a product that is subject to a configured promotional price.
+
+**Expected Behavior:**
+- The system determines whether the product qualifies for the promotion.
+- The applicable promotional price is displayed correctly.
+- The promotional price replaces or adjusts the standard price according to the configured rules.
+- The promotional price is reflected correctly in cart and checkout calculations.
+
+**Business Rules:**
+- Promotional pricing must only apply when the configured eligibility conditions are satisfied.
+- Products outside the promotion conditions must retain their applicable standard price.
+- Promotional pricing must respect configured start/end dates where applicable.
+- The promotional price must not be incorrectly combined with other pricing rules when such combination is not permitted.
+
+**Priority:** High  
+**Risk:** High  
+
+**Acceptance Criteria:**
+- Eligible products display the configured promotional price.
+- Ineligible products do not receive the promotional price.
+- Promotional pricing is correctly applied during the active promotion period.
+- Promotional pricing is not incorrectly applied outside the configured promotion period.
+- The correct price is reflected in the shopping cart.
+- The correct price is reflected during checkout.
+- Promotional pricing remains consistent throughout the shopping journey.
+
+**Dependencies:** Product catalog, product pricing, shopping cart, checkout, promotion configuration  
+**Source:** Test Scope — Promotions & Pricing  
+**Automation Candidate:** Yes  
+
+**Notes:**  
+High-value pricing requirement. Boundary testing around promotion start/end conditions and negative testing for ineligible products are important.
+
+### PROMO-006 — Price Calculation Throughout Shopping Journey
+
+**ID:** PROMO-006  
+**Title:** Price Calculation Throughout Shopping Journey  
+**Domain:** Promotions & Pricing  
+**Actor:** Customer  
+
+**Requirement:**  
+The system shall calculate and maintain accurate product and order pricing throughout the customer shopping journey, from product selection through cart and checkout.
+
+**Preconditions:**
+- Product exists and is available for purchase.
+- Product pricing is configured.
+- Customer can add the product to the shopping cart.
+- Applicable pricing rules are configured.
+
+**Trigger:**  
+Customer adds a product to the cart and proceeds through the shopping journey.
+
+**Expected Behavior:**
+- The product price is calculated correctly.
+- Cart item prices reflect the applicable pricing rules.
+- Discounts, coupons, tier pricing, and promotional pricing are reflected where applicable.
+- Cart totals are calculated correctly.
+- Checkout totals remain consistent with the applicable cart pricing.
+- The final order total reflects the correct applicable pricing.
+
+**Business Rules:**
+- Pricing calculations must use the applicable configured pricing rules.
+- Prices must remain consistent between product details, cart, checkout, and order confirmation.
+- Applicable discounts and promotions must be reflected in the calculated totals.
+- Pricing must not change unexpectedly during the shopping journey.
+- The final order amount must correspond to the applicable calculated price.
+
+**Priority:** Critical  
+**Risk:** Critical  
+
+**Acceptance Criteria:**
+- Product price is calculated correctly when the product is selected.
+- Cart item price matches the applicable product pricing.
+- Applicable discounts are reflected correctly.
+- Applicable coupons are reflected correctly.
+- Applicable tier pricing is reflected correctly.
+- Promotional pricing is reflected correctly.
+- Cart subtotal and total are calculated correctly.
+- Checkout pricing matches the applicable cart pricing.
+- Order confirmation reflects the correct final amount.
+- No unexpected price discrepancy occurs between product, cart, checkout, and order confirmation.
+
+**Dependencies:** Product pricing, discounts, coupons, tier pricing, promotional pricing, shopping cart, checkout, order creation  
+**Source:** Test Scope — Promotions & Pricing  
+**Automation Candidate:** Yes  
+
+**Notes:**  
+Critical end-to-end pricing requirement. This requirement validates the consistency of pricing across the complete shopping journey rather than testing one specific pricing rule. It should be covered heavily by regression and end-to-end automation.
