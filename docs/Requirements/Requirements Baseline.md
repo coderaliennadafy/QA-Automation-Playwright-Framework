@@ -2525,7 +2525,7 @@ Customer confirms the order and completes the checkout process.
 **Notes:**  
 Critical business transaction and primary end-to-end checkout automation candidate. Real financial transactions remain outside the automation scope.
 
-## 7. Order
+## 7. Order Management
 ### ORDER-001 — Order Placement
 
 **ID:** ORDER-001  
