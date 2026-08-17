@@ -3470,3 +3470,558 @@ Administrator creates, updates, publishes, or changes the configuration of a pro
 
 **Notes:**  
 Important catalog-management requirement because category configuration directly affects product organization and customer product discovery.
+
+### ADMIN-011 — Product Availability Configuration
+
+**ID:** ADMIN-011  
+**Title:** Product Availability Configuration  
+**Domain:** Administration — Product & Catalog Management  
+**Actor:** Administrator  
+
+**Requirement:**  
+The system shall allow an authorized administrator to configure the availability settings of a product according to the supported catalog and publication rules.
+
+**Preconditions:**
+- Administrator is authenticated.
+- Administrator has permission to manage products.
+- The product exists.
+- Product availability configuration is accessible.
+
+**Trigger:**  
+Administrator updates the product's availability settings and saves the changes.
+
+**Expected Behavior:**
+- The system validates the configured availability information.
+- Valid availability settings are saved successfully.
+- The updated configuration is persisted.
+- Product availability reflects the configured settings in applicable storefront functionality.
+
+**Business Rules:**
+- Only authorized administrators can modify product availability settings.
+- Availability configuration must follow the supported product rules.
+- A product configured as unavailable must not be presented as normally available for purchase.
+- Availability changes must apply to the correct product.
+
+**Priority:** High  
+**Risk:** High  
+
+**Acceptance Criteria:**
+- Authorized administrator can access product availability settings.
+- Valid availability settings can be saved successfully.
+- Invalid availability configuration is rejected appropriately.
+- Updated availability settings persist after saving.
+- Storefront behavior reflects the configured product availability.
+- Unavailable products cannot be treated as normally purchasable where the configured rules prohibit purchase.
+- Unauthorized users cannot modify product availability settings.
+
+**Dependencies:** Administrator authentication, product permissions, product catalog, product publication, inventory configuration  
+**Source:** nopCommerce Admin Area — Product Management, Test Scope  
+**Automation Candidate:** Yes  
+
+**Notes:**  
+Important catalog requirement because availability configuration directly affects whether customers can discover and purchase products.
+
+### ADMIN-012 — Inventory-Related Configuration
+
+**ID:** ADMIN-012  
+**Title:** Inventory-Related Configuration  
+**Domain:** Administration — Product & Catalog Management  
+**Actor:** Administrator  
+
+**Requirement:**  
+The system shall allow an authorized administrator to configure the supported inventory-related settings of a product.
+
+**Preconditions:**
+- Administrator is authenticated.
+- Administrator has permission to manage products.
+- The product exists.
+- Inventory configuration is available for the product.
+
+**Trigger:**  
+Administrator updates the product's inventory-related settings and saves the changes.
+
+**Expected Behavior:**
+- The system validates the submitted inventory configuration.
+- Valid inventory settings are saved successfully.
+- The updated configuration is persisted.
+- Applicable product availability and purchasing behavior reflect the configured inventory settings.
+
+**Business Rules:**
+- Only authorized administrators can modify inventory-related configuration.
+- Inventory settings must comply with the configured product inventory rules.
+- Inventory-related configuration must apply to the correct product.
+- Product purchasing and availability behavior must respect applicable inventory constraints.
+
+**Priority:** High  
+**Risk:** High  
+
+**Acceptance Criteria:**
+- Authorized administrator can access inventory-related product settings.
+- Valid inventory configuration can be saved successfully.
+- Invalid inventory configuration is rejected appropriately.
+- Updated inventory settings persist after saving.
+- Applicable storefront behavior reflects the configured inventory state.
+- Inventory constraints are respected when customers interact with the product.
+- Unauthorized users cannot modify inventory-related configuration.
+
+**Dependencies:** Administrator authentication, product permissions, product catalog, product availability, inventory configuration  
+**Source:** nopCommerce Admin Area — Product Management, Test Scope  
+**Automation Candidate:** Yes  
+
+**Notes:**  
+High-value catalog requirement because inventory configuration can directly affect product availability and purchasing behavior.
+
+### ADMIN-013 — Customer Search
+
+**ID:** ADMIN-013  
+**Title:** Customer Search  
+**Domain:** Administration — Customer Management  
+**Actor:** Administrator  
+
+**Requirement:**  
+The system shall allow an authorized administrator to search for customer accounts using supported customer search criteria.
+
+**Preconditions:**
+- Administrator is authenticated.
+- Administrator has permission to manage customers.
+- Customer management functionality is available.
+- Customer records exist or the search can return an empty result.
+
+**Trigger:**  
+Administrator submits a customer search using one or more supported search criteria.
+
+**Expected Behavior:**
+- The system validates the supplied search criteria.
+- Matching customer records are returned.
+- Search results contain only customers matching the specified criteria.
+- An appropriate empty-result state is displayed when no customers match.
+
+**Business Rules:**
+- Only authorized administrators can access customer search functionality.
+- Search results must reflect the current customer data.
+- Search criteria must be applied according to the supported customer-search rules.
+- Customer records must not be exposed outside the administrator's authorized access.
+
+**Priority:** High  
+**Risk:** High  
+
+**Acceptance Criteria:**
+- Authorized administrator can access customer search.
+- Administrator can search using supported search criteria.
+- Matching customers are returned correctly.
+- Non-matching customers are excluded from the results.
+- Searching with no matching customer displays an appropriate empty-result state.
+- Search results reflect the correct customer information.
+- Unauthorized users cannot access customer search functionality.
+
+**Dependencies:** Administrator authentication, customer permissions, customer records, customer management  
+**Source:** nopCommerce Admin Area — Customer Management, Test Scope  
+**Automation Candidate:** Yes  
+
+**Notes:**  
+High-value administration requirement because customer search is a common entry point for customer support, account management, and order investigation workflows.
+
+### ADMIN-014 — Customer Creation & Editing
+
+**ID:** ADMIN-014  
+**Title:** Customer Creation & Editing  
+**Domain:** Administration — Customer Management  
+**Actor:** Administrator  
+
+**Requirement:**  
+The system shall allow an authorized administrator to create and update customer accounts using the supported customer management functionality.
+
+**Preconditions:**
+- Administrator is authenticated.
+- Administrator has permission to manage customers.
+- Customer management functionality is available.
+- For editing, the customer account exists.
+
+**Trigger:**  
+Administrator submits a valid customer creation or customer update operation.
+
+**Expected Behavior:**
+- The system validates the submitted customer information.
+- Valid customer information creates a new customer or updates the selected customer.
+- Invalid or incomplete information prevents the operation where required.
+- Changes are persisted successfully.
+
+**Business Rules:**
+- Only authorized administrators can create or modify customer accounts.
+- Required customer information must satisfy applicable validation rules.
+- Customer updates must apply to the selected customer account.
+- Customer role and status information must follow the configured rules.
+
+**Priority:** High  
+**Risk:** High  
+
+**Acceptance Criteria:**
+- Authorized administrator can access customer management.
+- Administrator can create a valid customer account where supported.
+- Administrator can edit an existing customer account.
+- Required customer information is validated.
+- Invalid customer information is rejected appropriately.
+- Valid changes are persisted successfully.
+- Updated customer information is displayed correctly after saving.
+- Unauthorized users cannot create or modify customer accounts.
+
+**Dependencies:** Administrator authentication, customer permissions, customer records, customer roles, customer status, validation rules  
+**Source:** nopCommerce Admin Area — Customer Management, Test Scope  
+**Automation Candidate:** Yes  
+
+**Notes:**  
+High-value administration requirement covering customer lifecycle management. Creation and editing should be covered separately within the automated test suite where their validation rules differ.
+
+### ADMIN-015 — Customer Roles
+
+**ID:** ADMIN-015  
+**Title:** Customer Roles  
+**Domain:** Administration — Customer Management  
+**Actor:** Administrator  
+
+**Requirement:**  
+The system shall allow an authorized administrator to assign and manage customer roles according to the configured role and permission rules.
+
+**Preconditions:**
+- Administrator is authenticated.
+- Administrator has permission to manage customers and customer roles.
+- Customer account exists.
+- Available customer roles are configured.
+
+**Trigger:**  
+Administrator assigns, removes, or updates a customer role and saves the changes.
+
+**Expected Behavior:**
+- The system validates the requested role assignment.
+- Valid role changes are saved successfully.
+- The customer's assigned roles are persisted.
+- Applicable permissions and customer behavior reflect the updated role configuration.
+
+**Business Rules:**
+- Only authorized administrators can manage customer roles.
+- A customer may only receive roles that are available and permitted by the system configuration.
+- Role changes must apply to the correct customer account.
+- Permissions associated with a role must be enforced according to the configured access-control rules.
+
+**Priority:** High  
+**Risk:** High  
+
+**Acceptance Criteria:**
+- Authorized administrator can view the customer's assigned roles.
+- Administrator can assign an available customer role.
+- Administrator can remove an applicable customer role.
+- Valid role changes are persisted successfully.
+- Updated roles are displayed correctly after saving.
+- Role-associated permissions are enforced after the role change.
+- Unauthorized administrators cannot manage customer roles.
+
+**Dependencies:** Administrator authentication, customer management, customer roles, ACL/permissions, customer account  
+**Source:** nopCommerce Admin Area — Customer Management / Customer Roles, Test Scope  
+**Automation Candidate:** Yes  
+
+**Notes:**  
+High-value authorization requirement because incorrect customer-role configuration can result in excessive or insufficient permissions.
+
+### ADMIN-016 — Customer Status Management
+
+**ID:** ADMIN-016  
+**Title:** Customer Status Management  
+**Domain:** Administration — Customer Management  
+**Actor:** Administrator  
+
+**Requirement:**  
+The system shall allow an authorized administrator to manage the supported status of a customer account.
+
+**Preconditions:**
+- Administrator is authenticated.
+- Administrator has permission to manage customers.
+- Customer account exists.
+- Customer status management is available.
+
+**Trigger:**  
+Administrator updates the customer's status and saves the change.
+
+**Expected Behavior:**
+- The system validates the requested status change.
+- A valid status change is saved successfully.
+- The updated status is persisted.
+- Customer access or functionality reflects the configured status where applicable.
+
+**Business Rules:**
+- Only authorized administrators can modify customer status.
+- Status changes must apply to the correct customer account.
+- Customer behavior must respect the configured account status.
+- Invalid or unsupported status changes must not be persisted.
+
+**Priority:** High  
+**Risk:** High  
+
+**Acceptance Criteria:**
+- Authorized administrator can view the current customer status.
+- Administrator can change the supported customer status.
+- Valid status changes are saved successfully.
+- Updated status persists after saving and refreshing.
+- Applicable customer behavior reflects the configured status.
+- Invalid or unsupported status changes are rejected.
+- Unauthorized users cannot modify customer status.
+
+**Dependencies:** Administrator authentication, customer management, customer account, customer roles, account status configuration  
+**Source:** nopCommerce Admin Area — Customer Management, Test Scope  
+**Automation Candidate:** Yes  
+
+**Notes:**  
+High-value customer-management requirement because account status can affect customer access and supported account functionality.
+
+### ADMIN-017 — Customer Information Management
+
+**ID:** ADMIN-017  
+**Title:** Customer Information Management  
+**Domain:** Administration — Customer Management  
+**Actor:** Administrator  
+
+**Requirement:**  
+The system shall allow an authorized administrator to view and manage supported customer account information.
+
+**Preconditions:**
+- Administrator is authenticated.
+- Administrator has permission to manage customers.
+- Customer account exists.
+
+**Trigger:**  
+Administrator opens or updates a customer's account information.
+
+**Expected Behavior:**
+- The system displays the customer's current information.
+- Administrator can update supported customer information.
+- The system validates submitted changes.
+- Valid changes are persisted successfully.
+- Updated information is reflected wherever the customer data is used.
+
+**Business Rules:**
+- Only authorized administrators can access customer account information.
+- Customer updates must apply to the selected customer account.
+- Required customer information must satisfy applicable validation rules.
+- Customer information must remain associated with the correct customer account.
+
+**Priority:** High  
+**Risk:** High  
+
+**Acceptance Criteria:**
+- Authorized administrator can view customer information.
+- Customer information is displayed accurately.
+- Administrator can update supported customer information.
+- Required fields are validated.
+- Invalid customer information is rejected appropriately.
+- Valid changes are persisted successfully.
+- Updated information is displayed correctly after saving.
+- Unauthorized users cannot access or modify protected customer information.
+
+**Dependencies:** Administrator authentication, customer management, customer account, customer validation, customer roles  
+**Source:** nopCommerce Admin Area — Customer Management, Test Scope  
+**Automation Candidate:** Yes  
+
+**Notes:**  
+Important customer-management requirement covering administrative access to customer data and ensuring correct persistence and authorization.
+
+### ADMIN-018 — Order Search
+
+**ID:** ADMIN-018  
+**Title:** Order Search  
+**Domain:** Administration — Order Management  
+**Actor:** Administrator  
+
+**Requirement:**  
+The system shall allow an authorized administrator to search for and filter orders using supported order search criteria.
+
+**Preconditions:**
+- Administrator is authenticated.
+- Administrator has permission to manage orders.
+- Order management functionality is available.
+- Orders exist or the search may return no results.
+
+**Trigger:**  
+Administrator submits an order search using one or more supported criteria.
+
+**Expected Behavior:**
+- The system applies the supplied search criteria.
+- Matching orders are returned.
+- Non-matching orders are excluded.
+- An appropriate empty-result state is displayed when no orders match.
+
+**Business Rules:**
+- Only authorized administrators can access order search functionality.
+- Search results must reflect the current persisted order data.
+- Search criteria must be applied according to the supported order-search rules.
+- Administrator must only access orders within their authorized scope.
+
+**Priority:** High  
+**Risk:** High  
+
+**Acceptance Criteria:**
+- Authorized administrator can access order search.
+- Administrator can search using supported order criteria.
+- Matching orders are returned correctly.
+- Non-matching orders are excluded.
+- No-result searches display an appropriate empty state.
+- Search results contain accurate order information.
+- Unauthorized users cannot access order search functionality.
+
+**Dependencies:** Administrator authentication, order permissions, order management, order persistence  
+**Source:** nopCommerce Admin Area — Order Management, Test Scope  
+**Automation Candidate:** Yes  
+
+**Notes:**  
+High-value administration requirement because order search is a primary entry point for order investigation, customer support, and order-management workflows.
+
+### ADMIN-019 — Order Details
+
+**ID:** ADMIN-019  
+**Title:** Order Details  
+**Domain:** Administration — Order Management  
+**Actor:** Administrator  
+
+**Requirement:**  
+The system shall allow an authorized administrator to view the details of an order and access the information required to manage that order.
+
+**Preconditions:**
+- Administrator is authenticated.
+- Administrator has permission to manage orders.
+- The order exists.
+- The order is accessible through the administration area.
+
+**Trigger:**  
+Administrator selects an order from the order management interface.
+
+**Expected Behavior:**
+- The system displays the selected order details.
+- Order information corresponds to the selected order.
+- Products, quantities, pricing, customer, billing, shipping, and applicable order information are displayed according to the administrator's permissions.
+- The administrator can access supported order-management actions.
+
+**Business Rules:**
+- Only authorized administrators can access order details.
+- Displayed information must correspond to the selected persisted order.
+- Administrator must not access order information outside the permitted scope.
+- Order details must remain consistent with the persisted order data.
+
+**Priority:** Critical  
+**Risk:** High  
+
+**Acceptance Criteria:**
+- Authorized administrator can open an order from the order-management interface.
+- Correct order details are displayed.
+- Products and quantities are displayed correctly.
+- Customer information is associated with the correct order.
+- Billing and shipping information are displayed correctly where applicable.
+- Order pricing and totals are displayed consistently.
+- Available order-management actions respect administrator permissions.
+- Unauthorized users cannot access protected order details.
+
+**Dependencies:** Administrator authentication, order search, order persistence, customer management, product catalog, shipping, payment information  
+**Source:** nopCommerce Admin Area — Order Management, Test Scope  
+**Automation Candidate:** Yes  
+
+**Notes:**  
+Critical administration requirement because order details connect customer, product, pricing, shipping, and order-management information in a single operational view.
+
+### ADMIN-020 — Order Status Management
+
+**ID:** ADMIN-020  
+**Title:** Order Status Management  
+**Domain:** Administration — Order Management  
+**Actor:** Administrator  
+
+**Requirement:**  
+The system shall allow an authorized administrator to view and manage the supported status of an order according to the configured order-management workflow.
+
+**Preconditions:**
+- Administrator is authenticated.
+- Administrator has permission to manage orders.
+- Order exists.
+- Order is accessible from the administration area.
+
+**Trigger:**  
+Administrator updates the order status and saves the change.
+
+**Expected Behavior:**
+- The system validates the requested status change.
+- A valid status change is persisted successfully.
+- The updated status is displayed in the administration area.
+- The order reflects the new status in applicable customer-facing functionality.
+
+**Business Rules:**
+- Only authorized administrators can modify order status.
+- Status changes must apply to the correct order.
+- Only supported order statuses may be assigned.
+- Order status must remain consistent across applicable order-management views.
+
+**Priority:** Critical  
+**Risk:** High  
+
+**Acceptance Criteria:**
+- Authorized administrator can view the current order status.
+- Administrator can update the supported order status.
+- Valid status changes are saved successfully.
+- Updated status persists after refresh.
+- The correct order is updated.
+- Applicable customer-facing order information reflects the updated status.
+- Invalid or unsupported status changes are rejected.
+- Unauthorized users cannot modify order status.
+
+**Dependencies:** Administrator authentication, order details, order persistence, order workflow, customer order history  
+**Source:** nopCommerce Admin Area — Order Management, Test Scope  
+**Automation Candidate:** Yes  
+
+**Notes:**  
+Critical order-lifecycle requirement. Status transitions should receive positive, negative, and regression coverage because incorrect status management can affect both operational workflows and customer-facing order information.
+
+### ADMIN-021 — Order Management Workflows
+
+**ID:** ADMIN-021  
+**Title:** Order Management Workflows  
+**Domain:** Administration — Order Management  
+**Actor:** Administrator  
+
+**Requirement:**  
+The system shall allow authorized administrators to perform supported order-management actions according to the configured order workflow and assigned permissions.
+
+**Preconditions:**
+- Administrator is authenticated.
+- Administrator has permission to manage orders.
+- Order exists.
+- Order is accessible from the administration area.
+
+**Trigger:**  
+Administrator performs a supported management action on an order.
+
+**Expected Behavior:**
+- The system validates the requested action.
+- Authorized actions are executed successfully.
+- The order state and related information are updated where applicable.
+- Changes are persisted and reflected in relevant order views.
+
+**Business Rules:**
+- Order-management actions must be restricted according to administrator permissions.
+- Actions must apply to the correct order.
+- Unsupported or invalid actions must not alter the order incorrectly.
+- Order state must remain consistent after supported management operations.
+
+**Priority:** Critical  
+**Risk:** High  
+
+**Acceptance Criteria:**
+- Authorized administrator can perform supported order-management actions.
+- Unauthorized administrators cannot perform restricted actions.
+- Actions are applied to the correct order.
+- Valid changes are persisted successfully.
+- Order state remains consistent after management actions.
+- Invalid or unsupported actions are rejected appropriately.
+- Relevant order information is updated after a successful action.
+- Customer-facing order information reflects applicable changes.
+
+**Dependencies:** Administrator authentication, order details, order status, order persistence, customer account, order permissions  
+**Source:** nopCommerce Admin Area — Order Management, Test Scope  
+**Automation Candidate:** Yes  
+
+**Notes:**  
+Critical workflow requirement covering the administrative lifecycle of orders. Specific workflow actions should be mapped to the exact capabilities enabled in the target nopCommerce environment rather than assuming every possible administrative action is enabled.
