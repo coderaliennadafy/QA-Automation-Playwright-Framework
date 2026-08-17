@@ -4378,3 +4378,453 @@ Customer adds a product to the cart and proceeds through the shopping journey.
 
 **Notes:**  
 Critical end-to-end pricing requirement. This requirement validates the consistency of pricing across the complete shopping journey rather than testing one specific pricing rule. It should be covered heavily by regression and end-to-end automation.
+
+## 10. Reviews & Subscriptions
+### REVIEW-001 — Product Review Submission
+
+**ID:** REVIEW-001  
+**Title:** Product Review Submission  
+**Domain:** Customer Reviews & Subscriptions  
+**Actor:** Customer  
+
+**Requirement:**  
+The system shall allow eligible customers to submit a product review according to the configured review rules.
+
+**Preconditions:**
+- The product exists and is available to the customer.
+- Product review functionality is enabled.
+- Customer satisfies any configured review-submission requirements.
+
+**Trigger:**  
+Customer submits a review for a product.
+
+**Expected Behavior:**
+- The system accepts the review submission when the customer satisfies the applicable rules.
+- Submitted review information is validated.
+- A valid review is stored successfully.
+- The review enters the appropriate state according to the configured review workflow.
+
+**Business Rules:**
+- Only eligible customers can submit reviews where eligibility rules are configured.
+- Required review information must be provided.
+- Review content must satisfy the configured validation rules.
+- Review submission must be associated with the correct product and customer.
+
+**Priority:** Medium  
+**Risk:** Medium  
+
+**Acceptance Criteria:**
+- Eligible customer can access product review submission.
+- Customer can submit a valid review.
+- Required review information is validated.
+- Invalid review information is rejected appropriately.
+- Valid review submission is stored successfully.
+- Submitted review is associated with the correct product.
+- Submitted review is associated with the correct customer where applicable.
+- Ineligible customers cannot submit reviews when review restrictions are configured.
+
+**Dependencies:** Customer account, product catalog, product reviews, review configuration, review validation  
+**Source:** Test Scope — Customer Reviews & Subscriptions  
+**Automation Candidate:** Yes  
+
+**Notes:**  
+Review submission is a secondary business capability compared with purchasing and account management, but it should still receive positive and negative automated coverage where review functionality is enabled.
+
+### REVIEW-002 — Review Visibility
+
+**ID:** REVIEW-002  
+**Title:** Review Visibility  
+**Domain:** Customer Reviews & Subscriptions  
+**Actor:** Customer  
+
+**Requirement:**  
+The system shall display product reviews to customers according to the configured review visibility and publication rules.
+
+**Preconditions:**
+- Product review functionality is enabled.
+- The product has one or more reviews, where applicable.
+- Review visibility rules are configured.
+
+**Trigger:**  
+Customer opens a product page or another supported location where product reviews are displayed.
+
+**Expected Behavior:**
+- Reviews that satisfy the configured visibility rules are displayed.
+- Reviews that are not eligible for display are not shown.
+- Displayed review information corresponds to the stored review data.
+- Review visibility reflects the current review state.
+
+**Business Rules:**
+- Only reviews permitted by the configured publication/visibility rules should be displayed.
+- Pending, rejected, or otherwise non-visible reviews must not be displayed when the configuration prevents their visibility.
+- Reviews must be displayed for the correct product.
+- Review information must remain consistent with the persisted review data.
+
+**Priority:** Medium  
+**Risk:** Medium  
+
+**Acceptance Criteria:**
+- Customer can view reviews for a product when reviews are available and visible.
+- Published/approved reviews are displayed according to configuration.
+- Reviews that are not eligible for display are not shown.
+- Displayed reviews belong to the correct product.
+- Review content and applicable metadata are displayed correctly.
+- Review visibility reflects changes to the review state where applicable.
+- No review from another product is incorrectly displayed.
+
+**Dependencies:** Product catalog, product reviews, review publication rules, review state, product details  
+**Source:** Test Scope — Customer Reviews & Subscriptions  
+**Automation Candidate:** Yes  
+
+**Notes:**  
+Review visibility should be tested with both visible and non-visible review states to ensure that moderation/publication rules are correctly enforced.
+
+### REVIEW-003 — Review Validation
+
+**ID:** REVIEW-003  
+**Title:** Review Validation  
+**Domain:** Customer Reviews & Subscriptions  
+**Actor:** Customer  
+
+**Requirement:**  
+The system shall validate customer product reviews according to the configured review validation rules before accepting or publishing the review.
+
+**Preconditions:**
+- Product review functionality is enabled.
+- Customer has access to the applicable product.
+- Review validation rules are configured.
+
+**Trigger:**  
+Customer submits a product review.
+
+**Expected Behavior:**
+- The system validates the submitted review information.
+- Valid review data is accepted according to the configured workflow.
+- Invalid or incomplete review data is rejected.
+- Appropriate validation feedback is provided to the customer.
+
+**Business Rules:**
+- Required review fields must be provided.
+- Review content must satisfy configured validation rules.
+- Invalid review data must not be accepted as a valid submission.
+- Validation must apply to the correct product review submission.
+
+**Priority:** Medium  
+**Risk:** Medium  
+
+**Acceptance Criteria:**
+- Valid review information can be submitted successfully.
+- Required review fields are validated.
+- Empty or incomplete required fields are rejected.
+- Invalid review information is rejected appropriately.
+- Appropriate validation feedback is displayed.
+- Valid review data follows the configured review workflow.
+- Invalid review data is not incorrectly stored or published.
+
+**Dependencies:** Product reviews, review submission, review configuration, validation rules, product catalog  
+**Source:** Test Scope — Customer Reviews & Subscriptions  
+**Automation Candidate:** Yes  
+
+**Notes:**  
+Negative testing is particularly important here. Boundary and invalid-input scenarios should be included to verify that review validation behaves consistently.
+
+### REVIEW-004 — Newsletter Subscription
+
+**ID:** REVIEW-004  
+**Title:** Newsletter Subscription  
+**Domain:** Customer Reviews & Subscriptions  
+**Actor:** Customer  
+
+**Requirement:**  
+The system shall allow customers to subscribe to the newsletter when newsletter subscription functionality is enabled.
+
+**Preconditions:**
+- Newsletter subscription functionality is enabled.
+- Customer can access the newsletter subscription option.
+
+**Trigger:**  
+Customer submits a valid newsletter subscription request.
+
+**Expected Behavior:**
+- The system validates the submitted subscription information.
+- A valid subscription request is processed successfully.
+- The customer's subscription state is updated accordingly.
+- Appropriate confirmation or feedback is provided.
+
+**Business Rules:**
+- Newsletter subscription must only be available when the functionality is enabled.
+- Required subscription information must satisfy the applicable validation rules.
+- Invalid subscription information must not create a valid subscription.
+- The subscription state must be associated with the correct customer or email address.
+
+**Priority:** Medium  
+**Risk:** Low  
+
+**Acceptance Criteria:**
+- Customer can access newsletter subscription when enabled.
+- Customer can successfully subscribe using valid information.
+- Invalid or incomplete subscription information is rejected appropriately.
+- The customer's subscription state is updated successfully.
+- Appropriate confirmation or feedback is displayed.
+- Newsletter subscription is not available when the feature is disabled.
+- Duplicate subscription behavior follows the configured rules.
+
+**Dependencies:** Customer account, newsletter configuration, subscription validation  
+**Source:** Test Scope — Customer Reviews & Subscriptions  
+**Automation Candidate:** Yes  
+
+**Notes:**  
+This functionality is conditional because newsletter subscription is only in scope where the feature is enabled. Positive, negative, and duplicate-subscription scenarios should be covered.
+
+## 11. Shipping & Payment Integration Boundaries
+### INTEG-001 — Shipping Method Availability
+
+**ID:** INTEG-001  
+**Title:** Shipping Method Availability  
+**Domain:** Shipping & Payment Integration Boundaries  
+**Actor:** Customer  
+
+**Requirement:**  
+The system shall display the shipping methods available for the customer's order according to the configured shipping rules and the response provided by the shipping integration.
+
+**Preconditions:**
+- Customer has products in the shopping cart.
+- Products are eligible for shipping.
+- A valid shipping address has been provided.
+- Shipping methods are configured or available through the applicable integration.
+
+**Trigger:**  
+Customer proceeds to the shipping-method selection step during checkout.
+
+**Expected Behavior:**
+- The system determines the shipping methods available for the order.
+- Available shipping methods are displayed to the customer.
+- Unavailable or invalid shipping methods are not presented as selectable options.
+- Shipping-method availability reflects the applicable configuration and integration response.
+
+**Business Rules:**
+- Shipping methods must respect the configured shipping rules.
+- Shipping availability may depend on factors such as destination, product, order, or configuration.
+- Only methods returned as available by the application/integration boundary should be presented as selectable.
+- Failures at the shipping integration boundary must be handled without incorrectly presenting unavailable options.
+
+**Priority:** High  
+**Risk:** High  
+
+**Acceptance Criteria:**
+- Customer can view available shipping methods during checkout.
+- Available shipping methods are displayed correctly.
+- Unavailable shipping methods are not incorrectly displayed as selectable.
+- Shipping availability reflects the customer's shipping information.
+- Shipping-method availability reflects the configured rules.
+- Integration failures are handled appropriately.
+- The customer cannot select a shipping method that is unavailable.
+
+**Dependencies:** Checkout, shipping address, shopping cart, shipping configuration, shipping integration boundary  
+**Source:** Test Scope — Shipping & Payment Integration Boundaries  
+**Automation Candidate:** Yes  
+
+**Notes:**  
+The test validates shipping behavior from the **nopCommerce application's perspective only**. The internal implementation of external shipping providers is outside the automation scope.
+
+### INTEG-002 — Shipping Option Selection
+
+**ID:** INTEG-002  
+**Title:** Shipping Option Selection  
+**Domain:** Shipping & Payment Integration Boundaries  
+**Actor:** Customer  
+
+**Requirement:**  
+The system shall allow the customer to select an available shipping option during checkout and shall apply the selected shipping option to the order.
+
+**Preconditions:**
+- Customer has products in the shopping cart.
+- Customer has provided a valid shipping address.
+- At least one shipping method is available.
+- Checkout has reached the shipping-method selection step.
+
+**Trigger:**  
+Customer selects an available shipping method and continues checkout.
+
+**Expected Behavior:**
+- The selected shipping method is accepted.
+- The applicable shipping cost and information are applied to the order.
+- The selected option is retained when the customer proceeds to the next checkout step.
+- The order total is updated according to the selected shipping option.
+
+**Business Rules:**
+- Customer can only select shipping methods that are currently available.
+- The selected shipping option must correspond to the customer's order and shipping information.
+- Shipping costs must be calculated according to the configured shipping rules.
+- An unavailable shipping method must not be selectable.
+
+**Priority:** High  
+**Risk:** High  
+
+**Acceptance Criteria:**
+- Customer can select an available shipping method.
+- Selected shipping method is clearly identified.
+- Applicable shipping cost is calculated correctly.
+- Order total reflects the selected shipping cost.
+- Selected shipping option persists when navigating through checkout.
+- Customer cannot select an unavailable shipping method.
+- Changing the shipping method updates the applicable shipping cost and total.
+- Shipping selection remains consistent with the final order.
+
+**Dependencies:** Checkout, shipping address, shopping cart, shipping method availability, shipping configuration  
+**Source:** Test Scope — Shipping & Payment Integration Boundaries  
+**Automation Candidate:** Yes  
+
+**Notes:**  
+This requirement validates the interaction between the nopCommerce checkout and the configured shipping functionality. Testing focuses on the application's behavior, not the internal systems of external shipping providers.
+
+### INTEG-003 — Payment Method Availability
+
+**ID:** INTEG-003  
+**Title:** Payment Method Availability  
+**Domain:** Shipping & Payment Integration Boundaries  
+**Actor:** Customer  
+
+**Requirement:**  
+The system shall display the payment methods available for the customer's order according to the configured payment rules and the response provided by the payment integration.
+
+**Preconditions:**
+- Customer has products in the shopping cart.
+- Customer has provided the required checkout information.
+- Payment methods are configured or available through the applicable integration.
+- Checkout has reached the payment-method selection step.
+
+**Trigger:**  
+Customer proceeds to the payment-method selection step during checkout.
+
+**Expected Behavior:**
+- The system determines the payment methods available for the order.
+- Available payment methods are displayed to the customer.
+- Unavailable or invalid payment methods are not presented as selectable options.
+- Payment-method availability reflects the applicable configuration and integration response.
+
+**Business Rules:**
+- Payment methods must respect the configured payment rules.
+- Payment availability may depend on factors such as order, customer, currency, or configuration.
+- Only methods available to the customer/order should be presented as selectable.
+- Payment integration failures must be handled without incorrectly presenting an unavailable payment method.
+
+**Priority:** High  
+**Risk:** High  
+
+**Acceptance Criteria:**
+- Customer can view available payment methods during checkout.
+- Available payment methods are displayed correctly.
+- Unavailable payment methods are not incorrectly displayed as selectable.
+- Payment availability reflects the applicable configuration.
+- Integration failures are handled appropriately.
+- Customer cannot select a payment method that is unavailable.
+
+**Dependencies:** Checkout, shopping cart, payment configuration, payment integration boundary  
+**Source:** Test Scope — Shipping & Payment Integration Boundaries  
+**Automation Candidate:** Yes  
+
+**Notes:**  
+The test validates payment-method behavior from the **nopCommerce application's perspective only**. The internal processing of external payment providers is outside the automation scope.
+
+### INTEG-004 — Payment Method Selection
+
+**ID:** INTEG-004  
+**Title:** Payment Method Selection  
+**Domain:** Shipping & Payment Integration Boundaries  
+**Actor:** Customer  
+
+**Requirement:**  
+The system shall allow the customer to select an available payment method during checkout and shall apply the selected payment method to the order.
+
+**Preconditions:**
+- Customer has products in the shopping cart.
+- Required checkout information has been provided.
+- At least one payment method is available.
+- Checkout has reached the payment-method selection step.
+
+**Trigger:**  
+Customer selects an available payment method and continues checkout.
+
+**Expected Behavior:**
+- The selected payment method is accepted.
+- The selected payment method is associated with the current order.
+- The selection is retained when the customer proceeds through checkout.
+- The order can continue to the next applicable checkout step.
+
+**Business Rules:**
+- Customer can only select payment methods that are currently available.
+- The selected payment method must apply to the current order.
+- Unavailable payment methods must not be selectable.
+- Payment-method selection must respect the configured payment rules.
+
+**Priority:** High  
+**Risk:** High  
+
+**Acceptance Criteria:**
+- Customer can select an available payment method.
+- Selected payment method is clearly identified.
+- The selected method remains associated with the order during checkout.
+- Customer cannot select an unavailable payment method.
+- Changing the payment method updates the selected payment state correctly.
+- Checkout can continue after a valid payment method is selected.
+- The selected payment method is reflected in the applicable order information.
+
+**Dependencies:** Checkout, shopping cart, payment method availability, payment configuration, order creation  
+**Source:** Test Scope — Shipping & Payment Integration Boundaries  
+**Automation Candidate:** Yes  
+
+**Notes:**  
+This requirement validates payment-method selection from the **nopCommerce application's perspective**. It does not validate the internal processing performed by external payment providers.
+
+### INTEG-005 — Integration Boundary Behavior
+
+**ID:** INTEG-005  
+**Title:** Integration Boundary Behavior  
+**Domain:** Shipping & Payment Integration Boundaries  
+**Actor:** Customer  
+
+**Requirement:**  
+The system shall handle shipping and payment integration boundary responses appropriately and maintain a valid checkout state when an external integration is unavailable, returns an error, or provides an unexpected response.
+
+**Preconditions:**
+- Customer has products in the shopping cart.
+- Customer has reached the applicable shipping or payment step.
+- Shipping or payment integration is configured.
+- The integration boundary can return a successful or unsuccessful response.
+
+**Trigger:**  
+The application receives a response from a shipping or payment integration.
+
+**Expected Behavior:**
+- Successful integration responses are processed correctly.
+- Integration errors are handled gracefully.
+- The customer receives appropriate feedback when the integration cannot complete the requested operation.
+- The application does not create an invalid order based on a failed integration response.
+- Checkout remains in a valid and recoverable state.
+
+**Business Rules:**
+- External integration failures must not result in an invalid or incorrectly completed order.
+- The application must not treat an unsuccessful integration response as a successful operation.
+- Integration errors must be handled according to the application's configured error-handling behavior.
+- External provider internal systems remain outside the automation scope.
+
+**Priority:** Critical  
+**Risk:** Critical  
+
+**Acceptance Criteria:**
+- Successful shipping/payment integration responses are processed correctly.
+- Failed integration responses are handled appropriately.
+- Appropriate error or feedback information is presented to the customer.
+- Checkout does not incorrectly complete after an integration failure.
+- No invalid order is created after a failed payment or shipping operation.
+- Customer can recover or retry where the application supports it.
+- Application remains in a valid checkout state after an integration error.
+- Unexpected integration responses do not cause incorrect order or pricing behavior.
+
+**Dependencies:** Checkout, shipping integration, payment integration, order creation, error handling  
+**Source:** Test Scope — Shipping & Payment Integration Boundaries  
+**Automation Candidate:** Yes  
+
+**Notes:**  
+This requirement validates only the **integration boundary behavior of nopCommerce**. It does not test the internal systems, infrastructure, or business logic of external shipping or payment providers.
