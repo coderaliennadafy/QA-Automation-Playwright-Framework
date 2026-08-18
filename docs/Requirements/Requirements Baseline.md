@@ -4828,3 +4828,110 @@ The application receives a response from a shipping or payment integration.
 
 **Notes:**  
 This requirement validates only the **integration boundary behavior of nopCommerce**. It does not test the internal systems, infrastructure, or business logic of external shipping or payment providers.
+
+## 12 . Cross-Browser & Environment Coverage (it's not a business requirements it's requirements automation framework / test execution.)
+
+### ENV-001 — Cross-Browser Execution
+
+**ID:** ENV-001
+**Title:** Cross-Browser Execution
+**Domain:** Cross-Browser & Environment Coverage
+**Actor:** QA Automation Framework
+
+**Requirement:**
+The automation framework shall support execution of the automated regression suite against the supported Chromium, Firefox, and WebKit browsers.
+
+**Preconditions:**
+
+* Playwright automation framework is configured.
+* Supported browser projects are configured.
+* Automated test suite is available for execution.
+
+**Trigger:**
+The regression suite is executed against a selected supported browser.
+
+**Expected Behavior:**
+
+* Tests can be executed against Chromium.
+* Tests can be executed against Firefox.
+* Tests can be executed against WebKit.
+* Test logic remains consistent across supported browsers.
+* Browser-specific failures can be identified through test results.
+
+**Business Rules:**
+
+* Supported browsers shall be configurable through the Playwright framework.
+* Critical business workflows shall receive priority for cross-browser execution.
+* Browser-specific behavior shall not require unnecessary duplication of test logic.
+
+**Priority:** High
+**Risk:** High
+
+**Acceptance Criteria:**
+
+* Automated tests execute successfully on Chromium.
+* Automated tests execute successfully on Firefox.
+* Automated tests execute successfully on WebKit.
+* The same test scenarios can be executed across supported browsers.
+* Browser-specific failures are reported clearly.
+* Browser configuration does not require changes to the underlying test logic.
+
+**Dependencies:** Playwright, browser projects, automated regression suite, test configuration
+**Source:** Test Scope — Cross-Browser & Environment Coverage
+**Automation Candidate:** Yes
+
+**Notes:**
+Cross-browser execution is part of regression coverage. Critical customer and administration workflows should receive priority when executing against all supported browsers.
+
+### ENV-002 — Configurable Environment Execution
+
+**ID:** ENV-002
+**Title:** Configurable Environment Execution
+**Domain:** Cross-Browser & Environment Coverage
+**Actor:** QA Automation Framework
+
+**Requirement:**
+The automation framework shall support execution of the automated test suite against different application environments without requiring changes to the test logic.
+
+**Preconditions:**
+
+* Playwright automation framework is configured.
+* Application environments are defined.
+* Environment-specific configuration is available.
+* Automated test suite is available for execution.
+
+**Trigger:**
+The test suite is executed against a selected application environment.
+
+**Expected Behavior:**
+
+* The framework loads the configuration corresponding to the selected environment.
+* Tests execute against the correct application environment.
+* Environment-specific values are separated from test logic.
+* The same automated test scenarios can be reused across supported environments.
+
+**Business Rules:**
+
+* Environment configuration must be managed independently from test logic.
+* Changing the target environment must not require modification of individual test cases.
+* Environment-specific settings must be configurable through the automation framework.
+* Tests must use the correct configuration for the selected environment.
+
+**Priority:** High
+**Risk:** Medium
+
+**Acceptance Criteria:**
+
+* Tests can be executed against the configured environments.
+* The target environment can be selected through configuration.
+* The correct application URL/configuration is loaded for each environment.
+* Test logic remains unchanged when switching environments.
+* Environment-specific configuration is not hardcoded inside individual tests.
+* Incorrect or missing environment configuration is handled appropriately.
+
+**Dependencies:** Playwright, environment configuration, test configuration, application environments, CI/CD configuration
+**Source:** Test Scope — Cross-Browser & Environment Coverage
+**Automation Candidate:** Yes
+
+**Notes:**
+This requirement supports maintainability and CI/CD execution by separating environment configuration from test implementation. It allows the same regression suite to be reused across different application environments.
