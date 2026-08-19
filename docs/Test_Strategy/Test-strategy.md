@@ -354,3 +354,57 @@ High-priority scenarios include authentication, product discovery, cart, checkou
 
 Low-value, highly subjective, unstable, or environment-dependent scenarios will remain candidates for manual testing.
 
+# 3. Test Approach
+
+The testing approach for the nopCommerce platform follows a risk-based, layered, and automation-focused strategy. Testing activities will combine manual validation and automated testing across appropriate test levels to provide reliable coverage while minimizing unnecessary end-to-end duplication.
+
+### 3.1 Manual vs Automation
+
+Automation will be prioritized for stable, repeatable, high-value, regression-prone, and frequently executed scenarios.
+
+Manual testing will be used where human judgment provides greater value, including exploratory testing, usability evaluation, subjective validation, unstable scenarios, and scenarios where automation provides limited return on investment.
+
+The automation strategy will focus primarily on critical business workflows, regression-prone functionality, and repeatable validation.
+
+### 3.2 UI vs API
+
+Both UI and API testing will be used as complementary validation layers.
+
+UI/E2E testing will validate critical user-facing workflows and business journeys from the perspective of application users.
+
+API testing will validate backend behavior, business rules, data operations, and API contracts where applicable.
+
+API automation may also be used to prepare test data or support UI scenarios when this provides faster and more reliable test execution.
+
+The same feature may be validated at multiple levels when each level provides distinct testing value.
+
+### 3.3 Risk-Based Approach
+
+Testing and automation priorities will be determined based on business impact, user impact, probability of failure, regression risk, technical complexity, execution frequency, and the potential impact of defects.
+
+High-risk and business-critical functionality such as authentication, product discovery, shopping cart, checkout, payments, order management, and critical administration workflows will receive higher testing and automation priority.
+
+Lower-risk or low-value scenarios may receive reduced automation coverage or remain primarily manual.
+
+### 3.4 Shift-Left
+
+Quality activities will begin as early as possible in the software development lifecycle.
+
+Testing considerations will be introduced during requirement analysis and test planning rather than waiting until the user interface is fully implemented.
+
+QA activities may include reviewing requirements, identifying ambiguities and risks, defining acceptance criteria, designing test scenarios, identifying required test data, and considering API and integration validation before UI automation is implemented.
+
+### 3.5 Test Pyramid
+
+The automation strategy will follow a layered testing approach rather than relying entirely on UI/E2E tests.
+
+Where applicable, the same feature may be validated through different test levels, with each level serving a different purpose.
+
+- **Integration tests** will validate interactions between application components or services.
+- **API tests** will provide faster validation of backend behavior, business rules, and data-related operations.
+- **UI/E2E tests** will focus on a smaller number of critical end-to-end user journeys.
+
+The number of lower-level and API tests should generally be greater than the number of full UI/E2E tests in order to improve execution speed, reliability, and maintainability.
+
+The exact distribution of tests will be determined based on application architecture, business risk, and testing value rather than applying a fixed numerical ratio.
+
