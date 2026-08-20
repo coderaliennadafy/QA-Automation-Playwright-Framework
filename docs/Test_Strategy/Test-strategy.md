@@ -1283,7 +1283,7 @@ Chromium → Firefox → WebKit
 
 Chromium receives the highest priority because it represents the primary supported execution environment for the project.
 
-10. Failure Handling
+## 6.10 Failure Handling
 
 A failed automated test must not immediately be considered an application defect.
 
@@ -1311,7 +1311,8 @@ Test name
 Environment
 Browser
 Execution timestamp
-11. Automation Quality Gates
+
+## 6.11 Automation Quality Gates
 
 Automation should satisfy minimum quality expectations before being considered production-ready.
 
@@ -1325,7 +1326,8 @@ Flaky tests must be identified and tracked.
 Failed tests must provide sufficient evidence.
 Tests must be traceable to requirements/scenarios.
 CI execution must be reproducible.
-12. Flaky Test Management
+
+## 6.12 Flaky Test Management
 
 Flaky tests will be explicitly identified rather than hidden.
 
@@ -1345,7 +1347,7 @@ Returned to Stable Suite
 
 Retries may be used for diagnosis and controlled CI stability, but retries must not be used to hide genuine failures.
 
-13. Automation Maintenance Strategy
+## 6.13 Automation Maintenance Strategy
 
 Automation maintenance will include:
 
@@ -1361,7 +1363,7 @@ Updating requirements/test traceability.
 
 Maintenance is considered part of the automation lifecycle, not an optional activity.
 
-14. Automation ROI
+## 6.14 Automation ROI
 
 Automation candidates will be evaluated based on:
 
@@ -1381,7 +1383,7 @@ The objective is not maximum automation percentage.
 
 The objective is maximum useful automation coverage with sustainable maintenance cost.
 
-15. Definition of Automation Success
+## 6.15 Definition of Automation Success
 
 The automation strategy will be considered successful when the framework can:
 
