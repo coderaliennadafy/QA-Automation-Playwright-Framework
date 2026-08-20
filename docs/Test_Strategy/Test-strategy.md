@@ -408,3 +408,113 @@ The number of lower-level and API tests should generally be greater than the num
 
 The exact distribution of tests will be determined based on application architecture, business risk, and testing value rather than applying a fixed numerical ratio.
 
+# 4. Test Levels
+
+The nopCommerce QA Automation Framework will apply multiple test levels to validate the application at different stages, from individual application components to complete end-to-end business workflows.
+
+The test levels define **where testing is performed within the application architecture and workflow**, while specific testing objectives such as functional, regression, smoke, security, and performance testing are defined separately under the Test Types section.
+
+## 4.1 Unit Testing
+
+**Objective:**
+Validate individual application components, methods, and business logic in isolation.
+
+**Typical Coverage:**
+
+* Product pricing calculations
+* Discount calculations
+* Tax calculations
+* Cart calculations
+* Order status logic
+* Validation and business rules
+
+**Automation:**
+Unit testing is outside the scope of the Playwright QA Automation Framework because unit tests target individual application components and source-code-level logic rather than the user interface.
+
+---
+
+## 4.2 Integration Testing
+
+**Objective:**
+Validate the interactions and data exchange between different application components, services, databases, and external integrations.
+
+**Typical Coverage:**
+
+* Authentication and user management integration
+* Cart → Checkout integration
+* Checkout → Order creation
+* Order → Inventory updates
+* Product → Inventory integration
+* Payment integration
+* Shipping integration
+* External authentication
+* API interactions
+* Application → Database data consistency
+
+**Automation:**
+Integration testing may be partially automated through API and integration-level automation where the required interfaces are accessible and suitable for automated validation.
+
+---
+
+## 4.3 System Testing
+
+**Objective:**
+Validate the complete nopCommerce application as an integrated system against defined functional requirements and business rules.
+
+**Typical Coverage:**
+
+* Customer registration
+* Login / Logout
+* Customer profile management
+* Product catalog
+* Product search and filtering
+* Product details
+* Shopping cart
+* Wishlist
+* Checkout
+* Order management
+* Promotions and pricing
+* Customer reviews and subscriptions
+* Administration workflows
+* Authentication and session management
+
+**Automation:**
+System testing is a primary focus of the Playwright QA Automation Framework. Automated tests will validate complete application features through the user interface and, where appropriate, supporting API interactions.
+
+---
+
+## 4.4 End-to-End Testing
+
+**Objective:**
+Validate complete business workflows across multiple application modules from the user's entry point through to the expected final business outcome.
+
+**Critical End-to-End Workflows:**
+
+* Guest → Browse Product → Product Details → Add to Cart
+* Customer → Login → Search Product → Product Details → Add to Cart → Checkout
+* Customer → Checkout → Place Order → Order Confirmation
+* Customer → Login → View Order History → View Order Details
+* Customer → Update Profile → Manage Address → Verify Changes
+* Customer → Logout → Verify Session Invalidation
+* Administrator → Login → Manage Product → Save Changes → Verify Storefront Changes
+* Administrator → Search Order → Open Order → Verify Order Information → Update Order Status
+
+**Automation:**
+Critical end-to-end business workflows will be automated using Playwright. These workflows will receive higher priority because failures can directly affect core customer and administrative business processes.
+
+---
+
+## 4.5 Test Level Strategy Summary
+
+| Test Level              | Primary Purpose                                                                 | Framework Coverage            |
+| ----------------------- | ------------------------------------------------------------------------------- | ----------------------------- |
+| **Unit Testing**        | Validate individual components and business logic in isolation                  | ❌ Outside Playwright scope    |
+| **Integration Testing** | Validate interactions between components, services, databases, and integrations | 🟡 Partial / API-supported    |
+| **System Testing**      | Validate the complete application against requirements and business rules       | ✅ Primary Playwright coverage |
+| **End-to-End Testing**  | Validate complete business workflows across multiple application modules        | ✅ Playwright                  |
+
+### Framework Focus
+
+The primary focus of the nopCommerce QA Automation Framework is **System Testing and End-to-End Testing using Playwright**, supported by API and integration-level testing where appropriate.
+
+Unit Testing remains outside the scope of this framework because it belongs primarily to the application development layer. Integration Testing is covered selectively through accessible interfaces and supporting API automation, while System and End-to-End Testing provide the main functional validation layer of the Playwright framework.
