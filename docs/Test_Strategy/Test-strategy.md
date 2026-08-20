@@ -1009,3 +1009,382 @@ The following require dedicated tools or significant manual evaluation:
 * Exploratory Testing
 * Usability Testing
 * Advanced Accessibility Evaluation
+
+
+# 6. Automation Strategy
+
+
+1. Automation Objectives
+
+The automation strategy aims to:
+
+Automate high-value and business-critical test scenarios.
+Reduce repetitive manual regression effort.
+Provide fast and reliable feedback on application quality.
+Validate critical user workflows consistently across executions.
+Detect regressions early in the development lifecycle.
+Improve test repeatability and execution consistency.
+Build a scalable and maintainable Playwright automation framework.
+Integrate automated testing into CI/CD pipelines.
+Provide actionable execution reports and failure evidence.
+2. Automation Scope
+
+Automation will focus primarily on stable, repeatable, and business-critical functionality.
+
+UI Automation
+
+The initial UI automation scope includes:
+
+Registration
+Login
+Logout
+Authentication and session behavior
+Product search
+Product listing
+Product details
+Product filtering/sorting
+Shopping cart
+Checkout
+Order placement
+Order confirmation
+Customer account/profile
+Order history
+API Automation
+
+Where supported and accessible, API automation will cover:
+
+API availability
+Request/response validation
+HTTP status codes
+Response structure
+Required fields
+Business rules
+Negative scenarios
+Schema validation
+Data consistency between API and UI where applicable
+Out of Automation Scope
+
+The following should not automatically be automated simply because they are technically possible:
+
+One-time exploratory scenarios
+Highly unstable functionality
+Features with constantly changing UI
+Visual/aesthetic validation better handled by dedicated visual testing
+CAPTCHA and anti-bot mechanisms
+Third-party systems outside the project's control
+Scenarios requiring manual human judgment
+Scenarios with no meaningful regression value
+3. Automation Prioritization
+
+Automation priority will be based on business risk × execution frequency × stability × automation value.
+
+Priority 1 — Critical
+
+Automate first:
+
+Login
+Registration
+Product search
+Product selection
+Cart
+Checkout
+Order placement
+Order confirmation
+Priority 2 — High
+Customer profile
+Order history
+Product filtering
+Product sorting
+Session-related workflows
+Important negative scenarios
+Priority 3 — Medium
+Secondary account functionality
+Less frequently used product features
+Administrative workflows with stable behavior
+Priority 4 — Low
+Rarely used functionality
+Low-risk scenarios
+Highly unstable features
+Scenarios with low automation ROI
+4. Automation Approach
+
+The project will use Playwright with JavaScript.
+
+The framework will follow a modular architecture separating:
+
+Test Logic
+     ↓
+Page / Component Objects
+     ↓
+Reusable Utilities
+     ↓
+Configuration / Test Data
+     ↓
+Application
+
+This separation prevents test cases from becoming tightly coupled to UI implementation details.
+
+5. Automation Design Principles
+
+The framework will follow these principles:
+
+Maintainability
+
+Tests should be easy to understand, modify, and troubleshoot.
+
+Reusability
+
+Common actions should be implemented once and reused across tests.
+
+Reliability
+
+Tests should avoid unnecessary waits and unstable synchronization.
+
+Independence
+
+Tests should be isolated so that one test does not depend on another test's execution.
+
+Readability
+
+Test names and assertions should clearly describe the expected behavior.
+
+Scalability
+
+The architecture should support increasing test coverage without creating excessive maintenance overhead.
+
+Traceability
+
+Each automated test should be traceable to a requirement or test scenario.
+
+6. Test Architecture
+
+The automation framework will be organized approximately as:
+
+QA-Automation-playwright-framework/
+│
+├── tests/
+│   ├── ui/
+│   ├── api/
+│   └── regression/
+│
+├── pages/
+│   ├── LoginPage.js
+│   ├── RegisterPage.js
+│   ├── ProductPage.js
+│   ├── CartPage.js
+│   ├── CheckoutPage.js
+│   └── AccountPage.js
+│
+├── fixtures/
+│
+├── test-data/
+│
+├── utils/
+│
+├── config/
+│
+├── schemas/
+│
+├── reports/
+│
+├── artifacts/
+│
+├── .github/
+│   └── workflows/
+│
+├── playwright.config.js
+├── package.json
+└── README.md
+
+هاد structure غادي نبنيوها بالتدريج، ماشي ضروري تكون كلها موجودة دابا.
+
+7. Test Suite Strategy
+
+Automation will be divided into execution suites:
+
+Smoke Suite
+
+Small set of critical tests used to determine whether the application is fundamentally functional.
+
+Example:
+
+Launch Application
+      ↓
+Login
+      ↓
+Search Product
+      ↓
+Add Product to Cart
+      ↓
+Checkout
+Regression Suite
+
+Broader automated coverage executed after changes to ensure existing functionality remains stable.
+
+Functional Suite
+
+Tests grouped by individual business functionality.
+
+API Suite
+
+Independent API validation where applicable.
+
+Full Regression
+
+Complete automated regression execution before major releases or when required.
+
+8. Test Execution Strategy
+
+Tests should support:
+
+Local execution
+Headless execution
+Headed execution for debugging
+Parallel execution
+CI execution
+Targeted test execution
+Tag-based execution
+Browser-specific execution
+
+Example:
+
+Smoke
+   ↓
+Fast feedback
+
+Regression
+   ↓
+Broader validation
+
+Full Regression
+   ↓
+Release confidence
+9. Browser Strategy
+
+Initial supported browser coverage:
+
+Chromium
+Firefox
+WebKit
+
+Priority:
+
+Chromium → Firefox → WebKit
+
+Chromium receives the highest priority because it represents the primary supported execution environment for the project.
+
+10. Failure Handling
+
+A failed automated test must not immediately be considered an application defect.
+
+The failure should first be classified as:
+
+Test Failure
+     ↓
+Environment Issue?
+     ↓
+Test Data Issue?
+     ↓
+Automation/Framework Issue?
+     ↓
+Application Defect?
+
+For investigated failures, the framework should capture:
+
+Screenshot
+Trace
+Video where appropriate
+Console information
+Network information where useful
+Error message
+Test name
+Environment
+Browser
+Execution timestamp
+11. Automation Quality Gates
+
+Automation should satisfy minimum quality expectations before being considered production-ready.
+
+Examples:
+
+No known critical framework defects.
+Critical smoke tests must pass.
+Test data must be isolated and reproducible.
+Tests must be independently executable.
+Flaky tests must be identified and tracked.
+Failed tests must provide sufficient evidence.
+Tests must be traceable to requirements/scenarios.
+CI execution must be reproducible.
+12. Flaky Test Management
+
+Flaky tests will be explicitly identified rather than hidden.
+
+A flaky test should be:
+
+Detected
+   ↓
+Investigated
+   ↓
+Root Cause Identified
+   ↓
+Fixed
+   ↓
+Re-executed
+   ↓
+Returned to Stable Suite
+
+Retries may be used for diagnosis and controlled CI stability, but retries must not be used to hide genuine failures.
+
+13. Automation Maintenance Strategy
+
+Automation maintenance will include:
+
+Updating selectors after UI changes.
+Updating Page Objects.
+Updating test data.
+Updating API schemas.
+Updating browser/dependency versions.
+Removing obsolete tests.
+Refactoring duplicated code.
+Reviewing flaky tests.
+Updating requirements/test traceability.
+
+Maintenance is considered part of the automation lifecycle, not an optional activity.
+
+14. Automation ROI
+
+Automation candidates will be evaluated based on:
+
+Business Criticality
+        +
+Execution Frequency
+        +
+Regression Value
+        +
+Stability
+        +
+Maintenance Cost
+        ↓
+Automation Priority
+
+The objective is not maximum automation percentage.
+
+The objective is maximum useful automation coverage with sustainable maintenance cost.
+
+15. Definition of Automation Success
+
+The automation strategy will be considered successful when the framework can:
+
+Execute critical workflows reliably.
+Detect regressions early.
+Run consistently locally and in CI.
+Produce actionable reports.
+Provide failure evidence.
+Scale with additional coverage.
+Remain maintainable as the application evolves.
+Reduce repetitive regression effort.
+Maintain clear traceability between requirements and automated tests.
+Final Automation Strategy Principle
+
+Automate for confidence, speed, repeatability, and maintainability — not simply for the number of automated test cases.
+
