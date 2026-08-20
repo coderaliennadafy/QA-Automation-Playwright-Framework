@@ -518,3 +518,494 @@ Critical end-to-end business workflows will be automated using Playwright. These
 The primary focus of the nopCommerce QA Automation Framework is **System Testing and End-to-End Testing using Playwright**, supported by API and integration-level testing where appropriate.
 
 Unit Testing remains outside the scope of this framework because it belongs primarily to the application development layer. Integration Testing is covered selectively through accessible interfaces and supporting API automation, while System and End-to-End Testing provide the main functional validation layer of the Playwright framework.
+
+# 5. Test Types
+
+The nopCommerce QA Automation Framework will apply different test types based on business risk, functional requirements, user impact, regression potential, and automation value.
+
+Each test type defines **what aspect of the system is being validated**, while Test Levels define where the validation is performed.
+
+---
+
+## 5.1 Functional Testing
+
+**Objective:**
+Verify that application features behave according to defined functional requirements and business rules.
+
+**Coverage:**
+
+* Customer registration
+* Login and logout
+* Forgot password
+* Customer profile management
+* Address management
+* Product browsing
+* Product details
+* Product attributes and variants
+* Product search
+* Filtering and sorting
+* Shopping cart operations
+* Wishlist operations
+* Checkout
+* Order placement
+* Order history
+* Promotions and discounts
+* Customer reviews
+* Administration workflows
+
+**Examples:**
+
+* Verify that a customer can register successfully.
+* Verify that a valid user can log in.
+* Verify that a product can be added to the cart.
+* Verify that cart totals are calculated correctly.
+* Verify that a customer can complete the checkout process.
+
+**Automation Approach:**
+Primarily automated using Playwright for UI workflows, supported by API automation where appropriate.
+
+---
+
+## 5.2 Regression Testing
+
+**Objective:**
+Verify that existing functionality continues to work correctly after application changes, bug fixes, configuration changes, or new releases.
+
+**Coverage:**
+
+Regression coverage will prioritize business-critical and frequently used functionality:
+
+* Authentication
+* Customer accounts
+* Product catalog
+* Search and product discovery
+* Shopping cart
+* Wishlist
+* Checkout
+* Orders
+* Promotions and pricing
+* Administration workflows
+* Previously fixed defects
+
+**Regression Strategy:**
+
+The regression suite will be divided into:
+
+### Smoke Regression
+
+Fast validation of the most critical workflows.
+
+### Full Regression
+
+Broader validation covering critical functional areas and cross-module interactions.
+
+**Automation Approach:**
+The Playwright automated regression suite will be the primary regression mechanism.
+
+---
+
+## 5.3 Smoke Testing
+
+**Objective:**
+Quickly determine whether the application is stable enough for deeper testing.
+
+**Coverage:**
+
+* Application availability
+* Main navigation
+* Customer login
+* Product catalog availability
+* Product details
+* Product search
+* Add to cart
+* Cart accessibility
+* Checkout accessibility
+* Critical administration access
+
+**Examples:**
+
+* Verify that the application loads successfully.
+* Verify that login works.
+* Verify that products can be accessed.
+* Verify that a product can be added to the cart.
+* Verify that checkout can be initiated.
+
+**Automation Approach:**
+Implemented as a lightweight Playwright suite designed for fast execution, especially in CI/CD pipelines.
+
+---
+
+## 5.4 Sanity Testing
+
+**Objective:**
+Verify that a specific change, feature, or defect fix works correctly without executing the complete regression suite.
+
+**Coverage:**
+
+Sanity testing will focus on the functionality directly affected by a change.
+
+**Examples:**
+
+* Login defect fix → verify login and related authentication behavior.
+* Checkout fix → verify the affected checkout workflow.
+* Search change → verify search, filtering, and affected result behavior.
+* Product change → verify product details, pricing, and affected cart behavior.
+
+**Automation Approach:**
+Selected sanity scenarios will be executed through Playwright using targeted test selection and tagging.
+
+---
+
+## 5.5 Negative Testing
+
+**Objective:**
+Verify that the application handles invalid, unexpected, unauthorized, incomplete, or unsupported conditions correctly.
+
+**Coverage:**
+
+* Invalid credentials
+* Invalid or incomplete registration data
+* Invalid email/password combinations
+* Empty required fields
+* Invalid product quantities
+* Invalid checkout information
+* Unauthorized access
+* Access to protected pages without authentication
+* Invalid URLs
+* Unsupported input values
+* Invalid API requests
+* Duplicate operations where applicable
+
+**Examples:**
+
+* Verify that invalid credentials do not authenticate the customer.
+* Verify that protected pages cannot be accessed by unauthorized users.
+* Verify that invalid checkout data prevents progression when appropriate.
+* Verify that invalid API requests return appropriate error responses.
+
+**Automation Approach:**
+Automated using Playwright and API automation where deterministic validation is possible.
+
+---
+
+## 5.6 Security Testing
+
+**Objective:**
+Validate application-level security controls that can reasonably be identified through functional and automation testing.
+
+**Coverage:**
+
+### Authentication
+
+* Login behavior
+* Logout behavior
+* Password-related workflows
+* Authentication state
+
+### Authorization
+
+* Access to protected customer areas
+* Access to protected administration areas
+* Role-based access
+* Unauthorized access attempts
+
+### Session Management
+
+* Session persistence
+* Session invalidation after logout
+* Access to protected resources after session termination
+
+### Application-Level Security
+
+* Unauthorized API requests
+* Authentication/authorization behavior of APIs
+* Access-control validation
+
+**Automation Approach:**
+Selected security checks may be automated using Playwright and API testing tools.
+
+Full penetration testing, vulnerability assessment, infrastructure security, and specialist security testing are outside the scope of this framework.
+
+---
+
+## 5.7 Accessibility Testing
+
+**Objective:**
+Identify accessibility issues that may prevent users with accessibility requirements from interacting correctly with the application.
+
+**Coverage:**
+
+* Keyboard navigation
+* Form labels
+* Accessible names
+* Semantic HTML
+* Focus management
+* Basic ARIA usage
+* Image alternative text
+* Color and contrast checks where applicable
+* Basic screen-reader compatibility checks
+
+**Automation Approach:**
+Selected accessibility rules will be validated using automated tools such as axe integrated with Playwright.
+
+Automated accessibility testing will complement, rather than replace, manual accessibility evaluation.
+
+---
+
+## 5.8 Compatibility Testing
+
+**Objective:**
+Verify that the application behaves consistently across supported browsers, operating systems, viewport configurations, and supported environments.
+
+**Browser Coverage:**
+
+* Chromium
+* Firefox
+* WebKit
+
+**Environment Coverage:**
+
+* Supported desktop operating systems
+* Supported browser versions
+* Different viewport sizes
+* Mobile and tablet viewport configurations where applicable
+* Configurable test environments
+
+**Coverage Areas:**
+
+* Navigation
+* Authentication
+* Product discovery
+* Product details
+* Cart
+* Checkout
+* Customer account
+* Critical administration workflows
+
+**Automation Approach:**
+Playwright browser projects will be used to execute selected scenarios across supported browser configurations.
+
+---
+
+## 5.9 Cross-Browser Testing
+
+**Objective:**
+Verify that critical application functionality behaves consistently across supported browser engines.
+
+**Target Browsers:**
+
+* Chromium
+* Firefox
+* WebKit
+
+**Priority:**
+
+Cross-browser execution will prioritize:
+
+* Login
+* Product discovery
+* Product details
+* Cart
+* Checkout
+* Order workflows
+* Critical administration workflows
+
+**Automation Approach:**
+Implemented using Playwright Projects and browser-specific test execution.
+
+---
+
+## 5.10 Data Validation Testing
+
+**Objective:**
+Verify that business data remains correct and consistent across different application operations and system layers.
+
+**Coverage:**
+
+* Product information
+* Product pricing
+* Cart totals
+* Customer information
+* Address information
+* Order information
+* Order status
+* Promotion and discount values
+* API response data
+* UI/API data consistency
+* Database consistency where accessible
+
+**Examples:**
+
+* Verify that the product price displayed on the product page matches the cart price.
+* Verify that the order total matches the expected calculation.
+* Verify that order information returned by an API matches the corresponding UI data.
+
+**Automation Approach:**
+UI, API, and database validation may be combined where appropriate.
+
+---
+
+## 5.11 Performance Testing
+
+**Objective:**
+Evaluate application responsiveness, stability, and behavior under expected and increased workloads.
+
+**Coverage:**
+
+* Page response time
+* API response time
+* Concurrent users
+* Load behavior
+* Stress conditions
+* Spike conditions
+* Sustained/soak behavior
+* Resource utilization
+* Performance degradation
+
+**Automation Approach:**
+Performance testing is not a primary responsibility of the Playwright functional framework.
+
+Dedicated tools such as **k6, JMeter, or Gatling** will be used for performance testing.
+
+---
+
+## 5.12 Exploratory Testing
+
+**Objective:**
+Discover unexpected application behavior that may not be covered by predefined test cases or automated scenarios.
+
+**Focus Areas:**
+
+* New functionality
+* High-risk functionality
+* Recently changed areas
+* Complex state transitions
+* Unexpected user behavior
+* Cross-module interactions
+* Edge cases
+* Error handling
+
+**Approach:**
+Exploratory testing will be primarily manual and session-based.
+
+Findings may be converted into:
+
+* New test cases
+* New requirements
+* Defect reports
+* Automated regression tests
+
+---
+
+## 5.13 Usability Testing
+
+**Objective:**
+Evaluate whether users can understand and efficiently interact with the application.
+
+**Coverage:**
+
+* Navigation clarity
+* User-flow simplicity
+* Error-message clarity
+* Form interaction
+* Checkout experience
+* Consistency of interactions
+* Discoverability of important functionality
+
+**Automation Approach:**
+Primarily manual because usability requires human observation and judgment.
+
+---
+
+## 5.14 Localization Testing
+
+**Objective:**
+Verify that region-specific and localized functionality behaves correctly where multiple locales are supported.
+
+**Coverage:**
+
+* Language
+* Currency
+* Date and time formats
+* Regional formatting
+* Localized product information
+* Region-specific pricing
+* Region-specific availability
+* Translated UI content
+
+**Automation Approach:**
+Selected deterministic localization checks may be automated, while linguistic quality and contextual translation remain primarily manual.
+
+---
+
+## 5.15 Recovery / Resilience Testing
+
+**Objective:**
+Verify that the application handles interruptions, failures, and unavailable dependencies in a controlled and recoverable manner.
+
+**Coverage:**
+
+* Network interruptions
+* API failures
+* Service unavailability
+* Session interruptions
+* Failed requests
+* Retry behavior
+* Recovery after temporary failures
+* Data consistency after interrupted operations
+
+**Automation Approach:**
+Selected resilience scenarios may be automated using Playwright, API mocking, or network interception where technically feasible.
+
+---
+
+## 5.16 Test Type Selection Principle
+
+Test types will be selected based on:
+
+1. Business risk
+2. Requirement criticality
+3. User impact
+4. Frequency of execution
+5. Regression potential
+6. Technical feasibility
+7. Automation ROI
+8. Defect history
+9. Complexity of the affected functionality
+
+The framework will prioritize testing that provides the highest value for critical business workflows rather than attempting to execute every test type against every feature.
+
+### Primary Automation Scope
+
+The Playwright framework will primarily support:
+
+* Functional Testing
+* Regression Testing
+* Smoke Testing
+* Sanity Testing
+* Negative Testing
+* Cross-Browser Testing
+* Compatibility Testing
+* End-to-End Testing
+
+### Extended Automation Scope
+
+Additional automation may support:
+
+* API Testing
+* Integration Testing
+* Data Validation Testing
+* Accessibility Testing
+* Selected Security Testing
+* Selected Localization Testing
+* Selected Recovery / Resilience Testing
+
+### Dedicated / Complementary Testing
+
+The following require dedicated tools or significant manual evaluation:
+
+* Performance Testing
+* Full Security Assessment
+* Exploratory Testing
+* Usability Testing
+* Advanced Accessibility Evaluation
