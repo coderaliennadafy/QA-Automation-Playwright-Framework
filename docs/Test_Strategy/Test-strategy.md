@@ -1014,7 +1014,7 @@ The following require dedicated tools or significant manual evaluation:
 # 6. Automation Strategy
 
 
-1. Automation Objectives
+## 6.1 Automation Objectives
 
 The automation strategy aims to:
 
@@ -1027,7 +1027,8 @@ Improve test repeatability and execution consistency.
 Build a scalable and maintainable Playwright automation framework.
 Integrate automated testing into CI/CD pipelines.
 Provide actionable execution reports and failure evidence.
-2. Automation Scope
+
+## 6.2 Automation Scope
 
 Automation will focus primarily on stable, repeatable, and business-critical functionality.
 
@@ -1074,7 +1075,8 @@ CAPTCHA and anti-bot mechanisms
 Third-party systems outside the project's control
 Scenarios requiring manual human judgment
 Scenarios with no meaningful regression value
-3. Automation Prioritization
+
+## 6.3 Automation Prioritization
 
 Automation priority will be based on business risk × execution frequency × stability × automation value.
 
@@ -1090,23 +1092,30 @@ Cart
 Checkout
 Order placement
 Order confirmation
+
 Priority 2 — High
+
 Customer profile
 Order history
 Product filtering
 Product sorting
 Session-related workflows
 Important negative scenarios
+
 Priority 3 — Medium
+
 Secondary account functionality
 Less frequently used product features
 Administrative workflows with stable behavior
+
 Priority 4 — Low
+
 Rarely used functionality
 Low-risk scenarios
 Highly unstable features
 Scenarios with low automation ROI
-4. Automation Approach
+
+## 6.4 Automation Approach
 
 The project will use Playwright with JavaScript.
 
@@ -1124,7 +1133,7 @@ Application
 
 This separation prevents test cases from becoming tightly coupled to UI implementation details.
 
-5. Automation Design Principles
+## 6.5 Automation Design Principles
 
 The framework will follow these principles:
 
@@ -1156,7 +1165,7 @@ Traceability
 
 Each automated test should be traceable to a requirement or test scenario.
 
-6. Test Architecture
+## 6.6 Test Architecture
 
 The automation framework will be organized approximately as:
 
@@ -1198,7 +1207,7 @@ QA-Automation-playwright-framework/
 
 هاد structure غادي نبنيوها بالتدريج، ماشي ضروري تكون كلها موجودة دابا.
 
-7. Test Suite Strategy
+## 6.7 Test Suite Strategy
 
 Automation will be divided into execution suites:
 
@@ -1233,7 +1242,7 @@ Full Regression
 
 Complete automated regression execution before major releases or when required.
 
-8. Test Execution Strategy
+## 6.8 Test Execution Strategy
 
 Tests should support:
 
@@ -1259,7 +1268,8 @@ Broader validation
 Full Regression
    ↓
 Release confidence
-9. Browser Strategy
+
+## 6.9 Browser Strategy
 
 Initial supported browser coverage:
 
