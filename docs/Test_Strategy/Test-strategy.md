@@ -2800,3 +2800,556 @@ The objective is to ensure that test data contributes to **reliable, determinist
 
 **Test data should support the test, not become a hidden dependency that controls whether the test passes or fails.**
 
+
+# 10. Environment Strategy
+
+The nopCommerce QA Automation Framework will use a controlled, configurable, and repeatable test environment strategy to ensure that automated tests can be executed consistently across local development and CI/CD environments.
+
+The environment strategy defines how the application, browsers, operating systems, configuration, network conditions, credentials, test data, and execution infrastructure are managed during testing.
+
+The objective is to minimize environment-related failures and ensure that test failures can be distinguished from genuine application defects.
+
+---
+
+## 10.1 Environment Objectives
+
+The environment strategy aims to:
+
+* Provide stable and repeatable conditions for test execution.
+* Support local and CI/CD execution.
+* Separate environment configuration from test logic.
+* Support multiple browser configurations.
+* Control environment-specific credentials and test data.
+* Reduce environment-related false failures.
+* Provide sufficient information for failure investigation.
+* Support reproducible test execution.
+* Identify environment readiness issues before running large test suites.
+* Allow the framework to be extended to additional environments in the future.
+
+---
+
+## 10.2 System Under Test
+
+The primary system under test is the nopCommerce web application.
+
+| Item                         | Configuration                 |
+| ---------------------------- | ----------------------------- |
+| Application                  | nopCommerce                   |
+| Application Type             | E-commerce Web Application    |
+| Primary Environment          | Public nopCommerce Demo       |
+| Application URL              | https://demo.nopcommerce.com/ |
+| Primary Automation Framework | Playwright                    |
+| Automation Language          | JavaScript                    |
+| Test Runner                  | Playwright Test               |
+| Version Control              | Git / GitHub                  |
+| CI/CD Platform               | GitHub Actions                |
+
+The public demo environment is used as the initial target because it provides a realistic e-commerce application for automation development and validation.
+
+---
+
+## 10.3 Environment Types
+
+The framework will support multiple execution environments conceptually, even when only one environment is initially available.
+
+### Local Development Environment
+
+Used for:
+
+* Test development
+* Debugging
+* Framework development
+* Failure investigation
+* Exploratory automation
+* Headed execution
+* Trace analysis
+
+### CI Environment
+
+Used for:
+
+* Automated regression execution
+* Smoke testing
+* Cross-browser execution
+* Pull-request validation
+* Scheduled test execution
+* Test reporting
+
+### Staging / Dedicated Test Environment
+
+A dedicated staging or test environment may be supported in the future if available.
+
+It would provide:
+
+* Controlled application state
+* Controlled test data
+* Reduced external interference
+* More predictable regression execution
+* Better CI stability
+
+---
+
+## 10.4 Environment Configuration
+
+Environment-specific values must remain outside the test implementation.
+
+Configuration may include:
+
+```text
+BASE_URL
+ENVIRONMENT
+TEST_USERNAME
+TEST_PASSWORD
+API_BASE_URL
+BROWSER
+HEADLESS
+TIMEOUT
+```
+
+Example:
+
+```text
+Local
+BASE_URL=https://demo.nopcommerce.com
+
+CI
+BASE_URL=https://demo.nopcommerce.com
+```
+
+The same test logic should be reusable across environments whenever possible.
+
+---
+
+## 10.5 Configuration Management
+
+Configuration will be managed through environment variables and configuration files.
+
+Sensitive values must not be stored directly in source code.
+
+Examples of sensitive or environment-specific values include:
+
+* User credentials
+* API tokens
+* Authentication secrets
+* Environment URLs
+* Service credentials
+
+Local development values may be provided through `.env` files where appropriate.
+
+CI values should be provided through GitHub Actions secrets or other secure configuration mechanisms.
+
+The `.env` file containing sensitive information must not be committed to source control.
+
+---
+
+## 10.6 Operating System Strategy
+
+The primary local development environment will use:
+
+```text
+Windows 64-bit
+```
+
+The CI environment will use the operating system provided by the configured GitHub Actions runner.
+
+The framework should avoid OS-specific assumptions where possible so that test logic remains portable.
+
+OS-specific behavior should be validated separately when it represents a meaningful compatibility risk.
+
+---
+
+## 10.7 Browser Environment Strategy
+
+The initial browser matrix will include:
+
+* Chromium
+* Firefox
+* WebKit
+
+### Execution Priority
+
+```text
+Chromium
+   ↓
+Firefox
+   ↓
+WebKit
+```
+
+Chromium will be the primary development and fast-feedback browser.
+
+Firefox and WebKit will be used for broader cross-browser validation, particularly for high-risk workflows.
+
+The browser configuration will be managed through Playwright Projects.
+
+---
+
+## 10.8 Viewport and Device Strategy
+
+The framework will support configurable viewport sizes.
+
+### Desktop
+
+* Standard desktop viewport
+* Large desktop viewport
+
+### Mobile / Tablet
+
+Playwright device emulation may be used for selected responsive scenarios.
+
+Potential coverage includes:
+
+* Navigation
+* Login
+* Registration
+* Product discovery
+* Product details
+* Cart
+* Checkout
+* Account workflows
+
+Device emulation will be treated as compatibility validation and not as a replacement for testing on real physical devices where real-device behavior is required.
+
+---
+
+## 10.9 Network Environment
+
+The initial project requires Internet access because the application is hosted publicly.
+
+The framework should account for network-related variability.
+
+Potential network-related conditions include:
+
+* Connection instability
+* Increased latency
+* Temporary connection failures
+* Third-party service delays
+* DNS failures
+* Environment availability issues
+
+Network failures should be distinguished from application defects during test analysis.
+
+Where technically appropriate, Playwright request/response interception may be used to simulate selected network conditions.
+
+---
+
+## 10.10 Authentication Environment
+
+Authenticated scenarios will use dedicated test accounts where available.
+
+Credentials must be:
+
+* Environment-specific
+* Securely stored
+* Externalized from test code
+* Reusable only where sharing does not create test interference
+
+Authentication state may be stored and reused through Playwright authentication mechanisms when appropriate.
+
+Tests should not depend on another test having successfully created or modified authentication state.
+
+---
+
+## 10.11 Test Data Environment
+
+Test data will follow the dedicated Test Data Strategy.
+
+The environment must provide or allow creation of:
+
+* Customer accounts
+* Admin accounts where applicable
+* Product data
+* Cart data
+* Checkout data
+* Order data
+* Negative test data
+
+The public demo environment may contain shared or changing data.
+
+Therefore, tests should minimize dependency on mutable shared records.
+
+Where possible, tests should create their own required data through appropriate application interfaces or controlled setup mechanisms.
+
+---
+
+## 10.12 Environment Isolation
+
+Tests should be isolated from one another whenever technically possible.
+
+The framework should avoid:
+
+* Shared mutable accounts
+* Shared cart state
+* Shared order state
+* Test-order dependencies
+* Hard-coded assumptions about data created by another test
+
+Preferred model:
+
+```text
+Test A → Own State
+Test B → Own State
+Test C → Own State
+```
+
+This supports:
+
+* Parallel execution
+* Repeatability
+* Re-runs
+* Debugging
+* CI stability
+
+---
+
+## 10.13 Environment Readiness
+
+Before executing large test suites, the environment should be validated.
+
+Readiness checks may include:
+
+* Application URL is reachable.
+* Required pages can be loaded.
+* Browser launches successfully.
+* Required environment variables are available.
+* Required test accounts are available.
+* Required test data is available.
+* Application authentication is operational.
+* Playwright configuration is valid.
+
+If critical readiness checks fail, dependent tests should not be incorrectly reported as product defects.
+
+---
+
+## 10.14 Environment Health Check
+
+The framework may include a lightweight pre-test health check.
+
+Example:
+
+```text
+Environment Health Check
+        ↓
+Application Reachable?
+        ↓
+Login / Basic Navigation Available?
+        ↓
+Required Configuration Available?
+        ↓
+Environment Ready
+```
+
+The purpose is to identify obvious environment failures before executing an expensive regression suite.
+
+---
+
+## 10.15 Environment Limitations
+
+The public nopCommerce demo environment may introduce limitations such as:
+
+* Data changes caused by other users
+* Dynamic product or catalog data
+* Temporary service interruptions
+* Shared environment state
+* Third-party integration limitations
+* Rate limiting
+* Network instability
+* Environment resets
+* Unexpected changes outside the automation project
+
+These limitations must be considered during failure analysis.
+
+A failure should not automatically be classified as an application defect until environmental causes have been considered.
+
+---
+
+## 10.16 Failure Classification
+
+When an automated test fails, the environment will be considered as one possible failure source.
+
+The investigation flow is:
+
+```text
+Test Failure
+      ↓
+Environment Issue?
+      ↓
+Test Data Issue?
+      ↓
+Automation / Framework Issue?
+      ↓
+Application Defect?
+```
+
+Evidence should be collected where appropriate, including:
+
+* Screenshot
+* Trace
+* Video
+* Console logs
+* Network information
+* Environment
+* Browser
+* Timestamp
+* Test data identifiers
+
+---
+
+## 10.17 Local Execution Strategy
+
+Local execution will primarily support:
+
+* Test development
+* Debugging
+* Failure reproduction
+* Headed execution
+* Individual test execution
+* Targeted test groups
+* Trace inspection
+
+Typical local execution modes:
+
+```text
+Headed
+   ↓
+Debugging / Development
+
+Headless
+   ↓
+Fast local validation
+
+Targeted Test
+   ↓
+Feature-specific investigation
+```
+
+---
+
+## 10.18 CI Execution Strategy
+
+CI execution will use GitHub Actions.
+
+The CI environment should support:
+
+1. Source checkout
+2. Dependency installation
+3. Playwright installation
+4. Environment configuration
+5. Environment readiness checks
+6. Test execution
+7. Test result collection
+8. HTML report generation
+9. Failure artifact collection
+
+Artifacts may include:
+
+* Screenshots
+* Traces
+* Videos where configured
+* HTML reports
+* Logs
+
+---
+
+## 10.19 Environment Matrix
+
+The initial environment matrix is:
+
+| Area               | Configuration                         |
+| ------------------ | ------------------------------------- |
+| Application        | nopCommerce                           |
+| Primary Target     | Public Demo                           |
+| Local OS           | Windows 64-bit                        |
+| CI                 | GitHub Actions                        |
+| Primary Browser    | Chromium                              |
+| Secondary Browsers | Firefox, WebKit                       |
+| UI Automation      | Playwright                            |
+| Language           | JavaScript                            |
+| Network            | Internet / HTTPS                      |
+| Test Data          | Synthetic / controlled where possible |
+| Authentication     | Dedicated test credentials            |
+| Execution          | Local + CI                            |
+| Reporting          | Playwright HTML Report                |
+
+---
+
+## 10.20 Environment Scalability
+
+The framework should be designed so that additional environments can be added without rewriting test logic.
+
+Potential future environments include:
+
+```text
+Development
+    ↓
+Test / QA
+    ↓
+Staging
+    ↓
+Production-like
+```
+
+Environment-specific differences should remain in configuration rather than in individual test cases.
+
+---
+
+## 10.21 Environment Maintenance
+
+Environment maintenance will include:
+
+* Updating URLs
+* Updating credentials
+* Updating browser versions
+* Updating Playwright versions
+* Updating environment variables
+* Reviewing test accounts
+* Reviewing test data
+* Monitoring environment availability
+* Updating CI runner configuration
+* Documenting known environment limitations
+
+Changes to the environment should be evaluated for their potential impact on automated test stability.
+
+---
+
+## 10.22 Environment Governance
+
+Environment changes should be documented when they can affect test results.
+
+Important changes may include:
+
+* Application version changes
+* Major configuration changes
+* Authentication changes
+* API endpoint changes
+* Database resets
+* Browser updates
+* CI runner changes
+* Third-party integration changes
+
+The objective is to maintain confidence that changes in test results are caused by the application or test code rather than undocumented environment changes.
+
+---
+
+## 10.23 Environment Strategy Success Criteria
+
+The environment strategy will be considered effective when:
+
+* Tests can be executed consistently locally.
+* CI execution is reproducible.
+* Environment-specific configuration is externalized.
+* Sensitive credentials are protected.
+* Tests are isolated from unnecessary shared state.
+* Environment-related failures can be identified.
+* Browser configurations can be executed predictably.
+* Additional environments can be added without major test-code changes.
+* Test failures contain sufficient environment information for investigation.
+
+---
+
+## Final Principle
+
+**A reliable automation framework requires a predictable and well-controlled execution environment. Environment configuration, test data, credentials, browser settings, and execution infrastructure should remain separate from test logic so that the same automation can run consistently across supported environments.**
+
+
+
