@@ -2278,3 +2278,525 @@ The objective is to provide clear visibility between **business requirements and
 ## Final Principle
 
 **Every important requirement should have visible, maintainable, and traceable test coverage, from the original requirement through test execution and defect resolution.**
+
+
+# 9. Test Data Strategy
+
+The nopCommerce QA Automation Framework will use a controlled, reliable, reusable, and environment-aware test data strategy to support functional, negative, regression, API, and end-to-end testing.
+
+The objective is to ensure that automated tests have the correct data required for execution without introducing unnecessary dependencies, test-order issues, data conflicts, or non-deterministic behavior.
+
+Test data management will be treated as a core part of the automation architecture rather than as hard-coded values inside individual test cases.
+
+---
+
+## 9.1 Test Data Objectives
+
+The test data strategy aims to:
+
+* Provide reliable data for repeatable test execution.
+* Keep test data separated from test logic.
+* Support positive, negative, and boundary scenarios.
+* Reduce test dependencies on shared application state.
+* Minimize test-order dependency.
+* Support local and CI/CD execution.
+* Allow controlled creation and cleanup of test data.
+* Prevent the use of real or sensitive customer information.
+* Support different application environments.
+* Make test failures easier to reproduce and investigate.
+* Enable scalable test execution as automation coverage increases.
+
+---
+
+## 9.2 Test Data Categories
+
+The framework will organize test data according to its intended testing purpose.
+
+### Customer Data
+
+Examples include:
+
+* Valid registered customers
+* New customer registration data
+* Invalid customer credentials
+* Locked or restricted accounts where applicable
+* Guest customer data
+* Customer profile information
+* Address information
+
+### Product Data
+
+Examples include:
+
+* Available products
+* Out-of-stock products
+* Products with different prices
+* Products with variants
+* Products with discounts
+* Products with different availability states
+
+### Cart Data
+
+Examples include:
+
+* Single-product cart
+* Multi-product cart
+* Different quantities
+* Empty cart
+* Invalid quantity values
+* Product availability changes
+
+### Checkout Data
+
+Examples include:
+
+* Valid billing information
+* Valid shipping information
+* Invalid required fields
+* Different shipping methods
+* Different payment methods
+* Boundary-value checkout inputs
+
+### Order Data
+
+Examples include:
+
+* Newly created orders
+* Existing orders
+* Different order statuses
+* Orders with different products
+* Orders with different totals
+
+### Negative Test Data
+
+Examples include:
+
+* Invalid email addresses
+* Invalid passwords
+* Empty required fields
+* Unsupported values
+* Invalid product quantities
+* Invalid addresses
+* Unauthorized credentials
+* Invalid API payloads
+
+### Boundary Test Data
+
+Examples include:
+
+* Minimum accepted value
+* Maximum accepted value
+* Minimum/maximum quantity
+* Maximum field length
+* Empty values
+* Null or missing values where applicable
+
+---
+
+## 9.3 Test Data Separation
+
+Test data should be separated from test implementation wherever practical.
+
+Example:
+
+```text
+tests/
+pages/
+fixtures/
+test-data/
+    customers/
+    products/
+    checkout/
+    negative/
+    boundary/
+```
+
+The objective is to avoid hard-coding large amounts of test data directly inside test files.
+
+Example:
+
+```text
+Test Logic
+    ↓
+Test Data
+    ↓
+Test Execution
+```
+
+This makes test data easier to update without changing the test logic itself.
+
+---
+
+## 9.4 Static vs Dynamic Test Data
+
+The framework will use both static and dynamically generated test data depending on the scenario.
+
+### Static Test Data
+
+Static data may be used when:
+
+* The value is stable.
+* The value is required across multiple tests.
+* The value represents a known business condition.
+* Reproducibility is more important than uniqueness.
+
+Examples:
+
+* Valid search terms
+* Fixed boundary values
+* Known product identifiers
+* Expected validation messages
+
+### Dynamic Test Data
+
+Dynamic data should be generated when uniqueness or isolation is required.
+
+Examples:
+
+* New customer email addresses
+* Unique usernames
+* Temporary identifiers
+* Unique test orders
+* Timestamp-based values
+
+Dynamic data reduces collisions between repeated or parallel test executions.
+
+---
+
+## 9.5 Test Data Ownership
+
+The framework should distinguish between:
+
+### Framework-Owned Data
+
+Data created specifically for automation and controlled by the test framework.
+
+Examples:
+
+* Test customers created for a test
+* Test orders
+* Test-generated addresses
+* Temporary test entities
+
+### Application-Owned Data
+
+Data already provided by the environment.
+
+Examples:
+
+* Existing products
+* Preconfigured categories
+* Existing administration roles
+* Pre-existing catalog configuration
+
+Application-owned data should not be modified unnecessarily because changes may affect unrelated tests.
+
+---
+
+## 9.6 Test Data Creation Strategy
+
+Where technically feasible, tests should create the data they require rather than depending on shared pre-existing state.
+
+Preferred order of data creation:
+
+```text
+API / Backend setup
+        ↓
+Database setup where appropriate
+        ↓
+UI setup when necessary
+        ↓
+Use data in test
+```
+
+API-based data setup should be preferred over UI setup when it is faster, more reliable, and technically available.
+
+Example:
+
+```text
+Create Customer via API
+        ↓
+Create / prepare required data
+        ↓
+Launch UI
+        ↓
+Execute customer workflow
+```
+
+This reduces unnecessary UI steps and decreases test execution time.
+
+---
+
+## 9.7 Test Data Isolation
+
+Tests should avoid sharing mutable data whenever possible.
+
+The framework should prefer:
+
+* Independent test accounts
+* Unique records
+* Isolated test entities
+* Test-specific data
+* Controlled state initialization
+
+A test should not depend on another test having executed successfully before it.
+
+Bad approach:
+
+```text
+Test A creates customer
+       ↓
+Test B uses customer created by Test A
+       ↓
+Test C updates same customer
+```
+
+Preferred approach:
+
+```text
+Test A → Own data
+Test B → Own data
+Test C → Own data
+```
+
+This reduces test-order dependency and parallel execution conflicts.
+
+---
+
+## 9.8 Test Data Reusability
+
+Reusable test data should be provided for common scenarios.
+
+Examples:
+
+* Valid customer
+* Valid admin user
+* Standard product
+* Discounted product
+* Valid address
+* Valid checkout data
+
+Reusable data should be centralized where doing so does not introduce shared mutable state.
+
+---
+
+## 9.9 Sensitive Data Management
+
+The framework will not use real customer or production-sensitive information.
+
+The following should not be committed to source control:
+
+* Real passwords
+* Production credentials
+* API secrets
+* Private tokens
+* Payment information
+* Personally identifiable customer data
+
+Environment-specific credentials should be provided through:
+
+* Environment variables
+* Local `.env` configuration
+* CI/CD secrets
+* Secret management mechanisms
+
+Example:
+
+```text
+TEST_USERNAME
+TEST_PASSWORD
+API_TOKEN
+```
+
+Sensitive values must not be hard-coded in test files.
+
+---
+
+## 9.10 Test Data Environment Strategy
+
+Test data must be compatible with the target environment.
+
+For example:
+
+```text
+Development
+    ↓
+Environment-specific test data
+
+CI
+    ↓
+CI-specific credentials and test data
+
+Staging
+    ↓
+Staging-compatible test data
+```
+
+The same test logic should be reusable across environments wherever possible.
+
+Environment-specific values should be externalized through configuration rather than embedded in tests.
+
+---
+
+## 9.11 Test Data Cleanup
+
+Test-generated data should be cleaned up when required and technically feasible.
+
+Cleanup may include:
+
+* Temporary customer accounts
+* Test orders
+* Temporary addresses
+* Test-generated records
+* Temporary API resources
+
+Cleanup may occur:
+
+```text
+After Test
+```
+
+or:
+
+```text
+After Test Suite
+```
+
+depending on the dependency between tests and the application behavior.
+
+The preferred approach is to leave the environment in a predictable state while avoiding unnecessary cleanup operations that could introduce additional failures.
+
+---
+
+## 9.12 Test Data Reset and Recovery
+
+When an environment becomes inconsistent, the framework should support controlled recovery where possible.
+
+Examples:
+
+* Recreating test accounts
+* Reinitializing test state
+* Restoring known test data
+* Recreating temporary test entities
+
+Test data reset procedures should be documented for CI and local development.
+
+---
+
+## 9.13 Test Data for Parallel Execution
+
+Test data strategy must support parallel test execution.
+
+When tests run concurrently, shared mutable data can cause:
+
+* Data collisions
+* Test interference
+* Duplicate records
+* Incorrect assertions
+* Non-deterministic failures
+
+To reduce these issues, the framework should use:
+
+* Unique generated identifiers
+* Test-specific accounts
+* Isolated records
+* Worker-aware data where necessary
+* Independent setup and cleanup
+
+Example:
+
+```text
+Worker 1 → customer_001
+Worker 2 → customer_002
+Worker 3 → customer_003
+```
+
+---
+
+## 9.14 Test Data Validation
+
+Test data itself must be validated when necessary.
+
+Before execution, the framework may verify:
+
+* Required accounts exist
+* Required products are available
+* Required roles exist
+* Required configuration is active
+* Required test data is valid
+
+Environment validation should prevent false failures caused by missing or invalid test data.
+
+---
+
+## 9.15 Test Data Traceability
+
+Important test data should be traceable to the scenarios that depend on it.
+
+Example:
+
+```text
+REQ-CART-001
+    ↓
+TC-CART-001
+    ↓
+Customer Data
++
+Product Data
++
+Cart Data
+```
+
+This helps determine which tests may be affected when test data changes.
+
+---
+
+## 9.16 Test Data Maintenance
+
+Test data will be reviewed and maintained as application requirements evolve.
+
+Maintenance activities include:
+
+* Removing obsolete data
+* Updating changed product structures
+* Updating validation values
+* Updating roles and permissions
+* Updating API payloads
+* Updating test accounts
+* Updating boundary values
+* Reviewing data collisions and duplication
+* Reviewing data dependencies
+
+---
+
+## 9.17 Test Data Quality Rules
+
+The following rules will apply:
+
+1. Test data must be relevant to the scenario being tested.
+2. Tests should avoid unnecessary shared mutable data.
+3. Test data should be reproducible whenever possible.
+4. Sensitive information must not be committed to source control.
+5. Dynamic data should be used when uniqueness is required.
+6. Test data should support positive, negative, and boundary scenarios.
+7. Test-generated data should be isolated from unrelated tests.
+8. Test data must support local and CI/CD execution.
+9. Obsolete or invalid test data should be removed or updated.
+10. Test failures caused by invalid test data must be distinguished from genuine application defects.
+
+---
+
+## 9.18 Test Data Strategy Summary
+
+The framework will use a combination of:
+
+**Static Data + Dynamic Data + API-Based Setup + Controlled Application Data + Environment-Specific Configuration**
+
+The preferred strategy is to create or prepare only the data required by each test, keep tests isolated, minimize dependencies on shared state, and externalize sensitive or environment-specific values.
+
+The objective is to ensure that test data contributes to **reliable, deterministic, repeatable, and scalable test execution**.
+
+### Final Principle
+
+**Test data should support the test, not become a hidden dependency that controls whether the test passes or fails.**
+
