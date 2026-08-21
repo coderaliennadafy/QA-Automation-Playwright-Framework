@@ -1909,4 +1909,372 @@ The objective is to maximize **risk coverage and defect detection value**, rathe
 
 **Test the highest-risk functionality first, protect critical business workflows continuously, and allocate automation effort where it provides the greatest quality and regression value.**
 
+# 8. Requirements Traceability
 
+The nopCommerce QA Automation Framework will maintain traceability between defined requirements, test scenarios, test cases, automated tests, test execution results, and defects.
+
+The objective of Requirements Traceability is to ensure that:
+
+* Every in-scope requirement has appropriate test coverage.
+* Test scenarios and test cases can be traced back to their originating requirements.
+* Automated tests can be linked to the corresponding test cases.
+* Test failures can be traced back to affected requirements.
+* Defects can be associated with the relevant requirement and test coverage.
+* Changes to requirements can be evaluated for their impact on existing tests and automation.
+* Test coverage gaps can be identified before release.
+
+---
+
+## 8.1 Traceability Chain
+
+The project will maintain the following traceability relationship:
+
+```text
+Requirement
+     ↓
+Test Scenario
+     ↓
+Test Case
+     ↓
+Automated Test
+     ↓
+Test Execution
+     ↓
+Defect
+```
+
+This relationship provides visibility from the original business requirement through validation and defect resolution.
+
+---
+
+## 8.2 Requirement Identification
+
+Each requirement will be assigned a unique identifier.
+
+Example:
+
+```text
+REQ-AUTH-001
+REQ-AUTH-002
+REQ-CART-001
+REQ-CART-002
+REQ-CHECKOUT-001
+REQ-ORDER-001
+```
+
+Requirement identifiers should remain stable even when the requirement description changes.
+
+Requirements may represent:
+
+* Functional behavior
+* Business rules
+* Validation rules
+* Authentication and authorization behavior
+* Integration requirements
+* Data behavior
+* Non-functional requirements where applicable
+
+---
+
+## 8.3 Test Scenario Identification
+
+Each test scenario will reference the requirement that it validates.
+
+Example:
+
+```text
+Requirement:
+REQ-CART-001
+
+Test Scenario:
+TS-CART-001
+
+Description:
+Verify that an authenticated customer can add an available product to the shopping cart.
+```
+
+A single requirement may have multiple test scenarios covering different conditions.
+
+Example:
+
+```text
+REQ-CART-001
+    ├── TS-CART-001 Positive scenario
+    ├── TS-CART-002 Negative scenario
+    ├── TS-CART-003 Boundary scenario
+    └── TS-CART-004 Regression scenario
+```
+
+---
+
+## 8.4 Test Case Traceability
+
+Each test case will contain a reference to the corresponding requirement and test scenario.
+
+Example:
+
+| Requirement ID | Scenario ID | Test Case ID | Description                   |
+| -------------- | ----------- | ------------ | ----------------------------- |
+| REQ-CART-001   | TS-CART-001 | TC-CART-001  | Add available product to cart |
+| REQ-CART-001   | TS-CART-002 | TC-CART-002  | Prevent invalid quantity      |
+| REQ-CART-002   | TS-CART-003 | TC-CART-003  | Update cart quantity          |
+| REQ-CART-003   | TS-CART-004 | TC-CART-004  | Remove product from cart      |
+
+This allows each test case to be traced directly to a business or functional requirement.
+
+---
+
+## 8.5 Automation Traceability
+
+Automated tests will maintain a clear relationship with the corresponding test case and requirement.
+
+Example:
+
+```text
+REQ-CART-001
+      ↓
+TC-CART-001
+      ↓
+tests/ui/cart/add-product.spec.js
+```
+
+Where practical, requirement and test-case identifiers may be referenced in:
+
+* Test titles
+* Test annotations
+* Test metadata
+* Test management systems
+* Documentation
+* Source-code comments where appropriate
+
+The objective is to avoid having automated tests with no identifiable business purpose.
+
+---
+
+## 8.6 Test Execution Traceability
+
+Each test execution should provide enough information to identify:
+
+* Requirement
+* Test scenario
+* Test case
+* Automated test
+* Execution status
+* Browser
+* Environment
+* Execution timestamp
+* Failure evidence where applicable
+
+Example:
+
+```text
+REQ-CART-001
+      ↓
+TC-CART-001
+      ↓
+Add Product Test
+      ↓
+FAIL
+      ↓
+Chromium / CI
+      ↓
+Trace + Screenshot
+```
+
+---
+
+## 8.7 Defect Traceability
+
+Defects identified during testing will be linked to the affected requirement and test coverage.
+
+Example:
+
+```text
+REQ-CHECKOUT-001
+      ↓
+TC-CHECKOUT-005
+      ↓
+Automated Test
+      ↓
+FAIL
+      ↓
+BUG-CHECKOUT-003
+```
+
+Defect records should contain references to the relevant:
+
+* Requirement
+* Test case
+* Test execution
+* Evidence
+* Environment
+* Browser
+* Build or commit where applicable
+
+This provides a complete audit trail from requirement to defect.
+
+---
+
+## 8.8 Traceability Matrix
+
+A Requirements Traceability Matrix (RTM) will be used to provide an overview of requirement coverage.
+
+Example:
+
+| Requirement ID | Requirement           | Test Scenario | Test Case   | Automation | Execution | Defect      |
+| -------------- | --------------------- | ------------- | ----------- | ---------- | --------- | ----------- |
+| REQ-AUTH-001   | Customer registration | TS-AUTH-001   | TC-AUTH-001 | ✅          | ✅ Passed  | —           |
+| REQ-AUTH-002   | Customer login        | TS-AUTH-002   | TC-AUTH-002 | ✅          | ✅ Passed  | —           |
+| REQ-CART-001   | Add product to cart   | TS-CART-001   | TC-CART-001 | ✅          | ✅ Passed  | —           |
+| REQ-CART-002   | Update cart quantity  | TS-CART-002   | TC-CART-002 | ✅          | ✅ Passed  | —           |
+| REQ-CHK-001    | Complete checkout     | TS-CHK-001    | TC-CHK-001  | ✅          | ❌ Failed  | BUG-CHK-001 |
+| REQ-ORD-001    | View order history    | TS-ORD-001    | TC-ORD-001  | ✅          | ✅ Passed  | —           |
+
+The RTM will be updated when requirements, test cases, automation, or defects change.
+
+---
+
+## 8.9 Bidirectional Traceability
+
+Traceability should work in both directions.
+
+### Forward Traceability
+
+Verify that every requirement has appropriate test coverage.
+
+```text
+Requirement
+     ↓
+Test Scenario
+     ↓
+Test Case
+     ↓
+Automation
+```
+
+### Backward Traceability
+
+Verify that every test exists for a valid requirement or approved testing objective.
+
+```text
+Automated Test
+     ↓
+Test Case
+     ↓
+Test Scenario
+     ↓
+Requirement
+```
+
+This helps identify both:
+
+* Untested requirements
+* Unnecessary or orphaned tests
+
+---
+
+## 8.10 Coverage Analysis
+
+Requirement coverage will be monitored to identify gaps.
+
+Coverage categories may include:
+
+### Covered
+
+Requirement has one or more valid test cases and appropriate execution coverage.
+
+### Partially Covered
+
+Requirement has some test coverage but important scenarios remain untested.
+
+### Not Covered
+
+Requirement has no corresponding test coverage.
+
+### Blocked
+
+Requirement has defined coverage, but execution is currently blocked by an environment, dependency, or other valid constraint.
+
+Example:
+
+| Requirement  | Status            |
+| ------------ | ----------------- |
+| REQ-AUTH-001 | Covered           |
+| REQ-CART-001 | Covered           |
+| REQ-CHK-001  | Partially Covered |
+| REQ-PAY-001  | Blocked           |
+
+---
+
+## 8.11 Change Impact Analysis
+
+When a requirement changes, the affected test coverage will be identified before implementation is updated.
+
+The analysis will evaluate:
+
+```text
+Requirement Change
+       ↓
+Affected Test Scenarios
+       ↓
+Affected Test Cases
+       ↓
+Affected Automated Tests
+       ↓
+Affected Regression Coverage
+```
+
+This helps prevent outdated tests and ensures that automation remains aligned with current product behavior.
+
+---
+
+## 8.12 Traceability Maintenance
+
+Traceability information will be maintained throughout the testing lifecycle.
+
+Maintenance activities include:
+
+* Adding traceability for new requirements.
+* Updating test cases when requirements change.
+* Updating automated tests when test cases change.
+* Linking defects to affected requirements and tests.
+* Removing obsolete traceability links.
+* Reviewing coverage during regression and release preparation.
+* Identifying requirements without adequate coverage.
+
+Traceability will be treated as a continuous QA activity rather than a one-time documentation task.
+
+---
+
+## 8.13 Traceability Quality Rules
+
+The following rules will apply:
+
+1. Every in-scope requirement should have at least one associated test scenario.
+2. Critical requirements should have appropriate positive, negative, and regression coverage where applicable.
+3. Every automated test should have an identifiable test purpose.
+4. Test cases should reference their originating requirements.
+5. Defects should reference the affected requirement and test coverage where applicable.
+6. Obsolete requirements and tests should not remain active in the traceability matrix.
+7. Traceability gaps should be reviewed before major regression or release activities.
+
+---
+
+## 8.14 Requirements Traceability Success Criteria
+
+Requirements Traceability will be considered effective when the team can answer the following questions:
+
+* Which tests validate this requirement?
+* Which automated tests cover this requirement?
+* Has this requirement been executed successfully?
+* Which defects are associated with this requirement?
+* What tests are affected if this requirement changes?
+* Are any critical requirements missing test coverage?
+
+The objective is to provide clear visibility between **business requirements and quality validation** throughout the testing lifecycle.
+
+---
+
+## Final Principle
+
+**Every important requirement should have visible, maintainable, and traceable test coverage, from the original requirement through test execution and defect resolution.**
