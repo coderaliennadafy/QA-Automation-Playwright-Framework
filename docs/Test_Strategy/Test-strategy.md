@@ -1400,3 +1400,513 @@ Final Automation Strategy Principle
 
 Automate for confidence, speed, repeatability, and maintainability — not simply for the number of automated test cases.
 
+# 7. Risk-Based Prioritization
+
+The nopCommerce QA Automation Framework will use a **risk-based prioritization approach** to allocate testing effort according to business importance, user impact, likelihood of failure, technical complexity, and change exposure.
+
+The objective is to ensure that the highest-risk functionality receives the deepest and earliest test coverage, while lower-risk functionality is validated using an appropriate level of effort.
+
+Risk-based prioritization will guide:
+
+* Feature testing priority
+* Test case priority
+* Automation priority
+* Regression coverage
+* Test execution order
+* Browser coverage
+* API and UI coverage depth
+* Release validation effort
+
+---
+
+## 7.1 Risk Assessment Criteria
+
+Each in-scope feature will be evaluated using the following risk factors.
+
+### Business Impact
+
+Measures the potential business consequence if the functionality fails.
+
+| Score | Description              |
+| ----- | ------------------------ |
+| 1     | Minimal business impact  |
+| 2     | Low business impact      |
+| 3     | Moderate business impact |
+| 4     | High business impact     |
+| 5     | Critical business impact |
+
+Examples of high business impact functionality:
+
+* Checkout
+* Order placement
+* Payment-related behavior
+* Authentication
+* Order management
+
+---
+
+### Likelihood of Failure
+
+Measures how likely the functionality is to fail based on complexity, historical defects, dependencies, and implementation characteristics.
+
+| Score | Description           |
+| ----- | --------------------- |
+| 1     | Very unlikely to fail |
+| 2     | Unlikely              |
+| 3     | Possible              |
+| 4     | Likely                |
+| 5     | Highly likely         |
+
+Factors considered include:
+
+* Historical defect rate
+* Technical complexity
+* Number of dependencies
+* Data complexity
+* Integration points
+* Recent implementation changes
+
+---
+
+### Change Exposure
+
+Measures how frequently or significantly the functionality is expected to change.
+
+| Score | Description                           |
+| ----- | ------------------------------------- |
+| 1     | Rarely changed                        |
+| 2     | Infrequently changed                  |
+| 3     | Occasionally changed                  |
+| 4     | Frequently changed                    |
+| 5     | Continuously or significantly changed |
+
+Frequently changing functionality requires stronger regression coverage because changes increase the probability of regression.
+
+---
+
+### User Impact
+
+Measures the number and importance of users affected by a potential failure.
+
+| Score | Description                       |
+| ----- | --------------------------------- |
+| 1     | Very limited users                |
+| 2     | Small user group                  |
+| 3     | Moderate user impact              |
+| 4     | Large user impact                 |
+| 5     | Broad or customer-critical impact |
+
+---
+
+## 7.2 Risk Identification
+
+Risks will be identified during:
+
+* Requirement analysis
+* Test planning
+* Feature analysis
+* Architecture review
+* API analysis
+* Exploratory testing
+* Defect analysis
+* Regression analysis
+* Production-like scenario evaluation
+* Changes to existing functionality
+
+Potential risks may include:
+
+### Functional Risks
+
+* Incorrect business rules
+* Incorrect calculations
+* Invalid state transitions
+* Missing validation
+* Incorrect workflow behavior
+
+### Integration Risks
+
+* Payment integration failure
+* Shipping integration failure
+* Authentication service failure
+* API communication failure
+* Data synchronization issues
+
+### Data Risks
+
+* Incorrect customer data
+* Incorrect order totals
+* Incorrect product pricing
+* Data loss
+* Inconsistent UI/API data
+* Incorrect order status
+
+### Security-Related Risks
+
+* Unauthorized access
+* Incorrect role permissions
+* Authentication failure
+* Session invalidation failure
+
+### Technical Risks
+
+* Complex implementation
+* High dependency count
+* Unstable external dependencies
+* Frequent code changes
+* Browser-specific behavior
+
+---
+
+## 7.3 Risk Scoring Model
+
+For this project, risk will be calculated using:
+
+**Risk Score = Business Impact × Likelihood × Change Exposure**
+
+Each factor is scored from **1 to 5**.
+
+The resulting score ranges from:
+
+**1 to 125**
+
+### Risk Classification
+
+| Risk Score | Risk Level | Priority |
+| ---------: | ---------- | -------- |
+|     76–125 | Critical   | P0       |
+|      51–75 | High       | P1       |
+|      26–50 | Medium     | P2       |
+|       1–25 | Low        | P3       |
+
+The score is used as a prioritization aid rather than an absolute replacement for QA judgment.
+
+A feature with a lower numerical score may still receive higher priority when it affects a critical business or regulatory requirement.
+
+---
+
+## 7.4 Priority Definitions
+
+### P0 — Critical
+
+Failure could significantly affect core business operations, customers, security, or order processing.
+
+P0 functionality requires:
+
+* Highest test coverage
+* Early validation
+* UI/E2E coverage where applicable
+* API validation where applicable
+* Negative testing
+* Regression coverage
+* Cross-browser validation for critical journeys
+* Inclusion in smoke coverage where appropriate
+
+Examples:
+
+* Authentication
+* Checkout
+* Order placement
+* Payment-related workflows
+* Critical authorization behavior
+
+---
+
+### P1 — High
+
+Failure could materially affect important user workflows or business functionality.
+
+P1 functionality requires:
+
+* Strong functional coverage
+* Regression coverage
+* Negative testing where applicable
+* Appropriate UI/API coverage
+* Cross-browser validation for critical scenarios
+
+Examples:
+
+* Product search
+* Shopping cart
+* Customer account
+* Order history
+* Product management
+
+---
+
+### P2 — Medium
+
+Failure has a moderate impact and does not immediately prevent the core business workflow from operating.
+
+P2 functionality may receive:
+
+* Functional coverage
+* Targeted regression coverage
+* Selected automation
+* Manual exploratory validation where useful
+
+Examples:
+
+* Wishlist
+* Secondary account functionality
+* Less frequently used administration features
+
+---
+
+### P3 — Low
+
+Failure has limited impact or the functionality has low business criticality.
+
+P3 functionality may receive:
+
+* Limited automated coverage
+* Targeted manual validation
+* Exploratory testing where appropriate
+
+Examples:
+
+* Low-risk secondary functionality
+* Rarely used features
+* Low-value cosmetic behavior
+
+---
+
+## 7.5 Feature Risk Matrix
+
+The following matrix defines the initial risk profile for major nopCommerce functional areas.
+
+| Feature                           | Business Impact | Likelihood | Change Exposure | Risk Score | Priority |
+| --------------------------------- | --------------: | ---------: | --------------: | ---------: | -------- |
+| Checkout                          |               5 |          4 |               5 |        100 | P0       |
+| Order Placement                   |               5 |          4 |               5 |        100 | P0       |
+| Authentication                    |               5 |          4 |               4 |         80 | P0       |
+| Payment Integration Boundary      |               5 |          4 |               4 |         80 | P0       |
+| Shopping Cart                     |               5 |          3 |               5 |         75 | P1       |
+| Order Management                  |               5 |          3 |               4 |         60 | P1       |
+| Product Search                    |               4 |          4 |               4 |         64 | P1       |
+| Customer Account                  |               4 |          3 |               4 |         48 | P2       |
+| Product Details                   |               4 |          3 |               3 |         36 | P2       |
+| Product Filtering/Sorting         |               3 |          3 |               3 |         27 | P2       |
+| Wishlist                          |               3 |          2 |               3 |         18 | P3       |
+| Secondary Administration Features |               2 |          2 |               2 |          8 | P3       |
+
+These initial ratings are project assumptions and should be updated when additional requirements, architecture details, or defect history become available.
+
+---
+
+## 7.6 Test Case Prioritization
+
+Risk-based prioritization will also be applied at the individual test-case level.
+
+### P0 Test Cases
+
+Examples:
+
+* Valid customer login
+* Invalid authentication behavior
+* Protected-area access control
+* Add item to cart
+* Checkout with valid data
+* Order placement
+* Order confirmation
+* Critical payment workflow behavior
+
+### P1 Test Cases
+
+Examples:
+
+* Search functionality
+* Product filtering
+* Cart quantity updates
+* Customer address management
+* Order history
+* Important negative scenarios
+
+### P2 Test Cases
+
+Examples:
+
+* Secondary account functionality
+* Less frequently used product features
+* Non-critical administrative workflows
+
+### P3 Test Cases
+
+Examples:
+
+* Low-impact UI variations
+* Rare edge cases with limited business impact
+* Low-value scenarios with minimal regression risk
+
+Priority may be increased when a defect has previously been identified in the same area.
+
+---
+
+## 7.7 Risk-Based Test Coverage
+
+Risk level will influence the depth and breadth of testing.
+
+| Priority | Functional | API                          | UI/E2E      | Negative    | Regression | Cross-Browser |
+| -------- | ---------- | ---------------------------- | ----------- | ----------- | ---------- | ------------- |
+| P0       | High       | High where applicable        | High        | High        | High       | High          |
+| P1       | High       | Medium/High where applicable | Medium/High | Medium/High | High       | Medium        |
+| P2       | Medium     | Medium where applicable      | Medium      | Medium      | Medium     | Selected      |
+| P3       | Low/Medium | As needed                    | Limited     | As needed   | Limited    | Limited       |
+
+The objective is not to apply every test type to every feature.
+
+Coverage depth will be based on:
+
+**Risk + Business Value + Technical Characteristics + Failure Impact**
+
+---
+
+## 7.8 Risk-Based Test Execution Strategy
+
+Risk level will also influence the order in which automated tests are executed.
+
+### Recommended Execution Order
+
+```text
+P0 Smoke
+    ↓
+P0 Critical Functional Tests
+    ↓
+P0/P1 Regression
+    ↓
+P0/P1 Cross-Browser Validation
+    ↓
+P2 Functional / Regression
+    ↓
+P3 and Extended Coverage
+```
+
+This execution order is intended to provide the fastest possible feedback on critical failures.
+
+For CI/CD pipelines, critical tests should execute before broader suites where practical.
+
+---
+
+## 7.9 Risk-Based Automation Prioritization
+
+Risk-based testing and automation prioritization are related but not identical.
+
+A high-risk scenario is a strong candidate for automation when it is also:
+
+* Stable
+* Repeatable
+* Frequently executed
+* Deterministic
+* Technically feasible to automate
+* Valuable for regression protection
+
+Example:
+
+**Checkout**
+
+```text
+High Business Risk
+        +
+High Regression Risk
+        +
+Repeatable Workflow
+        +
+Stable Automation Candidate
+        ↓
+High Automation Priority
+```
+
+A high-risk scenario may still require manual validation when automation cannot provide sufficient value.
+
+---
+
+## 7.10 Defect History and Risk Adjustment
+
+Risk ratings will be adjusted based on observed defects.
+
+Repeated defects in the same functionality may increase:
+
+* Likelihood score
+* Regression priority
+* Automation priority
+* Test coverage depth
+
+For example:
+
+```text
+Initial Risk
+    ↓
+Medium
+
+Repeated defects detected
+    ↓
+Likelihood increases
+
+Updated Risk
+    ↓
+High
+
+Action
+    ↓
+Increase automation and regression coverage
+```
+
+---
+
+## 7.11 Risk Review and Reassessment
+
+Risk assessments will be reviewed when significant changes occur.
+
+Reassessment triggers include:
+
+* New features
+* Major feature changes
+* Architecture changes
+* New integrations
+* Significant bug fixes
+* Repeated failures
+* New security concerns
+* Increased user impact
+* Increased change frequency
+* New production-like findings
+
+Risk ratings should not be treated as permanent values.
+
+---
+
+## 7.12 Risk Ownership
+
+Risk decisions should be reviewed collaboratively when working in a team.
+
+Potential contributors include:
+
+* QA
+* Developers
+* Product/Business stakeholders
+* Automation engineers
+* Technical leads
+
+For this portfolio project, the QA automation strategy will act as the primary source of documented risk prioritization.
+
+---
+
+## 7.13 Risk-Based Prioritization Summary
+
+The risk-based strategy ensures that testing effort is concentrated where failure would have the greatest impact.
+
+The framework will prioritize:
+
+1. Business-critical functionality
+2. High user-impact workflows
+3. High-probability failure areas
+4. Frequently changing functionality
+5. Regression-prone functionality
+6. Critical integrations
+7. Security-sensitive workflows
+
+The objective is to maximize **risk coverage and defect detection value**, rather than maximizing the number of executed tests.
+
+### Final Principle
+
+**Test the highest-risk functionality first, protect critical business workflows continuously, and allocate automation effort where it provides the greatest quality and regression value.**
+
+
